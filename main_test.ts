@@ -1,26 +1,14 @@
 import { assertEquals } from "@std/assert";
 import { extractNodes } from "./parser.ts";
+import expectedVNodeOutput from "./expected-vnode-output.json" with { type: "json" }
+// import expectedSceneOutput from "./expected-scene-output.tscn"
 
-const playerOutput = {
-  nodeName: "Player",
-  children: {
-    type: "CharacterBody2D",
-    props: {
-      children: [
-        {
-          type: "CollisionShape2D",
-          props: {
-            shape: "rect",
-            width: 2,
-            height: 3,
-            disabled: true,
-          },
-        },
-      ],
-    },
-  },
-};
+const extractedPlayer = await extractNodes("./examples/player.gdx")
 
-Deno.test(async function parseNodes() {
-  assertEquals(await extractNodes("./examples/player.gdx"), playerOutput);
+Deno.test(function createVNode() {
+  assertEquals(extractedPlayer, expectedVNodeOutput);
 });
+
+// Deno.test(function createScene() {
+//   extractedPlayer
+// });
