@@ -1,7 +1,6 @@
 import CharacterBody2D
 import CollisionShape2D
 
-# This function generates a string representation of the player node structure
 func _gdact() -> Player:
     return (
         <CharacterBody2D>
@@ -9,5 +8,4 @@ func _gdact() -> Player:
         </CharacterBody2D>
     )
 
-# Declare position variable
 var position = Vector2.ZERO
