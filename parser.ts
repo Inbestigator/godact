@@ -14,7 +14,7 @@ export async function extractNodes(filePath: string) {
   if (match && match[1] && match[2]) {
     const nodeName = match[1].trim();
     const components = match[2].trim();
-    return { nodeName, vnodes: convertToNodes(components) };
+    return { nodeName, children: convertToNodes(components) };
   }
   return null;
 }

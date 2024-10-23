@@ -3,16 +3,16 @@ import { extractNodes, type vNode } from "./parser.ts";
 
 interface ComponentData {
   path: string;
-  vnodes?: vNode;
+  children?: vNode;
 }
+
+const vNodes: Record<string, ComponentData> = {};
 
 const ignoredDirs: string[] = [];
 
 const startDir = Deno.cwd();
-const outputFilePath = join(startDir, "gdxFiles.json");
 
 const gdxFiles = findGDXFiles(startDir);
-const componentsData: Record<string, ComponentData> = {};
 
 function findGDXFiles(dir: string): string[] {
   let gdxFiles: string[] = [];
@@ -34,27 +34,13 @@ function findGDXFiles(dir: string): string[] {
   return gdxFiles;
 }
 
-async function writeToJsonFile(
-  data: Record<string, ComponentData>,
-  outputFilePath: string
-) {
-  const jsonData = JSON.stringify(data, null, 2);
-  await Deno.writeFile(outputFilePath, new TextEncoder().encode(jsonData));
-}
-
 for (const gdxFile of gdxFiles) {
   const result = await extractNodes(gdxFile);
   if (result) {
-    const { nodeName, vnodes } = result;
-    componentsData[nodeName] = {
+    const { nodeName, children } = result;
+    vNodes[nodeName] = {
       path: gdxFile,
-      vnodes: vnodes ?? undefined,
+      children: children ?? undefined,
     };
   }
-}
-
-if (Object.keys(componentsData).length > 0) {
-  await writeToJsonFile(componentsData, outputFilePath);
-} else {
-  console.log("No valid _gdact functions found in .gdx files.");
 }
