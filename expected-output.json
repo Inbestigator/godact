@@ -1,0 +1,21 @@
+{
+  "Player": {
+    "path": "C:\\...\\player.gdx",
+    "vdom": {
+      "type": "CharacterBody2D",
+      "props": {
+        "children": [
+          {
+            "type": "CollisionShape2D",
+            "props": {
+              "shape": "rect",
+              "width": 2,
+              "height": 3,
+              "disabled": true
+            }
+          }
+        ]
+      }
+    }
+  }
+}
