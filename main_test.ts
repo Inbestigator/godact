@@ -3,7 +3,7 @@ import { extractNodes } from "./parser.ts";
 
 const playerOutput = {
   nodeName: "Player",
-  vnodes: {
+  children: {
     type: "CharacterBody2D",
     props: {
       children: [
@@ -22,5 +22,5 @@ const playerOutput = {
 };
 
 Deno.test(async function parseNodes() {
-  assertEquals(await extractNodes("./nodes/player.gdx"), playerOutput);
+  assertEquals(await extractNodes("./examples/player.gdx"), playerOutput);
 });
