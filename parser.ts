@@ -1,6 +1,8 @@
+import { DOMParser, Element } from "npm:@xmldom/xmldom";
+
 export interface vNode {
   type: string;
-  props: Record<string, unknown>;
+  props: Record<string, any>;
 }
 
 export async function extractNodes(filePath: string) {
@@ -18,36 +20,48 @@ export async function extractNodes(filePath: string) {
 }
 
 function convertToVDOM(components: string) {
-  const vdom: vNode = {
-    type: "Fragment",
-    props: {
-      children: [],
-    },
-  };
+  const { documentElement } = new DOMParser().parseFromString(
+    components.trim(),
+    "text/xml"
+  );
 
-  const lines = components
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line);
-  for (const line of lines) {
-    const [type, props] = line.split(" ");
-    const parsedProps = parseProps(props);
-    vdom.props.children = [];
-    (vdom.props.children as vNode[]).push({ type, props: parsedProps });
+  function nodeToObject(node: Element) {
+    const obj = {
+      type: node.nodeName,
+      props: {},
+    } as vNode;
+
+    if (node.attributes?.length > 0) {
+      Array.from(node.attributes).forEach((attr) => {
+        const { name, value } = attr;
+        let newValue: unknown = value;
+        if (name === value) {
+          newValue = true;
+        }
+        if (value.startsWith("{") && value.endsWith("}")) {
+          newValue = value.slice(1, -1);
+          if (!isNaN(Number(newValue))) newValue = Number(newValue);
+        }
+        obj.props[attr.name] = newValue;
+      });
+    }
+
+    if (node.hasChildNodes()) {
+      (obj.props as { children?: unknown[] }).children = Array.from(
+        node.childNodes
+      )
+        .filter((child) => child.nodeName !== "#text")
+        .map((childNode) => nodeToObject(childNode as Element));
+    }
+
+    return obj;
   }
 
-  return vdom;
-}
+  if (!documentElement) {
+    return;
+  }
 
-function parseProps(propsString: string) {
-  if (!propsString) {
-    return {};
-  }
-  const props: Record<string, unknown> = {};
-  const propsArray = propsString.split(",").map((p) => p.trim());
-  for (const prop of propsArray) {
-    const [key, value] = prop.split("=");
-    props[key] = value ? parseFloat(value) : value;
-  }
-  return props;
+  const nodeObjects = nodeToObject(documentElement);
+
+  return nodeObjects;
 }
