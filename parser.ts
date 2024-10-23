@@ -14,12 +14,12 @@ export async function extractNodes(filePath: string) {
   if (match && match[1] && match[2]) {
     const nodeName = match[1].trim();
     const components = match[2].trim();
-    return { nodeName, vdom: convertToVDOM(components) };
+    return { nodeName, vnodes: convertToNodes(components) };
   }
   return null;
 }
 
-function convertToVDOM(components: string) {
+function convertToNodes(components: string) {
   const { documentElement } = new DOMParser().parseFromString(
     components.trim(),
     "text/xml"

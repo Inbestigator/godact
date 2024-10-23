@@ -3,7 +3,7 @@ import { extractNodes, type vNode } from "./parser.ts";
 
 interface ComponentData {
   path: string;
-  vdom?: vNode;
+  vnodes?: vNode;
 }
 
 const ignoredDirs: string[] = [];
@@ -45,10 +45,10 @@ async function writeToJsonFile(
 for (const gdxFile of gdxFiles) {
   const result = await extractNodes(gdxFile);
   if (result) {
-    const { nodeName, vdom } = result;
+    const { nodeName, vnodes } = result;
     componentsData[nodeName] = {
       path: gdxFile,
-      vdom: vdom ?? undefined,
+      vnodes: vnodes ?? undefined,
     };
   }
 }

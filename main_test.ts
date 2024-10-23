@@ -3,7 +3,7 @@ import { extractNodes } from "./parser.ts";
 
 const playerOutput = {
   nodeName: "Player",
-  vdom: {
+  vnodes: {
     type: "CharacterBody2D",
     props: {
       children: [
