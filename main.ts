@@ -3,7 +3,7 @@ import { extractNodes, type vNode } from "./parser.ts";
 
 interface ComponentData {
   path: string;
-  children?: vNode;
+  root?: vNode;
 }
 
 const vNodes: Record<string, ComponentData> = {};
@@ -37,10 +37,12 @@ function findGDXFiles(dir: string): string[] {
 for (const gdxFile of gdxFiles) {
   const result = await extractNodes(gdxFile);
   if (result) {
-    const { nodeName, children } = result;
+    const { nodeName, root } = result;
     vNodes[nodeName] = {
       path: gdxFile,
-      children: children ?? undefined,
+      root,
     };
   }
 }
+
+console.log(vNodes)

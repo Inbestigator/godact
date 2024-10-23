@@ -1,12 +1,12 @@
 import { assertEquals } from "@std/assert";
 import { extractNodes } from "./parser.ts";
-import expectedVNodeOutput from "./expected-vnode-output.json" with { type: "json" }
+import expectedVNodeOutput from "./expected-vnode-output.ts";
 // import expectedSceneOutput from "./expected-scene-output.tscn"
 
-const extractedPlayer = await extractNodes("./examples/player.gdx")
+const extractedPlayer = await extractNodes("./examples/player.gdx");
 
 Deno.test(function createVNode() {
-  assertEquals(extractedPlayer, expectedVNodeOutput);
+  assertEquals(expectedVNodeOutput, extractedPlayer);
 });
 
 // Deno.test(function createScene() {
