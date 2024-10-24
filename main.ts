@@ -1,7 +1,8 @@
 import { join } from "jsr:@std/path";
-import { extractNodes, type vNode } from "./parser.ts";
+import extractNodes, { type vNode } from "./parser.ts";
+import transpile from "./transpiler.ts";
 
-interface ComponentData {
+export interface ComponentData {
   path: string;
   root?: vNode;
 }
@@ -45,4 +46,11 @@ for (const gdxFile of gdxFiles) {
   }
 }
 
-console.log(vNodes)
+const transpiled = transpile(vNodes);
+
+Object.entries(transpiled).forEach(([nodeName, transpiledNode]) => {
+  Deno.writeFileSync(
+    join(Deno.cwd(), "scenes", `${nodeName}.tscn`),
+    new TextEncoder().encode(transpiledNode)
+  );
+});

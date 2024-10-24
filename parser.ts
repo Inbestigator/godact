@@ -2,10 +2,10 @@ import { DOMParser, Element } from "npm:@xmldom/xmldom";
 
 export interface vNode {
   type: string;
-  props: Record<string, any>;
+  props: Record<string, unknown>;
 }
 
-export async function extractNodes(filePath: string) {
+export default async function extractNodes(filePath: string) {
   const content = await Deno.readTextFile(filePath);
 
   const regex = /func _gdact\(\) -> (\w+):\s*return\s*\(([\s\S]*?)\)/;
