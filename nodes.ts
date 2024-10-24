@@ -11,7 +11,7 @@ const Nodes = {
 
     addTypicalProps(props, defaultProps.addPart);
   },
-  CollisionShape2D: (defaultProps, props: vNode["props"]) => {
+  CollisionShape2D: (defaultProps, props) => {
     defaultProps.addPart(
       "nodes",
       `[node name="${defaultProps.name}" type="CollisionShape2D"${
@@ -40,8 +40,9 @@ const Nodes = {
 
     addTypicalProps(props, defaultProps.addPart);
   },
-} satisfies {
-  [key: string]: (
+} satisfies Record<
+  string,
+  (
     defaultProps: {
       isRoot: boolean;
       parent?: string;
@@ -49,8 +50,8 @@ const Nodes = {
       addPart: (category: string, part: string) => void;
     },
     props: vNode["props"]
-  ) => void;
-};
+  ) => void
+>;
 
 export default Nodes;
 export const NodeTypes = typeof Nodes;
