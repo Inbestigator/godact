@@ -10,12 +10,13 @@ export default {
           type: "CollisionShape2D",
           props: {
             shape: "rect",
-            width: 2,
-            height: 3,
+            scale: "V2 2, 3",
             disabled: true,
           },
         },
       ],
+      script: "res://player/player.gd",
+      name: "Player",
     },
   },
 } satisfies { nodeName: string; root: vNode };

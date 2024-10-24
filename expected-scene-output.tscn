@@ -1,8 +1,0 @@
-[gd_scecne format=3 uid://...]
-
-[node name="CharacterBody2D" type="CharacterBody2D"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = "rect"
-width = 2
-height = 3
