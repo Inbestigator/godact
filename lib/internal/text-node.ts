@@ -1,4 +1,4 @@
-import { Node, createNode } from "./node.ts";
+import { createNode, Node } from "./node.ts";
 
 export interface TextNode extends Node<string> {}
 

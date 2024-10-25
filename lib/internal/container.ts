@@ -5,7 +5,7 @@ export interface Container<T> {
   clear: () => void;
   find: (predicate: (item: T) => boolean) => T | undefined;
   findType: <U extends T>(
-    type: new (...args: Array<NonNullable<unknown>>) => U
+    type: new (...args: Array<NonNullable<unknown>>) => U,
   ) => U | undefined;
   [Symbol.iterator]: () => Iterator<T>;
 }
@@ -39,7 +39,7 @@ export function createContainer<T>(): Container<T> {
     },
 
     findType: function <U extends T>(
-      type: new (...args: Array<NonNullable<unknown>>) => U
+      type: new (...args: Array<NonNullable<unknown>>) => U,
     ): U | undefined {
       for (const item of items) {
         if (item instanceof type) return item;

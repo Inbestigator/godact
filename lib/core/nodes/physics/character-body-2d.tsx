@@ -41,7 +41,7 @@ export function CharacterBody2D(props: CharacterBody2DProps) {
 }
 
 function createCharacterBody2DNode(
-  props: CharacterBody2DProps
+  props: CharacterBody2DProps,
 ): Node<CharacterBody2DProps> {
   const node = createNode<CharacterBody2DProps>(props);
   const nodeName = props.name ?? crypto.randomUUID();

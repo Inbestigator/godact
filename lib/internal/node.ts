@@ -1,4 +1,4 @@
-import { createContainer, type Container } from "./container.ts";
+import { type Container, createContainer } from "./container.ts";
 
 export interface Node<Props> {
   props: Props;
@@ -6,7 +6,7 @@ export interface Node<Props> {
   text: () => string;
   insertMe: (
     script: Record<string, { text: string; props?: string[] }[]>,
-    parent?: string
+    parent?: string,
   ) => void;
 }
 

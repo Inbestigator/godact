@@ -11,7 +11,7 @@ const root = reconciler.createContainer(
   null,
   "godact",
   (error: Error) => console.error(error),
-  null
+  null,
 );
 
 if (root !== null) {
