@@ -17,13 +17,11 @@ export interface CharacterBody2DProps extends Node2DProps {
  * A 2D physics body specialized for characters moved by script.
  *
  * ```tsx
-  <CharacterBody2D name="Player">
-    <CollisionShape2D
-      shape={createRectangleShape2D({ size: [2, 3] })}
-    >
-      Player
-    </CollisionShape2D>
-  </CharacterBody2D>
+ * <CharacterBody2D name="Player">
+ *   <CollisionShape2D
+ *     shape={createRectangleShape2D({ size: [2, 3] })}
+ *   />
+ * </CharacterBody2D>
  * ```
  *
  * @category PhysicsBody2D

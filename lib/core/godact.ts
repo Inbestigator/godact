@@ -3,6 +3,16 @@ import type { ReactNode } from "react";
 import { reconciler } from "../internal/reconciler.ts";
 import { createRenderer } from "../internal/renderers/renderer.ts";
 
+/**
+ * Create a Godot scene from a React component.
+ *
+ * ```tsx
+ * createGodactScene(<Player />, "./player.tscn");
+ * ```
+ *
+ * @param component React component to render
+ * @param out Path to output file
+ */
 export function createGodactScene(component: ReactNode, out: string) {
   const container = createRenderer();
 

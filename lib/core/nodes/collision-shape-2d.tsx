@@ -25,13 +25,10 @@ export interface CollisionShape2DProps extends Node2DProps {
  * A node that provides a Shape2D to a CollisionObject2D parent.
  *
  * ```tsx
-  <CharacterBody2D name="Player">
-    <CollisionShape2D
-      shape={createRectangleShape2D({ size: [2, 3] })}
-    >
-      Player
-    </CollisionShape2D>
-  </CharacterBody2D>
+ * <CollisionShape2D
+ *   shape={createRectangleShape2D({ size: [2, 3] })}
+ *   position={[1, 2]}
+ * />
  * ```
  *
  * @category Node2D
