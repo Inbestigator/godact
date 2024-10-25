@@ -49,7 +49,7 @@ export function CollisionShape2D(props: CollisionShape2DProps) {
 }
 
 function createCollisionShape2DNode(
-  props: CollisionShape2DProps
+  props: CollisionShape2DProps,
 ): Node<CollisionShape2DProps> {
   const node = createNode<CollisionShape2DProps>(props);
   const shapeId = createId();
@@ -71,7 +71,7 @@ function createCollisionShape2DNode(
       script.internal.push({
         text: `[sub_resource type="${props.shape.type}" id="${shapeId}"]`,
         props: Object.entries(props.shape.props).map(
-          ([key, value]) => `${key} = ${convertCommonTypes(value)}`
+          ([key, value]) => `${key} = ${convertCommonTypes(value)}`,
         ),
       });
 

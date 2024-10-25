@@ -29,7 +29,7 @@ export function createRenderer(): Renderer {
         part
           .map(
             (entry) =>
-              entry.text + (entry.props ? "\n" + entry.props.join("\n") : "")
+              entry.text + (entry.props ? "\n" + entry.props.join("\n") : ""),
           )
           .join("\n")
       )

@@ -16,4 +16,9 @@ const root = reconciler.createContainer(
 
 if (root !== null) {
   reconciler.updateContainer(<Player />, root, null);
+
+  Deno.writeFileSync(
+    "./examples/player.tscn",
+    new TextEncoder().encode(container.compileScript()),
+  );
 }

@@ -15,7 +15,7 @@ Deno.test("Test render", () => {
     null,
     "godact",
     (error: Error) => console.error(error),
-    null
+    null,
   );
 
   reconciler.updateContainer(<Player />, root, null);
