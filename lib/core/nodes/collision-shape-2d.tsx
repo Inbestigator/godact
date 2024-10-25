@@ -1,9 +1,14 @@
+// @ts-types="@types/react"
 import type { ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
 import { type RectangleShape2D } from "../resources/shapes/rectangle-shape-2d.ts";
-import { convertCommonTypes } from "../../internal/renderers/renderer.ts";
-import type { Node2DProps } from "./node.ts";
+import {
+  addCommonProps,
+  convertCommonTypes,
+  createId,
+  type Node2DProps,
+} from "./node.ts";
 
 /**
  * Props for a CollisionShape2D
@@ -17,14 +22,16 @@ export interface CollisionShape2DProps extends Node2DProps {
 }
 
 /**
- * CollisionShape2D is a 2D physics shape that can be used in 2D games.
+ * A node that provides a Shape2D to a CollisionObject2D parent.
  *
  * ```tsx
-  <CollisionShape2D
-    shape={createRectangleShape2D({ size: [2, 3], position: [0, 0] })}
-  >
-    Player
-  </CollisionShape2D>
+  <CharacterBody2D name="Player">
+    <CollisionShape2D
+      shape={createRectangleShape2D({ size: [2, 3] })}
+    >
+      Player
+    </CollisionShape2D>
+  </CharacterBody2D>
  * ```
  *
  * @category Node2D
@@ -45,8 +52,8 @@ function createCollisionShape2DNode(
   props: CollisionShape2DProps
 ): Node<CollisionShape2DProps> {
   const node = createNode<CollisionShape2DProps>(props);
-  const shapeId = crypto.randomUUID();
-  const nodeName = props.name ?? crypto.randomUUID();
+  const shapeId = createId();
+  const nodeName = props.name ?? createId();
 
   return {
     ...node,
@@ -55,14 +62,9 @@ function createCollisionShape2DNode(
         text: `[node name="${nodeName}" type="CollisionShape2D"${
           parent ? ` parent="${parent}"` : ""
         }]`,
-        props: Object.entries(props).map(([key, value]) => {
-          if (key === "children" || key === "name") return "";
-
-          if (key === "shape") {
-            return `shape = SubResource("${shapeId}")`;
-          }
-
-          return `${key} = ${convertCommonTypes(value)}`;
+        props: addCommonProps({
+          ...props,
+          shape: `SubResource("${shapeId}")`,
         }),
       });
 

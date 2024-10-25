@@ -27,11 +27,11 @@ export function createRenderer(): Renderer {
           part
             .map(
               (entry) =>
-                entry.text + (entry.props ? "\n" + entry.props.join("\n") : ""),
+                entry.text + (entry.props ? "\n" + entry.props.join("\n") : "")
             )
             .join("\n")
         )
-        .join("\n"),
+        .join("\n")
     );
   }
 
@@ -39,24 +39,4 @@ export function createRenderer(): Renderer {
     nodes,
     render,
   };
-}
-
-export function convertCommonTypes(value: unknown) {
-  if (
-    Array.isArray(value) &&
-    value.length === 2 &&
-    value.every((v) => typeof v === "number")
-  ) {
-    return `Vector2(${value[0]}, ${value[1]})`;
-  }
-
-  if (
-    Array.isArray(value) &&
-    value.length === 3 &&
-    value.every((v) => typeof v === "number")
-  ) {
-    return `Vector3(${value[0]}, ${value[1]}, ${value[2]})`;
-  }
-
-  return value;
 }

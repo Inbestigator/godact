@@ -1,8 +1,8 @@
+// @ts-types="@types/react"
 import type { ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
-import { convertCommonTypes } from "../../../internal/renderers/renderer.ts";
-import type { Node2DProps } from "../node.ts";
+import { addCommonProps, createId, type Node2DProps } from "../node.ts";
 
 /**
  * Props for a CharacterBody2D
@@ -14,12 +14,12 @@ export interface CharacterBody2DProps extends Node2DProps {
 }
 
 /**
- * CharacterBody2D is a 2D physics body. You can mainly use it to make your player.
+ * A 2D physics body specialized for characters moved by script.
  *
  * ```tsx
   <CharacterBody2D name="Player">
     <CollisionShape2D
-      shape={RectangleShape2D({ size: [2, 3], position: [0, 0] })}
+      shape={createRectangleShape2D({ size: [2, 3] })}
     >
       Player
     </CollisionShape2D>
@@ -44,7 +44,7 @@ function createCharacterBody2DNode(
   props: CharacterBody2DProps
 ): Node<CharacterBody2DProps> {
   const node = createNode<CharacterBody2DProps>(props);
-  const nodeName = props.name ?? crypto.randomUUID();
+  const nodeName = props.name ?? createId();
 
   return {
     ...node,
@@ -53,10 +53,7 @@ function createCharacterBody2DNode(
         text: `[node name="${nodeName}" type="CharacterBody2D"${
           parent ? ` parent="${parent}"` : ""
         }]`,
-        props: Object.entries(props).map(([key, value]) => {
-          if (key === "children" || key === "name") return "";
-          return `${key} = ${convertCommonTypes(value)}`;
-        }),
+        props: addCommonProps({ ...props }),
       });
 
       for (const child of node.children) {
