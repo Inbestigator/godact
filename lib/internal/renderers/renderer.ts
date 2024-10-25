@@ -1,4 +1,3 @@
-import { number } from "../../../../../../../AppData/Local/deno/npm/registry.npmjs.org/@types/prop-types/15.7.13/index.d.ts";
 import { createContainer, type Container } from "../container.ts";
 import { Node } from "../node.ts";
 
