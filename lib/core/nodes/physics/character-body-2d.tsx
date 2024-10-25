@@ -2,15 +2,15 @@ import type { ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { convertCommonTypes } from "../../../internal/renderers/renderer.ts";
+import type { Node2DProps } from "../node.ts";
 
 /**
  * Props for a CharacterBody2D
  *
  * @category PhysicsBody2D
  */
-export interface CharacterBody2DProps {
+export interface CharacterBody2DProps extends Node2DProps {
   children?: ReactNode;
-  name?: string;
 }
 
 /**
@@ -41,7 +41,7 @@ export function CharacterBody2D(props: CharacterBody2DProps) {
 }
 
 function createCharacterBody2DNode(
-  props: CharacterBody2DProps,
+  props: CharacterBody2DProps
 ): Node<CharacterBody2DProps> {
   const node = createNode<CharacterBody2DProps>(props);
   const nodeName = props.name ?? crypto.randomUUID();
