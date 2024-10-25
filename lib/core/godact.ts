@@ -14,7 +14,7 @@ export function createGodactScene(component: ReactNode, out: string) {
     null,
     "godact",
     (error: Error) => console.error(error),
-    null
+    null,
   );
 
   if (root !== null) {
@@ -22,7 +22,7 @@ export function createGodactScene(component: ReactNode, out: string) {
 
     Deno.writeFileSync(
       out,
-      new TextEncoder().encode(container.compileScript())
+      new TextEncoder().encode(container.compileScript()),
     );
   }
 }
