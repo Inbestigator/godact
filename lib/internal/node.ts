@@ -4,6 +4,10 @@ export interface Node<Props> {
   props: Props;
   children: Container<Node<unknown>>;
   text: () => string;
+  insertMe: (
+    script: Record<string, { text: string; props?: string[] }[]>,
+    parent?: string
+  ) => void;
 }
 
 export function createNode<Props>(props: Props): Node<Props> {
@@ -21,16 +25,17 @@ export function createNode<Props>(props: Props): Node<Props> {
     props,
     children,
     text,
+    insertMe(_script) {},
   };
 }
 
-// deno-lint-ignore no-explicit-any
-export function isNode(obj: any): obj is Node<unknown> {
+export function isNode(obj: unknown): obj is Node<unknown> {
   return (
     obj !== null &&
     typeof obj === "object" &&
     "props" in obj &&
     "children" in obj &&
+    "text" in obj &&
     typeof obj.text === "function"
   );
 }

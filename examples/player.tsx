@@ -4,9 +4,10 @@ import { createRectangleShape2D } from "../lib/core/resources/shapes/rectangle-s
 
 export default function Player() {
   return (
-    <CharacterBody2D>
+    <CharacterBody2D name="Player">
       <CollisionShape2D
-        shape={createRectangleShape2D({ size: [2, 3], position: [0, 0] })}
+        shape={createRectangleShape2D({ size: [2, 3] })}
+        position={[1, 2]}
       >
         Player
       </CollisionShape2D>
