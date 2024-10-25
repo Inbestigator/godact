@@ -1,5 +1,5 @@
 import { type Container, createContainer } from "../container.ts";
-import { Node } from "../node.ts";
+import type { Node } from "../node.ts";
 
 export interface Renderer {
   nodes: Container<Node<unknown>>;
@@ -35,7 +35,7 @@ export function createRenderer(): Renderer {
         part
           .map(
             (entry) =>
-              entry.text + (entry.props ? "\n" + entry.props.join("\n") : ""),
+              entry.text + (entry.props ? "\n" + entry.props.join("\n") : "")
           )
           .join("\n")
       )

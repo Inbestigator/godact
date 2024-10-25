@@ -29,7 +29,7 @@ export interface CharacterBody2DProps extends Node2DProps {
  * @category PhysicsBody2D
  * @see https://docs.godotengine.org/en/stable/classes/class_characterbody2d.html
  */
-export function CharacterBody2D(props: CharacterBody2DProps) {
+export function CharacterBody2D(props: CharacterBody2DProps): ReactNode {
   return (
     <GodotNode
       props={props}
