@@ -4,6 +4,6 @@ export interface ResourceProps2D {
 }
 
 export interface ResourceProps3D {
-  size: [number, number];
-  position: [number, number];
+  size: [number, number, number];
+  position: [number, number, number];
 }

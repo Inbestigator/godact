@@ -11,7 +11,7 @@ export function createRenderer(): Renderer {
 
   function render() {
     for (const node of nodes) {
-      console.log(node.props);
+      console.log(node);
     }
   }
 
