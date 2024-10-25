@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
-import { Node } from "../../../internal/node.ts";
+import { createNode } from "../../../internal/node.ts";
 
 /**
- * Props for a 2D character body
+ * Props for a CharacterBody2D
  *
- * @category Character
+ * @category PhysicsBody2D
  */
 export interface CharacterBody2DProps {
   children?: ReactNode;
@@ -29,10 +29,15 @@ export interface CharacterBody2DProps {
  */
 export function CharacterBody2D(props: CharacterBody2DProps) {
   return (
-    <GodotNode props={props} createNode={() => new CharacterBody2DNode(props)}>
+    <GodotNode
+      props={props}
+      createNode={() => createCharacterBody2DNode(props)}
+    >
       {props.children}
     </GodotNode>
   );
 }
 
-class CharacterBody2DNode extends Node<CharacterBody2DProps> {}
+function createCharacterBody2DNode(props: CharacterBody2DProps) {
+  return createNode<CharacterBody2DProps>(props);
+}

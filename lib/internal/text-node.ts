@@ -1,7 +1,16 @@
-import { Node } from "./node.ts";
+import { Node, createNode } from "./node.ts";
 
-export class TextNode extends Node<string> {
-  override get text() {
-    return this.props;
+export interface TextNode extends Node<string> {}
+
+export function createTextNode(props: string): TextNode {
+  const node = createNode<string>(props);
+
+  function text(): string {
+    return node.props;
   }
+
+  return {
+    ...node,
+    text,
+  };
 }

@@ -1,9 +1,9 @@
 // @ts-types="@types/react-reconciler"
 import ReactReconciler, { type HostConfig } from "react-reconciler";
 import { DefaultEventPriority } from "react-reconciler/constants.js";
-import { Node } from "./node.ts";
+import { isNode, Node } from "./node.ts";
 import type { Renderer } from "./renderers/renderer.ts";
-import { TextNode } from "./text-node.ts";
+import { createTextNode, TextNode } from "./text-node.ts";
 
 const config: HostConfig<
   string, // Type,
@@ -41,13 +41,13 @@ const config: HostConfig<
     }
 
     const node: unknown = props.createNode(props.props);
-    if (!(node instanceof Node)) {
+    if (!isNode(node)) {
       throw new Error(`createNode function did not return a Node`);
     }
 
     return node;
   },
-  createTextInstance: (text) => new TextNode(text),
+  createTextInstance: (text) => createTextNode(text),
   shouldSetTextContent: () => false,
   detachDeletedInstance: (_instance) => {},
   beforeActiveInstanceBlur: () => {},

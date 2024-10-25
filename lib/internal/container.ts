@@ -1,39 +1,53 @@
-export class Container<T> {
-	private items: T[] = []
+export interface Container<T> {
+  add: (...items: T[]) => void;
+  addBefore: (item: T, before: T) => void;
+  remove: (toRemove: T) => void;
+  clear: () => void;
+  find: (predicate: (item: T) => boolean) => T | undefined;
+  findType: <U extends T>(
+    type: new (...args: Array<NonNullable<unknown>>) => U
+  ) => U | undefined;
+  [Symbol.iterator]: () => Iterator<T>;
+}
 
-	add(...items: T[]) {
-		this.items.push(...items)
-	}
+export function createContainer<T>(): Container<T> {
+  let items: T[] = [];
 
-	addBefore(item: T, before: T) {
-		let index = this.items.indexOf(before)
-		if (index === -1) {
-			index = this.items.length
-		}
-		this.items.splice(index, 0, item)
-	}
+  return {
+    add: function (...newItems: T[]) {
+      items.push(...newItems);
+    },
 
-	remove(toRemove: T) {
-		this.items = this.items.filter((item) => item !== toRemove)
-	}
+    addBefore: function (item: T, before: T) {
+      let index = items.indexOf(before);
+      if (index === -1) index = items.length;
+      items.splice(index, 0, item);
+    },
 
-	clear() {
-		this.items = []
-	}
+    remove: function (toRemove: T) {
+      items = items.filter(function (item) {
+        return item !== toRemove;
+      });
+    },
 
-	find(predicate: (item: T) => boolean): T | undefined {
-		return this.items.find(predicate)
-	}
+    clear: function () {
+      items = [];
+    },
 
-	findType<U extends T>(
-		type: new (...args: Array<NonNullable<unknown>>) => U,
-	): U | undefined {
-		for (const item of this.items) {
-			if (item instanceof type) return item
-		}
-	}
+    find: function (predicate: (item: T) => boolean) {
+      return items.find(predicate);
+    },
 
-	[Symbol.iterator]() {
-		return this.items[Symbol.iterator]()
-	}
+    findType: function <U extends T>(
+      type: new (...args: Array<NonNullable<unknown>>) => U
+    ): U | undefined {
+      for (const item of items) {
+        if (item instanceof type) return item;
+      }
+    },
+
+    [Symbol.iterator]: function () {
+      return items[Symbol.iterator]();
+    },
+  };
 }

@@ -1,12 +1,22 @@
-import { Container } from "../container.ts";
+import { createContainer, type Container } from "../container.ts";
 import { Node } from "../node.ts";
 
-export class Renderer {
-  readonly nodes = new Container<Node<unknown>>();
+export interface Renderer {
+  nodes: Container<Node<unknown>>;
+  render: () => void;
+}
 
-  render() {
-    for (const node of this.nodes) {
-      console.log(node);
+export function createRenderer(): Renderer {
+  const nodes = createContainer<Node<unknown>>();
+
+  function render() {
+    for (const node of nodes) {
+      console.log(node.props);
     }
   }
+
+  return {
+    nodes,
+    render,
+  };
 }

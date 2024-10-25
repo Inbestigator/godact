@@ -1,7 +1,7 @@
 import Player from "./examples/player.tsx";
 import { reconciler } from "./lib/internal/reconciler.ts";
-import { Renderer } from "./lib/internal/renderers/renderer.ts";
-const container = new Renderer();
+import { createRenderer } from "./lib/internal/renderers/renderer.ts";
+const container = createRenderer();
 
 const root = reconciler.createContainer(
   container,
