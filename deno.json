@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "main": "deno run --allow-env --allow-write main.tsx"
+    "main": "deno run --allow-env --allow-read --allow-write main.tsx"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert",

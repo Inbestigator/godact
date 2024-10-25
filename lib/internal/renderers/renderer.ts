@@ -7,17 +7,23 @@ export interface Renderer {
   compileScript: () => string;
 }
 
+const defaultParts: Record<
+  "descriptor" | "external" | "internal" | "nodes" | "connections",
+  { text: string; props?: string[] }[]
+> = {
+  descriptor: [{ text: `[gd_scene format=3]` }],
+  external: [],
+  internal: [],
+  nodes: [],
+  connections: [],
+};
+
 export function createRenderer(): Renderer {
   const nodes = createContainer<Node<unknown>>();
-  const parts: Record<string, { text: string; props?: string[] }[]> = {
-    descriptor: [{ text: `[gd_scene format=3]` }],
-    external: [],
-    internal: [],
-    nodes: [],
-    connections: [],
-  };
+  const parts = defaultParts;
 
   function render() {
+    Object.assign(parts, defaultParts);
     for (const node of nodes) {
       node.insertMe(parts);
     }
@@ -29,7 +35,7 @@ export function createRenderer(): Renderer {
         part
           .map(
             (entry) =>
-              entry.text + (entry.props ? "\n" + entry.props.join("\n") : ""),
+              entry.text + (entry.props ? "\n" + entry.props.join("\n") : "")
           )
           .join("\n")
       )
