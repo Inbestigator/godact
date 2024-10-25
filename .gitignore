@@ -1,4 +1,2 @@
-.godot/
-node_modules/
 deno.lock
-scenes/
+examples/*.tscn
