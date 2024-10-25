@@ -4,6 +4,7 @@ import { Node } from "../node.ts";
 export interface Renderer {
   nodes: Container<Node<unknown>>;
   render: () => void;
+  compileScript: () => string;
 }
 
 export function createRenderer(): Renderer {
@@ -20,23 +21,24 @@ export function createRenderer(): Renderer {
     for (const node of nodes) {
       node.insertMe(parts);
     }
+  }
 
-    console.log(
-      Object.values(parts)
-        .map((part) =>
-          part
-            .map(
-              (entry) =>
-                entry.text + (entry.props ? "\n" + entry.props.join("\n") : "")
-            )
-            .join("\n")
-        )
-        .join("\n")
-    );
+  function compileScript() {
+    return Object.values(parts)
+      .map((part) =>
+        part
+          .map(
+            (entry) =>
+              entry.text + (entry.props ? "\n" + entry.props.join("\n") : "")
+          )
+          .join("\n")
+      )
+      .join("\n");
   }
 
   return {
     nodes,
     render,
+    compileScript,
   };
 }
