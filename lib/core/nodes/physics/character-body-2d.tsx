@@ -1,8 +1,10 @@
 // @ts-types="@types/react"
-import type { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addCommonProps, createId, type Node2DProps } from "../node.ts";
+
+React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
 /**
  * Props for a CharacterBody2D
@@ -40,7 +42,7 @@ export function CharacterBody2D(props: CharacterBody2DProps): ReactNode {
 }
 
 function createCharacterBody2DNode(
-  props: CharacterBody2DProps,
+  props: CharacterBody2DProps
 ): Node<CharacterBody2DProps> {
   const node = createNode<CharacterBody2DProps>(props);
   const nodeName = props.name ?? createId();
