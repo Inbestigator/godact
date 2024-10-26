@@ -3,12 +3,8 @@ import React, { type ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
 import type { RectangleShape2D } from "../resources/shapes/rectangle-shape-2d.ts";
-import {
-  addCommonProps,
-  convertCommonTypes,
-  createId,
-  type Node2DProps,
-} from "./node.ts";
+import { addCommonProps, convertCommonTypes, createId } from "./node.ts";
+import type { Node2DProps } from "./node-2d.tsx";
 
 React.version;
 
@@ -19,8 +15,6 @@ React.version;
  */
 export interface CollisionShape2DProps extends Node2DProps {
   shape: RectangleShape2D;
-  position?: [number, number];
-  children?: ReactNode;
 }
 
 /**
@@ -49,7 +43,7 @@ export function CollisionShape2D(props: CollisionShape2DProps): ReactNode {
 }
 
 function createCollisionShape2DNode(
-  props: CollisionShape2DProps
+  props: CollisionShape2DProps,
 ): Node<CollisionShape2DProps> {
   const node = createNode<CollisionShape2DProps>(props);
   const shapeId = createId();
@@ -71,7 +65,7 @@ function createCollisionShape2DNode(
       script.internal.push({
         text: `[sub_resource type="${props.shape.type}" id="${shapeId}"]`,
         props: Object.entries(props.shape.props).map(
-          ([key, value]) => `${key} = ${convertCommonTypes(value)}`
+          ([key, value]) => `${key} = ${convertCommonTypes(value)}`,
         ),
       });
 

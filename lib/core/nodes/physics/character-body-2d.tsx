@@ -2,7 +2,8 @@
 import React, { type ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
-import { addCommonProps, createId, type Node2DProps } from "../node.ts";
+import { addCommonProps, createId } from "../node.ts";
+import type { Node2DProps } from "../node-2d.tsx";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
@@ -11,9 +12,7 @@ React.version; // Purely linter fix, remove once import React doesn't cause no-u
  *
  * @category PhysicsBody2D
  */
-export interface CharacterBody2DProps extends Node2DProps {
-  children?: ReactNode;
-}
+export interface CharacterBody2DProps extends Node2DProps {}
 
 /**
  * A 2D physics body specialized for characters moved by script.
@@ -42,7 +41,7 @@ export function CharacterBody2D(props: CharacterBody2DProps): ReactNode {
 }
 
 function createCharacterBody2DNode(
-  props: CharacterBody2DProps
+  props: CharacterBody2DProps,
 ): Node<CharacterBody2DProps> {
   const node = createNode<CharacterBody2DProps>(props);
   const nodeName = props.name ?? createId();

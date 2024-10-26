@@ -25,6 +25,7 @@ import _React from "react";
  * @module
  */
 
+export * from "./core/nodes/node-2d.tsx";
 export * from "./core/nodes/collision-shape-2d.tsx";
 export * from "./core/nodes/physics/character-body-2d.tsx";
 export * from "./core/resources/shapes/rectangle-shape-2d.ts";

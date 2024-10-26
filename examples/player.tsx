@@ -1,3 +1,4 @@
+import { Node2D } from "../lib/core/nodes/node-2d.tsx";
 import {
   CharacterBody2D,
   CollisionShape2D,
@@ -11,6 +12,7 @@ export default function Player() {
         shape={createRectangleShape2D({ size: [2, 3] })}
         position={[1, 2]}
       />
+      <Node2D position={[0, 0]}>Player</Node2D>
     </CharacterBody2D>
   );
 }
