@@ -1,7 +1,7 @@
-import { createCapsuleShape2D } from "../lib/core/resources/shapes/capsule-shape-2d.ts";
 import {
   CharacterBody2D,
   CollisionShape2D,
+  createCapsuleShape2D,
   Node2D,
   Vector2,
 } from "../lib/main.ts";
