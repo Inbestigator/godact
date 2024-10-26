@@ -1,2 +1,2 @@
 deno.lock
-examples/*.tscn
+scenes/

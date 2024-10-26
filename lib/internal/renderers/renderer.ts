@@ -1,5 +1,5 @@
 import { type Container, createContainer } from "../container.ts";
-import { Node } from "../node.ts";
+import type { Node } from "../node.ts";
 
 export interface Renderer {
   nodes: Container<Node<unknown>>;
@@ -7,17 +7,23 @@ export interface Renderer {
   compileScript: () => string;
 }
 
+const defaultParts: Record<
+  "descriptor" | "external" | "internal" | "nodes" | "connections",
+  { text: string; props?: string[] }[]
+> = {
+  descriptor: [{ text: `[gd_scene format=3]` }],
+  external: [],
+  internal: [],
+  nodes: [],
+  connections: [],
+};
+
 export function createRenderer(): Renderer {
   const nodes = createContainer<Node<unknown>>();
-  const parts: Record<string, { text: string; props?: string[] }[]> = {
-    descriptor: [{ text: `[gd_scene format=3]` }],
-    external: [],
-    internal: [],
-    nodes: [],
-    connections: [],
-  };
+  const parts = defaultParts;
 
   function render() {
+    Object.assign(parts, defaultParts);
     for (const node of nodes) {
       node.insertMe(parts);
     }

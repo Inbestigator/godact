@@ -1,9 +1,9 @@
 // @ts-types="@types/react-reconciler"
 import ReactReconciler, { type HostConfig } from "react-reconciler";
 import { DefaultEventPriority } from "react-reconciler/constants.js";
-import { isNode, Node } from "./node.ts";
+import { isNode, type Node } from "./node.ts";
 import type { Renderer } from "./renderers/renderer.ts";
-import { createTextNode, TextNode } from "./text-node.ts";
+import { createTextNode, type TextNode } from "./text-node.ts";
 
 const config: HostConfig<
   string, // Type,

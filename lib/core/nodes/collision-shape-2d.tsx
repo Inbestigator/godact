@@ -2,7 +2,7 @@
 import type { ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
-import { type RectangleShape2D } from "../resources/shapes/rectangle-shape-2d.ts";
+import type { RectangleShape2D } from "../resources/shapes/rectangle-shape-2d.ts";
 import {
   addCommonProps,
   convertCommonTypes,
@@ -24,20 +24,18 @@ export interface CollisionShape2DProps extends Node2DProps {
 /**
  * A node that provides a Shape2D to a CollisionObject2D parent.
  *
+ * @example
  * ```tsx
-  <CharacterBody2D name="Player">
-    <CollisionShape2D
-      shape={createRectangleShape2D({ size: [2, 3] })}
-    >
-      Player
-    </CollisionShape2D>
-  </CharacterBody2D>
+ * <CollisionShape2D
+ *   shape={createRectangleShape2D({ size: [2, 3] })}
+ *   position={[1, 2]}
+ * />
  * ```
  *
  * @category Node2D
  * @see https://docs.godotengine.org/en/stable/classes/class_collisionshape2d.html
  */
-export function CollisionShape2D(props: CollisionShape2DProps) {
+export function CollisionShape2D(props: CollisionShape2DProps): ReactNode {
   return (
     <GodotNode
       props={props}

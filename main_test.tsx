@@ -19,5 +19,6 @@ Deno.test("Test render", () => {
   );
 
   reconciler.updateContainer(<Player />, root, null);
+
   assertEquals(container.compileScript(), expectedScript);
 });

@@ -16,20 +16,19 @@ export interface CharacterBody2DProps extends Node2DProps {
 /**
  * A 2D physics body specialized for characters moved by script.
  *
+ * @example
  * ```tsx
-  <CharacterBody2D name="Player">
-    <CollisionShape2D
-      shape={createRectangleShape2D({ size: [2, 3] })}
-    >
-      Player
-    </CollisionShape2D>
-  </CharacterBody2D>
+ * <CharacterBody2D name="Player">
+ *   <CollisionShape2D
+ *     shape={createRectangleShape2D({ size: [2, 3] })}
+ *   />
+ * </CharacterBody2D>
  * ```
  *
  * @category PhysicsBody2D
  * @see https://docs.godotengine.org/en/stable/classes/class_characterbody2d.html
  */
-export function CharacterBody2D(props: CharacterBody2DProps) {
+export function CharacterBody2D(props: CharacterBody2DProps): ReactNode {
   return (
     <GodotNode
       props={props}
