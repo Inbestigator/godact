@@ -1,8 +1,5 @@
 # Godact
 
-> **Note:** Published library doesn't fully work yet because JSR doesn't support
-> JSX.
-
 Convert a React component to a Godot scene.
 
 ```tsx
@@ -16,5 +13,5 @@ function Player() {
   );
 }
 
-createGodactScene(<Player />, "./scenes/player.tscn");
+createGodactScene(<Player />, "./player.tscn");
 ```

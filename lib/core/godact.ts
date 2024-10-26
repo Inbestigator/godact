@@ -2,7 +2,6 @@
 import type { ReactNode } from "react";
 import { reconciler } from "../internal/reconciler.ts";
 import { createRenderer } from "../internal/renderers/renderer.ts";
-import { writeFileSync } from "node:fs";
 
 /**
  * Create a Godot scene from a React component.
@@ -32,6 +31,9 @@ export function createGodactScene(component: ReactNode, out: string) {
   if (root !== null) {
     reconciler.updateContainer(component, root, null);
 
-    writeFileSync(out, new TextEncoder().encode(container.compileScript()));
+    Deno.writeFileSync(
+      out,
+      new TextEncoder().encode(container.compileScript()),
+    );
   }
 }
