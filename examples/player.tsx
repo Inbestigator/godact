@@ -1,22 +1,10 @@
-import {
-  CharacterBody2D,
-  CollisionShape2D,
-  createCapsuleShape2D,
-  Node2D,
-  Vector2,
-} from "../lib/main.ts";
+import { CharacterBody2D, CollisionShape2D } from "@inbestigator/godact/nodes";
+import { createPhysicsMaterial } from "@inbestigator/godact/resources";
 
 export default function Player() {
   return (
-    <CharacterBody2D
-      editor_description="This is an example player, will become more complex as the nodes are implemented"
-      name="Player"
-    >
-      <CollisionShape2D
-        shape={createCapsuleShape2D({ radius: 2 })}
-        position={Vector2(1, 2)}
-      />
-      <Node2D>Player</Node2D>
+    <CharacterBody2D name="Player">
+      <CollisionShape2D shape={createPhysicsMaterial({})} />
     </CharacterBody2D>
   );
 }

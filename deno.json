@@ -15,7 +15,12 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react"
   },
-  "exports": "./lib/main.ts",
+  "exports": {
+    ".": "./lib/main.ts",
+    "./nodes": "./lib/nodes.ts",
+    "./resources": "./lib/resources.ts",
+    "./types": "./lib/types.ts"
+  },
   "publish": {
     "include": [
       "lib",
