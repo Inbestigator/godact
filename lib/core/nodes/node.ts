@@ -1,8 +1,9 @@
+import type { ColorType } from "../types/vectors.ts";
+
 export interface NodeProps {
   auto_translate_mode?: 0 | 1 | 2;
-  disabled?: boolean;
   editor_description?: string;
-  multiplayer?: null; // TODO MultiplayerAPI ?!?
+  multiplayer?: null; // TODO Type: MultiplayerAPI ?!?
   name?: string;
   physics_interpolation_mode?: 0 | 1 | 2;
   process_mode?: 0 | 1 | 2 | 3 | 4;
@@ -15,12 +16,12 @@ export interface NodeProps {
   };
 }
 
-export interface CanvasItem extends NodeProps {
+export interface CanvasItemProps extends NodeProps {
   clip_children?: 0 | 1 | 2;
   light_mask?: number;
-  material?: null; // TODO Material
-  modulate?: [number, number, number, number]; // TODO Color
-  self_modulate?: [number, number, number, number]; // TODO Color
+  material?: null; // TODO Type: Material
+  modulate?: ColorType;
+  self_modulate?: ColorType;
   show_behind_parent?: boolean;
   texture_filter?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   texture_repeat?: 0 | 1 | 2 | 3;
@@ -34,10 +35,10 @@ export interface CanvasItem extends NodeProps {
 }
 
 // export interface Node3DProps extends NodeProps {
-//   position?: [number, number, number];
-//   rotation?: [number, number];
-//   skew?: [number, number];
-//   scale?: [number, number, number];
+//   position?: Vector3Type;
+//   rotation?: Vector2Type;
+//   skew?: Vector2Type;
+//   scale?: Vector3Type;
 // }
 
 export function convertCommonTypes(value: unknown) {
@@ -55,6 +56,21 @@ export function convertCommonTypes(value: unknown) {
     value.every((v) => typeof v === "number")
   ) {
     return `Vector3(${value[0]}, ${value[1]}, ${value[2]})`;
+  }
+
+  if (
+    value &&
+    typeof value === "object" &&
+    "typeSpecifier" in value &&
+    typeof value.typeSpecifier === "string" &&
+    "value" in value &&
+    typeof value.value === "string"
+  ) {
+    return `${value.typeSpecifier}(${value.value})`;
+  }
+
+  if (typeof value === "string") {
+    return `"${value}"`;
   }
 
   return value;
