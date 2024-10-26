@@ -9,7 +9,7 @@ import type { Vector2Type } from "../types/vectors.ts";
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
 /**
- * Props for a CollisionShape2D
+ * Props for a Node2D
  *
  * @category Primitive
  */

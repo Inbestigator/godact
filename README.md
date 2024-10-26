@@ -3,12 +3,8 @@
 Convert a React component to a Godot scene.
 
 ```tsx
-import {
-  CharacterBody2D,
-  CollisionShape2D,
-  createCircleShape2D,
-  createGodactScene,
-} from "@inbestigator/godact";
+import { CharacterBody2D, CollisionShape2D } from "@inbestigator/godact/nodes";
+import { createCircleShape2D } from "@inbestigator/godact/resources";
 
 function Player() {
   return (
@@ -34,6 +30,7 @@ Component status:
 | Node             | Base     | N/A              | `multiplayer`, |
 | CanvasItemProps  | Base     | N/A              | `material`     |
 | Node2D           | Org      | 5                |                |
+| Sprite2D         | Visual   | 5                |                |
 | CollisionShape2D | Physics  | 5                |                |
 | CharacterBody2D  | Physics  | 5                |                |
 | RigidBody2D      | Physics  | 5                |                |

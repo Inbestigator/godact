@@ -70,22 +70,12 @@ function createRigidBody2DNode(
   props: RigidBody2DProps,
 ): Node<RigidBody2DProps> {
   const node = createNode<RigidBody2DProps>(props);
-  const shapeId = createId();
+  const materialId = createId();
   const nodeName = props.name ?? createId();
 
   return {
     ...node,
     insertMe(script, parent) {
-      if (props.physics_material_override) {
-        script.internal.push({
-          text:
-            `[sub_resource type="${props.physics_material_override.type}" id="${shapeId}"]`,
-          props: Object.entries(props.physics_material_override.props).map(
-            ([key, value]) => `${key} = ${convertCommonTypes(value)}`,
-          ),
-        });
-      }
-
       script.nodes.push({
         text: `[node name="${nodeName}" type="RigidBody2D"${
           parent ? ` parent="${parent}"` : ""
@@ -95,7 +85,7 @@ function createRigidBody2DNode(
           ...(props.physics_material_override && {
             physics_material_override: {
               typeSpecifier: "SubResource",
-              value: `"${shapeId}"`,
+              value: `"${materialId}"`,
             },
           }),
         }),
@@ -104,7 +94,7 @@ function createRigidBody2DNode(
       if (props.physics_material_override) {
         script.internal.push({
           text:
-            `[sub_resource type="${props.physics_material_override.type}" id="${shapeId}"]`,
+            `[sub_resource type="${props.physics_material_override.type}" id="${materialId}"]`,
           props: Object.entries(props.physics_material_override.props).map(
             ([key, value]) => `${key} = ${convertCommonTypes(value)}`,
           ),

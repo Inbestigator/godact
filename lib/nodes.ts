@@ -5,6 +5,7 @@
  */
 
 export * from "./core/nodes/node-2d.tsx";
+export * from "./core/nodes/sprite-2d.tsx";
 
 export * from "./core/nodes/collision-shape-2d.tsx";
 
