@@ -3,7 +3,8 @@ import React, { type ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addCommonProps, createId } from "../node.ts";
-import type { Node2DProps } from "../node-2d.tsx";
+import type { PhysicsBody2DProps } from "./physics-props.ts";
+import type { Vector2Type } from "../../types/vectors.ts";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
@@ -12,7 +13,23 @@ React.version; // Purely linter fix, remove once import React doesn't cause no-u
  *
  * @category PhysicsBody2D
  */
-export interface CharacterBody2DProps extends Node2DProps {}
+export interface CharacterBody2DProps extends PhysicsBody2DProps {
+  floor_block_on_wall?: boolean;
+  floor_constant_speed?: boolean;
+  floor_max_angle?: number;
+  floor_snap_length?: number;
+  floor_stop_on_slope?: boolean;
+  max_slides?: number;
+  motion_mode?: 0 | 1;
+  platform_floor_layers?: number;
+  platform_on_leave?: 0 | 1 | 2;
+  platform_wall_layers?: number;
+  safe_margin?: number;
+  slide_on_ceiling?: boolean;
+  up_direction?: Vector2Type;
+  velocity?: Vector2Type;
+  wall_min_slide_angle?: number;
+}
 
 /**
  * A 2D physics body specialized for characters moved by script.
