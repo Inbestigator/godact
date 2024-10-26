@@ -64,7 +64,7 @@ function createCollisionShape2DNode(
         props: addCommonProps({
           ...props,
           shape: { typeSpecifier: "SubResource", value: `"${shapeId}"` },
-        }),
+        }, script),
       });
 
       script.internal.push({

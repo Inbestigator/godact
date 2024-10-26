@@ -52,7 +52,7 @@ function createNode2DNode(props: Node2DProps): Node<Node2DProps> {
         text: `[node name="${nodeName}" type="Node2D"${
           parent ? ` parent="${parent}"` : ""
         }]`,
-        props: addCommonProps({ ...props }),
+        props: addCommonProps({ ...props }, script),
       });
 
       for (const child of node.children) {

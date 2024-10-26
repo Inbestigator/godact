@@ -73,7 +73,7 @@ function createSprite2DNode(props: Sprite2DProps): Node<Sprite2DProps> {
               value: `"${textureId}"`,
             },
           }),
-        }),
+        }, script),
       });
 
       if (props.texture) {

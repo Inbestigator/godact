@@ -10,66 +10,46 @@ import type { PhysicsMaterial } from "../../resources/physics/physics-material.t
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
 /**
- * Props for a RigidBody2D
+ * Props for a StaticBody2D
  *
  * @category PhysicsBody2D
  */
-export interface RigidBody2DProps extends PhysicsBody2DProps {
-  angular_damp?: number;
-  angular_damp_mode?: 0 | 1;
-  angular_velocity?: number;
-  can_sleep?: boolean;
-  center_of_mass?: Vector2Type;
-  center_of_mass_mode?: 0 | 1;
-  constant_force?: Vector2Type;
-  constant_torque?: number;
-  contact_monitor?: boolean;
-  continuous_cd?: 0 | 1 | 2;
-  custom_integrator?: boolean;
-  freeze?: boolean;
-  freeze_mode?: 0 | 1;
-  gravity_scale?: number;
-  inertia?: number;
-  linear_damp?: number;
-  linear_damp_mode?: 0 | 1;
-  linear_velocity?: Vector2Type;
-  lock_rotation?: boolean;
-  mass?: number;
-  max_contacts_reported?: number;
+export interface StaticBody2DProps extends PhysicsBody2DProps {
+  constant_angular_velocity?: number;
+  constant_linear_velocity?: Vector2Type;
   physics_material_override?: PhysicsMaterial;
-  sleeping?: boolean;
 }
 
 /**
- * A 2D physics body that is moved by a physics simulation.
+ * A 2D physics body that can't be moved by external forces. When moved manually, it doesn't affect other bodies in its path.
  *
  * @example
  * ```tsx
- * <RigidBody2D>
+ * <StaticBody2D>
  *   <CollisionShape2D
  *     shape={createRectangleShape2D({ size: Vector2(2, 3) })}
  *   />
- * </RigidBody2D>
+ * </StaticBody2D>
  * ```
  *
  * @category PhysicsBody2D
- * @see https://docs.godotengine.org/en/stable/classes/class_rigidbody2d.html
+ * @see https://docs.godotengine.org/en/stable/classes/class_staticbody2d.html
  */
-export function RigidBody2D(props: RigidBody2DProps): ReactNode {
+export function StaticBody2D(props: StaticBody2DProps): ReactNode {
   return (
     <GodotNode
       props={props}
-      createNode={() => createRigidBody2DNode(props)}
+      createNode={() => createStaticBody2DNode(props)}
     >
       {props.children}
     </GodotNode>
   );
 }
 
-function createRigidBody2DNode(
-  props: RigidBody2DProps,
-): Node<RigidBody2DProps> {
-  const node = createNode<RigidBody2DProps>(props);
+function createStaticBody2DNode(
+  props: StaticBody2DProps,
+): Node<StaticBody2DProps> {
+  const node = createNode<StaticBody2DProps>(props);
   const materialId = createId();
   const nodeName = props.name ?? createId();
 
@@ -77,7 +57,7 @@ function createRigidBody2DNode(
     ...node,
     insertMe(script, parent) {
       script.nodes.push({
-        text: `[node name="${nodeName}" type="RigidBody2D"${
+        text: `[node name="${nodeName}" type="StaticBody2D"${
           parent ? ` parent="${parent}"` : ""
         }]`,
         props: addCommonProps({
