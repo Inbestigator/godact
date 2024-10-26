@@ -70,7 +70,7 @@ function createCharacterBody2DNode(
         text: `[node name="${nodeName}" type="CharacterBody2D"${
           parent ? ` parent="${parent}"` : ""
         }]`,
-        props: addCommonProps({ ...props }),
+        props: addCommonProps({ ...props }, script),
       });
 
       for (const child of node.children) {

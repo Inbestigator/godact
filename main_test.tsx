@@ -1,9 +1,9 @@
 import { reconciler } from "./lib/internal/reconciler.ts";
 import { createRenderer } from "./lib/internal/renderers/renderer.ts";
-import Player, { expectedScript } from "./tests/player.tsx";
+import SimpleScene, { expectedSimpleScene } from "./tests/simple-scene.tsx";
 import { assertEquals } from "@std/assert";
 
-Deno.test("Test render", () => {
+Deno.test("Render a simple scene", () => {
   crypto.randomUUID = () => "00000000-0000-0000-0000-000000000000";
   const container = createRenderer();
 
@@ -18,7 +18,7 @@ Deno.test("Test render", () => {
     null,
   );
 
-  reconciler.updateContainer(<Player />, root, null);
+  reconciler.updateContainer(<SimpleScene />, root, null);
 
-  assertEquals(container.compileScript(), expectedScript);
+  assertEquals(container.compileScript(), expectedSimpleScene);
 });

@@ -1,4 +1,5 @@
 import {
+  Camera2D,
   CharacterBody2D,
   CollisionShape2D,
   createRectangleShape2D,
@@ -11,12 +12,18 @@ export default function Player() {
   return (
     <CharacterBody2D
       name="Player"
-      editor_description="This is an example player, will become more complex as the nodes are implemented"
+      position={Vector2(64, 64)}
+      script="res://player.gd"
     >
-      <Sprite2D texture={createTexture2D({ path: "res://icon.svg" })} />
+      <Sprite2D
+        name="Sprite2D"
+        texture={createTexture2D({ path: "res://icon.svg" })}
+      />
       <CollisionShape2D
+        name="CollisionShape2D"
         shape={createRectangleShape2D({ size: Vector2(128, 128) })}
       />
+      <Camera2D name="Camera2D" />
     </CharacterBody2D>
   );
 }
