@@ -1,6 +1,6 @@
 {
   "name": "@inbestigator/godact",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "tasks": {
     "main": "deno run --allow-env --allow-write main.tsx"
   },
