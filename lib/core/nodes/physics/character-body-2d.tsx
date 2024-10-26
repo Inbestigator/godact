@@ -1,10 +1,8 @@
 // @ts-types="@types/react"
-import React, { type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addCommonProps, createId, type Node2DProps } from "../node.ts";
-
-React.version;
 
 /**
  * Props for a CharacterBody2D

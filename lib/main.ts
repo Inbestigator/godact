@@ -1,3 +1,7 @@
+// @ts-types="@types/react"
+// deno-lint-ignore verbatim-module-syntax
+import _React from "react";
+
 /**
  * Convert a React component to a Godot scene.
  *
