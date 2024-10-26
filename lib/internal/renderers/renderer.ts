@@ -20,10 +20,10 @@ const defaultParts: Record<
 
 export function createRenderer(): Renderer {
   const nodes = createContainer<Node<unknown>>();
-  const parts = defaultParts;
+  const parts = structuredClone(defaultParts);
 
   function render() {
-    Object.assign(parts, defaultParts);
+    Object.assign(parts, structuredClone(defaultParts));
     for (const node of nodes) {
       node.insertMe(parts);
     }
