@@ -1,3 +1,2 @@
 deno.lock
-scenes/
-.vscode/
+*.tscn

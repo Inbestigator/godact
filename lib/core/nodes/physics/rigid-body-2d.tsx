@@ -2,7 +2,11 @@
 import React, { type ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
-import { addCommonProps, convertCommonTypes, createId } from "../node.ts";
+import {
+  addCommonProps,
+  convertCommonTypes,
+  createId,
+} from "../../../internal/helpers.ts";
 import type { PhysicsBody2DProps } from "./physics-props.ts";
 import type { Vector2Type } from "../../types/vectors.ts";
 import type { PhysicsMaterial } from "../../resources/physics/physics-material.ts";

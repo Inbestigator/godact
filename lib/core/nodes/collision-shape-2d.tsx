@@ -2,7 +2,11 @@
 import React, { type ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
-import { addCommonProps, convertCommonTypes, createId } from "./node.ts";
+import {
+  addCommonProps,
+  convertCommonTypes,
+  createId,
+} from "../../internal/helpers.ts";
 import type { Node2DProps } from "./node-2d.tsx";
 import type { ColorType } from "../types/vectors.ts";
 import type { Shape2DTypes } from "../types/shape.ts";

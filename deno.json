@@ -1,9 +1,6 @@
 {
   "name": "@inbestigator/godact",
-  "version": "0.2.12",
-  "tasks": {
-    "main": "deno run --allow-env --allow-write --watch main.tsx"
-  },
+  "version": "0.3.0",
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
     "react": "npm:react@18.3.1",
@@ -11,16 +8,17 @@
     "@types/react": "npm:@types/react@18.3.11",
     "@types/react-reconciler": "npm:@types/react-reconciler@0.28.8"
   },
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
-  },
-  "exports": "./lib/main.ts",
+  "exports": "./lib/exports.ts",
   "publish": {
     "include": [
       "lib",
-      "README.md"
+      "README.md",
+      "deno.json"
     ]
   },
-  "license": "MIT"
+  "license": "MIT",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  }
 }
