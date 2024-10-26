@@ -16,6 +16,7 @@ export interface CharacterBody2DProps extends Node2DProps {
 /**
  * A 2D physics body specialized for characters moved by script.
  *
+ * @example
  * ```tsx
  * <CharacterBody2D name="Player">
  *   <CollisionShape2D

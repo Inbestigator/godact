@@ -6,6 +6,7 @@ import { createRenderer } from "../internal/renderers/renderer.ts";
 /**
  * Create a Godot scene from a React component.
  *
+ * @example
  * ```tsx
  * createGodactScene(<Player />, "./player.tscn");
  * ```

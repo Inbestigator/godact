@@ -10,9 +10,7 @@ export default function Player() {
       <CollisionShape2D
         shape={createRectangleShape2D({ size: [2, 3] })}
         position={[1, 2]}
-      >
-        Player
-      </CollisionShape2D>
+      />
     </CharacterBody2D>
   );
 }

@@ -1,7 +1,7 @@
 import type { Shape2DProps } from "./shape-2d.ts";
 
 /**
- * Returntype of createRectangleShape2D()
+ * Returntype of createRectangleShape2D
  *
  * @category Shape2D
  */
@@ -11,7 +11,7 @@ export interface RectangleShape2D {
 }
 
 /**
- * Props for a CollisionShape2D
+ * Props for createRectangleShape2D
  *
  * @category Node2D
  */
@@ -20,6 +20,7 @@ export interface RectangleShape2DProps extends Shape2DProps {}
 /**
  * A 2D rectangle shape used for physics collision.
  *
+ * @example
  * ```tsx
  * <CollisionShape2D
  *   shape={createRectangleShape2D({ size: [2, 3] })}
