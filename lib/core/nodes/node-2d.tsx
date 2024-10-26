@@ -2,8 +2,9 @@
 import React, { type ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
-import { addCommonProps, type CanvasItem, createId } from "./node.ts";
+import { addCommonProps, type CanvasItemProps, createId } from "./node.ts";
 import type { Transform2D } from "../types/transform.ts";
+import type { Vector2Type } from "../types/vectors.ts";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
@@ -12,10 +13,10 @@ React.version; // Purely linter fix, remove once import React doesn't cause no-u
  *
  * @category Primitive
  */
-export interface Node2DProps extends CanvasItem {
-  position?: [number, number];
+export interface Node2DProps extends CanvasItemProps {
+  position?: Vector2Type;
   rotation?: number;
-  scale?: [number, number];
+  scale?: Vector2Type;
   skew?: number;
   children?: ReactNode;
   transform?: Transform2D;

@@ -1,4 +1,4 @@
-import type { Shape2DProps } from "./shape-2d.ts";
+import type { Vector2Type } from "../../types/vectors.ts";
 
 /**
  * Returntype of createRectangleShape2D
@@ -15,7 +15,9 @@ export interface RectangleShape2D {
  *
  * @category Node2D
  */
-export interface RectangleShape2DProps extends Shape2DProps {}
+export interface RectangleShape2DProps {
+  size?: Vector2Type;
+}
 
 /**
  * A 2D rectangle shape used for physics collision.
@@ -23,7 +25,7 @@ export interface RectangleShape2DProps extends Shape2DProps {}
  * @example
  * ```tsx
  * <CollisionShape2D
- *   shape={createRectangleShape2D({ size: [2, 3] })}
+ *   shape={createRectangleShape2D({ size: Vector2(2, 3) })}
  * />
  * ```
  *

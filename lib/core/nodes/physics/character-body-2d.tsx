@@ -21,7 +21,7 @@ export interface CharacterBody2DProps extends Node2DProps {}
  * ```tsx
  * <CharacterBody2D name="Player">
  *   <CollisionShape2D
- *     shape={createRectangleShape2D({ size: [2, 3] })}
+ *     shape={createRectangleShape2D({ size: Vector2(2, 3) })}
  *   />
  * </CharacterBody2D>
  * ```

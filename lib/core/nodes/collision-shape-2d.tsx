@@ -2,9 +2,10 @@
 import React, { type ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
-import type { RectangleShape2D } from "../resources/shapes/rectangle-shape-2d.ts";
 import { addCommonProps, convertCommonTypes, createId } from "./node.ts";
 import type { Node2DProps } from "./node-2d.tsx";
+import type { ColorType } from "../types/vectors.ts";
+import type { Shape2DTypes } from "../types/shape.ts";
 
 React.version;
 
@@ -14,7 +15,11 @@ React.version;
  * @category Node2D
  */
 export interface CollisionShape2DProps extends Node2DProps {
-  shape: RectangleShape2D;
+  debug_color?: ColorType;
+  disabled?: boolean;
+  one_way_collision?: boolean;
+  one_way_collision_margin?: number;
+  shape: Shape2DTypes;
 }
 
 /**
@@ -23,8 +28,8 @@ export interface CollisionShape2DProps extends Node2DProps {
  * @example
  * ```tsx
  * <CollisionShape2D
- *   shape={createRectangleShape2D({ size: [2, 3] })}
- *   position={[1, 2]}
+ *   shape={createRectangleShape2D({ size: Vector2(2, 3) })}
+ *   position={Vector2(1, 2)}
  * />
  * ```
  *
@@ -58,7 +63,7 @@ function createCollisionShape2DNode(
         }]`,
         props: addCommonProps({
           ...props,
-          shape: `SubResource("${shapeId}")`,
+          shape: { typeSpecifier: "SubResource", value: `"${shapeId}"` },
         }),
       });
 
