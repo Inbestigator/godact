@@ -1,6 +1,6 @@
 {
   "name": "@inbestigator/godact",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "tasks": {
     "main": "deno run --allow-env --allow-write main.tsx"
   },
@@ -16,5 +16,11 @@
     "jsxImportSource": "react"
   },
   "exports": "./lib/main.ts",
+  "publish": {
+    "include": [
+      "lib",
+      "README.md"
+    ]
+  },
   "license": "MIT"
 }
