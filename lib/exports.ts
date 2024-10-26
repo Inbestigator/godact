@@ -27,17 +27,14 @@
 export * from "./core/godact.ts";
 
 // Nodes
-export type { CanvasItemProps, NodeProps } from "./core/nodes/node.ts";
+export * from "./core/nodes/node.ts";
 export * from "./core/nodes/node-2d.tsx";
 export * from "./core/nodes/sprite-2d.tsx";
 export * from "./core/nodes/camera-2d.tsx";
 
 export * from "./core/nodes/collision-shape-2d.tsx";
 
-export type {
-  CollisionObject2DProps,
-  PhysicsBody2DProps,
-} from "./core/nodes/physics/physics-props.ts";
+export * from "./core/nodes/physics/physics-props.ts";
 export * from "./core/nodes/physics/character-body-2d.tsx";
 export * from "./core/nodes/physics/rigid-body-2d.tsx";
 export * from "./core/nodes/physics/static-body-2d.tsx";
@@ -58,3 +55,4 @@ export * from "./core/resources/texture-2d.ts";
 
 // Types
 export * from "./core/types/vectors.ts";
+export * from "./core/types/shape.ts";
