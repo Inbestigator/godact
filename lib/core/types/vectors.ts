@@ -81,3 +81,31 @@ export function Color(r: number, g: number, b: number, a: number): ColorType {
     value: `${r}, ${g}, ${b}, ${a}`,
   };
 }
+
+/**
+ * Returntype for Rect2
+ *
+ * @category Vectors
+ */
+export interface Rect2Type {
+  typeSpecifier: "Rect2";
+  value: string;
+}
+
+/**
+ * A 2D axis-aligned bounding box using floating-point coordinates.
+ *
+ * @example
+ * ```ts
+ * Rect2(0, 0, 0, 0);
+ * ```
+ *
+ * @category Vectors
+ * @see https://docs.godotengine.org/en/stable/classes/class_rect2.html
+ */
+export function Rect2(r: number, g: number, b: number, a: number): Rect2Type {
+  return {
+    typeSpecifier: "Rect2",
+    value: `${r}, ${g}, ${b}, ${a}`,
+  };
+}
