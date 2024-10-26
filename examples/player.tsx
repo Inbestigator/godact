@@ -1,13 +1,11 @@
 import {
   CharacterBody2D,
   CollisionShape2D,
-  Sprite2D,
-} from "@inbestigator/godact/nodes";
-import {
   createRectangleShape2D,
   createTexture2D,
-} from "@inbestigator/godact/resources";
-import { Vector2 } from "@inbestigator/godact/types";
+  Sprite2D,
+  Vector2,
+} from "@inbestigator/godact";
 
 export default function Player() {
   return (

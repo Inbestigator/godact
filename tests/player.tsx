@@ -1,6 +1,11 @@
 import { Vector2 } from "../lib/core/types/vectors.ts";
-import { CharacterBody2D, CollisionShape2D, Sprite2D } from "../lib/nodes.ts";
-import { createRectangleShape2D, createTexture2D } from "../lib/resources.ts";
+import {
+  CharacterBody2D,
+  CollisionShape2D,
+  createRectangleShape2D,
+  createTexture2D,
+  Sprite2D,
+} from "../lib/main.ts";
 
 export default function Player() {
   return (
