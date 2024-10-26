@@ -1,8 +1,10 @@
 // @ts-types="@types/react"
-import type React from "react";
+import React, { type ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addCommonProps, createId, type Node2DProps } from "../node.ts";
+
+React.version;
 
 /**
  * Props for a CharacterBody2D
@@ -10,7 +12,7 @@ import { addCommonProps, createId, type Node2DProps } from "../node.ts";
  * @category PhysicsBody2D
  */
 export interface CharacterBody2DProps extends Node2DProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 /**
@@ -28,7 +30,7 @@ export interface CharacterBody2DProps extends Node2DProps {
  * @category PhysicsBody2D
  * @see https://docs.godotengine.org/en/stable/classes/class_characterbody2d.html
  */
-export function CharacterBody2D(props: CharacterBody2DProps): React.ReactNode {
+export function CharacterBody2D(props: CharacterBody2DProps): ReactNode {
   return (
     <GodotNode
       props={props}
