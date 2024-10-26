@@ -27,6 +27,7 @@
 export * from "./core/godact.ts";
 
 // Nodes
+export type { CanvasItemProps, NodeProps } from "./core/nodes/node.ts";
 export * from "./core/nodes/node-2d.tsx";
 export * from "./core/nodes/sprite-2d.tsx";
 export * from "./core/nodes/camera-2d.tsx";

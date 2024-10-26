@@ -31,7 +31,7 @@ Component status:
 | Node             | Category | Component status | Props todo        |
 | ---------------- | -------- | ---------------- | ----------------- |
 | Node             | Base     | N/A              | `multiplayer`,    |
-| CanvasItemProps  | Base     | N/A              | `material`        |
+| CanvasItem       | Base     | N/A              | `material`        |
 | Node2D           | Org      | 5                |                   |
 | Sprite2D         | Visual   | 5                |                   |
 | Camera2D         | Visual   | 5                | `custom_viewport` |
