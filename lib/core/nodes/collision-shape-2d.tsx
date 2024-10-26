@@ -1,5 +1,5 @@
 // @ts-types="@types/react"
-import type { ReactNode } from "react";
+import type React from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
 import type { RectangleShape2D } from "../resources/shapes/rectangle-shape-2d.ts";
@@ -18,7 +18,7 @@ import {
 export interface CollisionShape2DProps extends Node2DProps {
   shape: RectangleShape2D;
   position?: [number, number];
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 /**
@@ -35,7 +35,9 @@ export interface CollisionShape2DProps extends Node2DProps {
  * @category Node2D
  * @see https://docs.godotengine.org/en/stable/classes/class_collisionshape2d.html
  */
-export function CollisionShape2D(props: CollisionShape2DProps): ReactNode {
+export function CollisionShape2D(
+  props: CollisionShape2DProps,
+): React.ReactNode {
   return (
     <GodotNode
       props={props}
