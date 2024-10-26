@@ -7,14 +7,17 @@ import _React from "react";
  *
  * @example
  * ```tsx
- * import { createGodactScene } from "@inbestigator/godact";
+ * import {
+ *   createGodactScene,
+ *   createRectangleShape2D,
+ *   CharacterBody2D,
+ *   CollisionShape2D,
+ * } from "@inbestigator/godact";
  *
  * function Player() {
  *   return (
  *     <CharacterBody2D name="Player">
- *       <CollisionShape2D
- *         shape={createRectangleShape2D({ size: [1, 1] })}
- *       />
+ *       <CollisionShape2D shape={createRectangleShape2D({})} />
  *     </CharacterBody2D>
  *   );
  * }

@@ -12,7 +12,7 @@ export default function Player() {
         shape={createRectangleShape2D({ size: [2, 3] })}
         position={[1, 2]}
       />
-      <Node2D position={[0, 0]}>Player</Node2D>
+      <Node2D>Player</Node2D>
     </CharacterBody2D>
   );
 }
