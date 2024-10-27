@@ -7,73 +7,49 @@ import {
   convertCommonTypes,
   createId,
 } from "../../../internal/helpers.ts";
-import type { PhysicsBody2DProps } from "./physics-props.ts";
-import type { Vector2Type } from "../../types/vectors.ts";
-import type { PhysicsMaterial } from "../../resources/physics/physics-material.ts";
+import type { StaticBody2DProps } from "./static-body-2d.tsx";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
 /**
- * Props for a RigidBody2D
+ * Props for a AnimatableBody2D
  *
  * @category PhysicsBody2D
  */
-export interface RigidBody2DProps extends PhysicsBody2DProps {
-  angular_damp?: number;
-  angular_damp_mode?: 0 | 1;
-  angular_velocity?: number;
-  can_sleep?: boolean;
-  center_of_mass?: Vector2Type;
-  center_of_mass_mode?: 0 | 1;
-  constant_force?: Vector2Type;
-  constant_torque?: number;
-  contact_monitor?: boolean;
-  continuous_cd?: 0 | 1 | 2;
-  custom_integrator?: boolean;
-  freeze?: boolean;
-  freeze_mode?: 0 | 1;
-  gravity_scale?: number;
-  inertia?: number;
-  linear_damp?: number;
-  linear_damp_mode?: 0 | 1;
-  linear_velocity?: Vector2Type;
-  lock_rotation?: boolean;
-  mass?: number;
-  max_contacts_reported?: number;
-  physics_material_override?: PhysicsMaterial;
-  sleeping?: boolean;
+export interface AnimatableBody2DProps extends StaticBody2DProps {
+  sync_to_physics?: true;
 }
 
 /**
- * A 2D physics body that is moved by a physics simulation.
+ * A 2D physics body that can't be moved by external forces. When moved manually, it affects other bodies in its path.
  *
  * @example
  * ```tsx
- * <RigidBody2D>
+ * <AnimatableBody2D>
  *   <CollisionShape2D
  *     shape={createRectangleShape2D({ size: Vector2(2, 3) })}
  *   />
- * </RigidBody2D>
+ * </AnimatableBody2D>
  * ```
  *
  * @category PhysicsBody2D
- * @see https://docs.godotengine.org/en/stable/classes/class_rigidbody2d.html
+ * @see https://docs.godotengine.org/en/stable/classes/class_animatablebody2d.html
  */
-export function RigidBody2D(props: RigidBody2DProps): ReactNode {
+export function AnimatableBody2D(props: AnimatableBody2DProps): ReactNode {
   return (
     <GodotNode
       props={props}
-      createNode={() => createRigidBody2DNode(props)}
+      createNode={() => createAnimatableBody2DNode(props)}
     >
       {props.children}
     </GodotNode>
   );
 }
 
-function createRigidBody2DNode(
-  props: RigidBody2DProps,
-): Node<RigidBody2DProps> {
-  const node = createNode<RigidBody2DProps>(props);
+function createAnimatableBody2DNode(
+  props: AnimatableBody2DProps,
+): Node<AnimatableBody2DProps> {
+  const node = createNode<AnimatableBody2DProps>(props);
   const materialId = createId();
   const nodeName = props.name ?? createId();
 
@@ -81,7 +57,7 @@ function createRigidBody2DNode(
     ...node,
     insertMe(script, parent) {
       addNodeEntry({
-        type: "RigidBody2D",
+        type: "AnimatableBody2D",
         name: nodeName,
         parent,
         props: {

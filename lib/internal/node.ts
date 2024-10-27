@@ -1,13 +1,11 @@
 import { type Container, createContainer } from "./container.ts";
+import type { ScriptParts } from "./renderers/renderer.ts";
 
 export interface Node<Props> {
   props: Props;
   children: Container<Node<unknown>>;
   text: () => string;
-  insertMe: (
-    script: Record<string, { text: string; props?: string[] }[]>,
-    parent?: string,
-  ) => void;
+  insertMe: (script: ScriptParts, parent?: string) => void;
 }
 
 export function createNode<Props>(props: Props): Node<Props> {

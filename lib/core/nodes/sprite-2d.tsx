@@ -2,7 +2,7 @@
 import React, { type ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
-import { addCommonProps, createId } from "../../internal/helpers.ts";
+import { addNodeEntry, createId } from "../../internal/helpers.ts";
 import type { Rect2Type, Vector2Type } from "../types/vectors.ts";
 import type { Texture2D } from "../resources/texture-2d.ts";
 import type { Node2DProps } from "./node-2d.tsx";
@@ -61,11 +61,11 @@ function createSprite2DNode(props: Sprite2DProps): Node<Sprite2DProps> {
   return {
     ...node,
     insertMe(script, parent) {
-      script.nodes.push({
-        text: `[node name="${nodeName}" type="Sprite2D"${
-          parent ? ` parent="${parent}"` : ""
-        }]`,
-        props: addCommonProps({
+      addNodeEntry({
+        type: "Sprite2D",
+        name: nodeName,
+        parent,
+        props: {
           ...props,
           ...(props.texture && {
             texture: {
@@ -73,7 +73,8 @@ function createSprite2DNode(props: Sprite2DProps): Node<Sprite2DProps> {
               value: `"${textureId}"`,
             },
           }),
-        }, script),
+        },
+        script,
       });
 
       if (props.texture) {

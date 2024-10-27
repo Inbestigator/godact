@@ -3,7 +3,7 @@ import React, { type ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import {
-  addCommonProps,
+  addNodeEntry,
   convertCommonTypes,
   createId,
 } from "../../../internal/helpers.ts";
@@ -60,11 +60,11 @@ function createStaticBody2DNode(
   return {
     ...node,
     insertMe(script, parent) {
-      script.nodes.push({
-        text: `[node name="${nodeName}" type="StaticBody2D"${
-          parent ? ` parent="${parent}"` : ""
-        }]`,
-        props: addCommonProps({
+      addNodeEntry({
+        type: "StaticBody2D",
+        name: nodeName,
+        parent,
+        props: {
           ...props,
           ...(props.physics_material_override && {
             physics_material_override: {
@@ -72,7 +72,8 @@ function createStaticBody2DNode(
               value: `"${materialId}"`,
             },
           }),
-        }, script),
+        },
+        script,
       });
 
       if (props.physics_material_override) {
