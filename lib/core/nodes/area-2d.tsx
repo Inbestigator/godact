@@ -1,0 +1,83 @@
+// @ts-types="@types/react"
+import React, { type ReactNode } from "react";
+import { GodotNode } from "../../internal/element.ts";
+import { createNode, type Node } from "../../internal/node.ts";
+import { addCommonProps, createId } from "../../internal/helpers.ts";
+import type { CollisionObject2DProps } from "./physics/physics-props.ts";
+import type { Vector2Type } from "../types/vectors.ts";
+
+React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
+
+/**
+ * Props for a Area2D
+ *
+ * @category PhysicsBody2D
+ */
+export interface Area2DProps extends CollisionObject2DProps {
+  angular_damp?: number;
+  angular_damp_space_override?: 0 | 1 | 2 | 3 | 4;
+  audio_bus_name?: string;
+  audio_bus_override?: boolean;
+  gravity?: number;
+  gravity_direction?: Vector2Type;
+  gravity_point?: boolean;
+  gravity_point_center?: Vector2Type;
+  gravity_point_unit_distance?: number;
+  gravity_space_override?: 0 | 1 | 2 | 3 | 4;
+  linear_damp?: number;
+  linear_damp_space_override?: 0 | 1 | 2 | 3 | 4;
+  monitorable?: boolean;
+  monitoring?: boolean;
+  priority?: number;
+}
+
+/**
+ * A region of 2D space that detects other CollisionObject2Ds entering or exiting it.
+ *
+ * @example
+ * ```tsx
+ * <Area2D>
+ *   <CollisionShape2D
+ *     shape={createRectangleShape2D({ size: Vector2(2, 3) })}
+ *   />
+ * </Area2D>
+ * ```
+ *
+ * @category PhysicsBody2D
+ * @see https://docs.godotengine.org/en/stable/classes/class_area2d.html
+ */
+export function Area2D(props: Area2DProps): ReactNode {
+  return (
+    <GodotNode
+      props={props}
+      createNode={() => createArea2DNode(props)}
+    >
+      {props.children}
+    </GodotNode>
+  );
+}
+
+function createArea2DNode(
+  props: Area2DProps,
+): Node<Area2DProps> {
+  const node = createNode<Area2DProps>(props);
+  const nodeName = props.name ?? createId();
+
+  return {
+    ...node,
+    insertMe(script, parent) {
+      script.nodes.push({
+        text: `[node name="${nodeName}" type="Area2D"${
+          parent ? ` parent="${parent}"` : ""
+        }]`,
+        props: addCommonProps({
+          ...props,
+        }, script),
+      });
+
+      for (const child of node.children) {
+        child.insertMe(script, parent ? `${parent}/${nodeName}` : ".");
+      }
+    },
+  };
+}
