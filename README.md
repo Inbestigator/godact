@@ -30,7 +30,7 @@ Component status:
 
 | Node             | Category | Component status | Props todo                  |
 | ---------------- | -------- | ---------------- | --------------------------- |
-| Node             | Base     | N/A              | `multiplayer`,              |
+| Node             | Base     | N/A              | `multiplayer`               |
 | CanvasItem       | Base     | N/A              | `material`                  |
 | Node2D           | Org      | 5                |                             |
 | TileMapLayer     | Visual   | 5                | `tile_map_data`, `tile_set` |
