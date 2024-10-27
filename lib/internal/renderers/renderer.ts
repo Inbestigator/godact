@@ -7,10 +7,12 @@ export interface Renderer {
   compileScript: () => string;
 }
 
-const defaultParts: Record<
+export type ScriptParts = Record<
   "descriptor" | "external" | "internal" | "nodes" | "connections",
   { text: string; props?: string[] }[]
-> = {
+>;
+
+const defaultParts: ScriptParts = {
   descriptor: [{ text: `[gd_scene format=3]` }],
   external: [],
   internal: [],

@@ -2,7 +2,11 @@
 import React, { type ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
-import { addCommonProps, createId } from "../../internal/helpers.ts";
+import {
+  addCommonProps,
+  addNodeEntry,
+  createId,
+} from "../../internal/helpers.ts";
 import type { Vector2Type } from "../types/vectors.ts";
 import type { Node2DProps } from "./node-2d.tsx";
 import type { SpriteFrames } from "../resources/sprite-frames.ts";
@@ -37,7 +41,8 @@ export interface AnimatedSprite2DProps extends Node2DProps {
  * @example
  * ```tsx
  * <AnimatedSprite2D
- *   material={createTexture2D({ path: "res://icon.svg" })}
+ *   sprite_frames={createSpriteFrames([...])}
+ *   animation="icon"
  * />
  * ```
  *
@@ -65,11 +70,11 @@ function createAnimatedSprite2DNode(
   return {
     ...node,
     insertMe(script, parent) {
-      script.nodes.push({
-        text: `[node name="${nodeName}" type="AnimatedSprite2D"${
-          parent ? ` parent="${parent}"` : ""
-        }]`,
-        props: addCommonProps({
+      addNodeEntry({
+        type: "AnimatedSprite2D",
+        name: nodeName,
+        parent,
+        props: {
           ...props,
           ...(props.sprite_frames && {
             sprite_frames: {
@@ -77,7 +82,8 @@ function createAnimatedSprite2DNode(
               value: `"${framesId}"`,
             },
           }),
-        }, script),
+        },
+        script,
       });
 
       if (props.sprite_frames) {

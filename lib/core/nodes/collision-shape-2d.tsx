@@ -3,7 +3,7 @@ import React, { type ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
 import {
-  addCommonProps,
+  addNodeEntry,
   convertCommonTypes,
   createId,
 } from "../../internal/helpers.ts";
@@ -61,14 +61,15 @@ function createCollisionShape2DNode(
   return {
     ...node,
     insertMe(script, parent) {
-      script.nodes.push({
-        text: `[node name="${nodeName}" type="CollisionShape2D"${
-          parent ? ` parent="${parent}"` : ""
-        }]`,
-        props: addCommonProps({
+      addNodeEntry({
+        type: "CollisionShape2D",
+        name: nodeName,
+        parent,
+        props: {
           ...props,
           shape: { typeSpecifier: "SubResource", value: `"${shapeId}"` },
-        }, script),
+        },
+        script,
       });
 
       script.internal.push({

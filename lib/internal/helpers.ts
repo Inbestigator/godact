@@ -1,3 +1,5 @@
+import type { ScriptParts } from "./renderers/renderer.ts";
+
 export function convertCommonTypes(value: unknown) {
   if (
     value &&
@@ -22,7 +24,7 @@ export function convertCommonTypes(value: unknown) {
 
 export function addCommonProps(
   props: Record<string, unknown>,
-  script: Record<string, { text: string; props?: string[] }[]>,
+  script: ScriptParts,
 ) {
   if (props.script) {
     const scriptId = createId();
@@ -41,6 +43,27 @@ export function addCommonProps(
   return Object.entries(props)
     .filter(([key, _value]) => key !== "children" && key !== "name")
     .map(([key, value]) => `${key} = ${convertCommonTypes(value)}`);
+}
+
+export function addNodeEntry({
+  type,
+  name,
+  parent,
+  props,
+  script,
+}: {
+  type: string;
+  name: string;
+  parent?: string;
+  props: Record<string, unknown>;
+  script: ScriptParts;
+}) {
+  script.nodes.push({
+    text: `[node name="${name}" type="${type}"${
+      parent ? ` parent="${parent}"` : ""
+    }]`,
+    props: addCommonProps(props, script),
+  });
 }
 
 export function createId() {

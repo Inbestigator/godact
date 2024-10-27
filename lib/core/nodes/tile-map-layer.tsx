@@ -2,7 +2,7 @@
 import React, { type ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
-import { addCommonProps, createId } from "../../internal/helpers.ts";
+import { addNodeEntry, createId } from "../../internal/helpers.ts";
 import type { Node2DProps } from "./node-2d.tsx";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
@@ -57,13 +57,14 @@ function createTileMapLayerNode(
   return {
     ...node,
     insertMe(script, parent) {
-      script.nodes.push({
-        text: `[node name="${nodeName}" type="TileMapLayer"${
-          parent ? ` parent="${parent}"` : ""
-        }]`,
-        props: addCommonProps({
+      addNodeEntry({
+        type: "TileMapLayer",
+        name: nodeName,
+        parent,
+        props: {
           ...props,
-        }, script),
+        },
+        script,
       });
 
       for (const child of node.children) {

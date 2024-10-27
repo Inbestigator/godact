@@ -2,6 +2,15 @@
 
 Convert a React component to a Godot scene.
 
+Due to the sheer number of Godot nodes (>200)
+
+- **By request**: If you really want a specific node, you can either add it in,
+  or request it
+  > To request a node, please open an
+  > [issue](https://github.com/inbestigator/godact/issues/new) with the label
+  > `node request`
+- **Others**: The rest of the registry will slowly be filled in
+
 ```tsx
 import {
   CharacterBody2D,
@@ -35,6 +44,7 @@ Component status:
 | Node2D           | Org      | 5                |                             |
 | TileMapLayer     | Visual   | 5                | `tile_map_data`, `tile_set` |
 | Sprite2D         | Visual   | 5                |                             |
+| AnimatedSprite2D | Visual   | 5                |                             |
 | Camera2D         | Visual   | 5                | `custom_viewport`           |
 | CollisionShape2D | Physics  | 5                |                             |
 | CharacterBody2D  | Physics  | 5                |                             |

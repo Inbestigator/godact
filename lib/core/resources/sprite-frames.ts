@@ -30,7 +30,19 @@ export interface SpriteFramesProps {
  *
  * @example
  * ```tsx
- * createSpriteFrames({ path: "res://icon.svg" })
+ * createSpriteFrames([
+ *   {
+ *     frames: [
+ *       {
+ *         texture: createTexture2D({ path: "res://icon.svg" }),
+ *         duration: 0.5,
+ *       },
+ *     ],
+ *     loop: true,
+ *     speed: 2,
+ *     name: "icon",
+ *   },
+ * ]);
  * ```
  *
  * @category Visual

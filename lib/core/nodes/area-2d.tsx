@@ -2,7 +2,7 @@
 import React, { type ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
-import { addCommonProps, createId } from "../../internal/helpers.ts";
+import { addNodeEntry, createId } from "../../internal/helpers.ts";
 import type { CollisionObject2DProps } from "./physics/physics-props.ts";
 import type { Vector2Type } from "../types/vectors.ts";
 
@@ -66,13 +66,14 @@ function createArea2DNode(
   return {
     ...node,
     insertMe(script, parent) {
-      script.nodes.push({
-        text: `[node name="${nodeName}" type="Area2D"${
-          parent ? ` parent="${parent}"` : ""
-        }]`,
-        props: addCommonProps({
+      addNodeEntry({
+        type: "Area2D",
+        name: nodeName,
+        parent,
+        props: {
           ...props,
-        }, script),
+        },
+        script,
       });
 
       for (const child of node.children) {
