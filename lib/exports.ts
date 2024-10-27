@@ -33,6 +33,7 @@ export * from "./core/nodes/sprite-2d.tsx";
 export * from "./core/nodes/camera-2d.tsx";
 export * from "./core/nodes/area-2d.tsx";
 export * from "./core/nodes/tile-map-layer.tsx";
+export * from "./core/nodes/animated-sprite-2d.tsx";
 
 export * from "./core/nodes/collision-shape-2d.tsx";
 
@@ -54,6 +55,7 @@ export * from "./core/resources/shapes/segment-shape-2d.ts";
 export * from "./core/resources/shapes/separation-ray-shape-2d.ts";
 export * from "./core/resources/shapes/world-boundary-shape-2d.ts";
 
+export * from "./core/resources/sprite-frames.ts";
 export * from "./core/resources/texture-2d.ts";
 
 // Types

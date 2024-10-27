@@ -1,7 +1,7 @@
 /**
  * Returntype of createTexture2D
  *
- * @category Shape2D
+ * @category Visual
  */
 export interface Texture2D {
   type: "Texture2D";
@@ -11,7 +11,7 @@ export interface Texture2D {
 /**
  * Props for createTexture2D
  *
- * @category Node2D
+ * @category Visual
  */
 export interface Texture2DProps {
   path: string;
@@ -22,12 +22,10 @@ export interface Texture2DProps {
  *
  * @example
  * ```tsx
- * <Sprite2D
- *   material={createTexture2D({ path: "res://icon.svg" })}
- * />
+ * createTexture2D({ path: "res://icon.svg" })
  * ```
  *
- * @category Physics
+ * @category Visual
  * @see https://docs.godotengine.org/en/stable/classes/class_texture2d.html
  */
 export function createTexture2D(props: Texture2DProps): Texture2D {

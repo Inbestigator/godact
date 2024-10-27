@@ -1,21 +1,5 @@
 export function convertCommonTypes(value: unknown) {
   if (
-    Array.isArray(value) &&
-    value.length === 2 &&
-    value.every((v) => typeof v === "number")
-  ) {
-    return `Vector2(${value[0]}, ${value[1]})`;
-  }
-
-  if (
-    Array.isArray(value) &&
-    value.length === 3 &&
-    value.every((v) => typeof v === "number")
-  ) {
-    return `Vector3(${value[0]}, ${value[1]}, ${value[2]})`;
-  }
-
-  if (
     value &&
     typeof value === "object" &&
     "typeSpecifier" in value &&
@@ -23,6 +7,9 @@ export function convertCommonTypes(value: unknown) {
     "value" in value &&
     typeof value.value === "string"
   ) {
+    if (value.typeSpecifier === "Verbatim") {
+      return value.value;
+    }
     return `${value.typeSpecifier}(${value.value})`;
   }
 
