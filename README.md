@@ -44,6 +44,7 @@ Component status:
 | Node2D           | Org      | 5                |                             |
 | TileMapLayer     | Visual   | 5                | `tile_map_data`, `tile_set` |
 | Sprite2D         | Visual   | 5                |                             |
+| Line2D           | Visual   | 5                |                             |
 | AnimatedSprite2D | Visual   | 5                |                             |
 | Camera2D         | Visual   | 5                | `custom_viewport`           |
 | CollisionShape2D | Physics  | 5                |                             |
