@@ -3,8 +3,8 @@ import React, { type ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import {
+  addCommonProps,
   addNodeEntry,
-  convertCommonTypes,
   createId,
 } from "../../../internal/helpers.ts";
 import type { PhysicsBody2DProps } from "./physics-props.ts";
@@ -100,8 +100,9 @@ function createRigidBody2DNode(
         script.internal.push({
           text:
             `[sub_resource type="${props.physics_material_override.type}" id="${materialId}"]`,
-          props: Object.entries(props.physics_material_override.props).map(
-            ([key, value]) => `${key} = ${convertCommonTypes(value)}`,
+          props: addCommonProps(
+            { ...props.physics_material_override.props },
+            script,
           ),
         });
       }

@@ -32,7 +32,7 @@ Deno.test("Render a simple scene", () => {
   assertEquals(container.compileScript(), expectedSimpleScene);
 });
 
-export default function SimpleScene() {
+function SimpleScene() {
   return (
     <Node2D name="SimpleScene">
       <Player />

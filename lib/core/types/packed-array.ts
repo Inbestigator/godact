@@ -1,0 +1,34 @@
+/**
+ * Return type of createPackedArray
+ *
+ * @category Visual
+ */
+export interface PackedArray<T> {
+  typeSpecifier: string;
+  value: string;
+}
+
+/**
+ * Pack many variables of the same type into a single array
+ *
+ * @example
+ * ```tsx
+ * createPackedArray({ typeSpecifier: "Int", value: "0" }, { typeSpecifier: "Int", value: "1" });
+ * ```
+ *
+ * @category Visual
+ * @see https://docs.godotengine.org/en/stable/classes/class_packedarray.html
+ */
+export function PackedArray<T extends { typeSpecifier: string; value: string }>(
+  ...props: T[]
+): PackedArray<T> {
+  if (!("typeSpecifier" in props[0]) || !("value" in props[0])) {
+    throw new Error(
+      "Not a valid packable type. Please provide a type specifier and value.",
+    );
+  }
+  return {
+    typeSpecifier: `Packed${props[0].typeSpecifier}Array`,
+    value: props.map((prop) => prop.value).join(", "),
+  };
+}

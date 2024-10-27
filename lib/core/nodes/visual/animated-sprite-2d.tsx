@@ -1,22 +1,22 @@
 // @ts-types="@types/react"
 import React, { type ReactNode } from "react";
-import { GodotNode } from "../../internal/element.ts";
-import { createNode, type Node } from "../../internal/node.ts";
+import { GodotNode } from "../../../internal/element.ts";
+import { createNode, type Node } from "../../../internal/node.ts";
 import {
   addCommonProps,
   addNodeEntry,
   createId,
-} from "../../internal/helpers.ts";
-import type { Vector2Type } from "../types/vectors.ts";
-import type { Node2DProps } from "./node-2d.tsx";
-import type { SpriteFrames } from "../resources/sprite-frames.ts";
+} from "../../../internal/helpers.ts";
+import type { Vector2Type } from "../../types/vectors.ts";
+import type { Node2DProps } from "../node-2d.tsx";
+import type { SpriteFrames } from "../../resources/sprite-frames.ts";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
 /**
  * Props for a AnimatedSprite2D
  *
- * @category Primitive
+ * @category Visual
  */
 export interface AnimatedSprite2DProps extends Node2DProps {
   animation?: string;
