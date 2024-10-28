@@ -27,7 +27,7 @@
       "type": "Transform2D"
     }
   ],
-  "category": "PhysicsBody2D",
+  "category": "Primitive",
   "docs": [
     "A 2D game object, inherited by all 2D-related nodes. Has a position, rotation, scale, and Z index.",
     "",

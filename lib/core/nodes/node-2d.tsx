@@ -12,7 +12,7 @@ React.version; // Purely linter fix, remove once import React doesn't cause no-u
 /**
  * Props for a Node2D
  *
- * @category PhysicsBody2D
+ * @category Primitive
  */
 export interface Node2DProps extends CanvasItemProps {
   position?: Vector2Type;
@@ -31,7 +31,7 @@ export interface Node2DProps extends CanvasItemProps {
  * <Node2D />
  * ```
  *
- * @category PhysicsBody2D
+ * @category Primitive
  * @see https://docs.godotengine.org/en/stable/classes/class_node2d.html
  */
 export function Node2D(props: Node2DProps): ReactNode {
