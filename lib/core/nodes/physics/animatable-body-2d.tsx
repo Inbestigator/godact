@@ -50,7 +50,7 @@ function createAnimatableBody2DNode(
   props: AnimatableBody2DProps,
 ): Node<AnimatableBody2DProps> {
   const node = createNode<AnimatableBody2DProps>(props);
-  const materialId = createId();
+  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId();
 
   return {
@@ -62,12 +62,13 @@ function createAnimatableBody2DNode(
         parent,
         props: {
           ...props,
-          ...(props.physics_material_override && {
-            physics_material_override: {
-              typeSpecifier: "SubResource",
-              value: `"${materialId}"`,
-            },
-          }),
+          ...(props.physics_material_override &&
+            {
+              physics_material_override: {
+                typeSpecifier: "SubResource",
+                value: `"${resourceIds[0]}"`,
+              },
+            }),
         },
         script,
       });
@@ -75,7 +76,9 @@ function createAnimatableBody2DNode(
       if (props.physics_material_override) {
         script.internal.push({
           text:
-            `[sub_resource type="${props.physics_material_override.type}" id="${materialId}"]`,
+            `[sub_resource type="${props.physics_material_override.type}" id="${
+              resourceIds[0]
+            }"]`,
           props: addCommonProps(
             { ...props.physics_material_override.props },
             script,

@@ -37,7 +37,6 @@ export * from "./core/nodes/node.ts";
 export * from "./core/nodes/node-2d.tsx";
 export * from "./core/nodes/visual/sprite-2d.tsx";
 export * from "./core/nodes/visual/camera-2d.tsx";
-export * from "./core/nodes/area-2d.tsx";
 export * from "./core/nodes/visual/tile-map-layer.tsx";
 export * from "./core/nodes/visual/animated-sprite-2d.tsx";
 
@@ -50,6 +49,7 @@ export * from "./core/nodes/physics/character-body-2d.tsx";
 export * from "./core/nodes/physics/rigid-body-2d.tsx";
 export * from "./core/nodes/physics/static-body-2d.tsx";
 export * from "./core/nodes/physics/animatable-body-2d.tsx";
+export * from "./core/nodes/physics/area-2d.tsx";
 
 // Resources
 export * from "./core/resources/physics/physics-material.ts";

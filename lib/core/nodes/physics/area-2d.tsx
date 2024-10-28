@@ -1,10 +1,10 @@
 // @ts-types="@types/react"
 import React, { type ReactNode } from "react";
-import { GodotNode } from "../../internal/element.ts";
-import { createNode, type Node } from "../../internal/node.ts";
-import { addNodeEntry, createId } from "../../internal/helpers.ts";
-import type { CollisionObject2DProps } from "./physics/physics-props.ts";
-import type { Vector2Type } from "../types/vectors.ts";
+import { GodotNode } from "../../../internal/element.ts";
+import { createNode, type Node } from "../../../internal/node.ts";
+import { addNodeEntry, createId } from "../../../internal/helpers.ts";
+import type { CollisionObject2DProps } from "./physics-props.ts";
+import type { Vector2Type } from "../../types/vectors.ts";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
@@ -48,18 +48,13 @@ export interface Area2DProps extends CollisionObject2DProps {
  */
 export function Area2D(props: Area2DProps): ReactNode {
   return (
-    <GodotNode
-      props={props}
-      createNode={() => createArea2DNode(props)}
-    >
+    <GodotNode props={props} createNode={() => createArea2DNode(props)}>
       {props.children}
     </GodotNode>
   );
 }
 
-function createArea2DNode(
-  props: Area2DProps,
-): Node<Area2DProps> {
+function createArea2DNode(props: Area2DProps): Node<Area2DProps> {
   const node = createNode<Area2DProps>(props);
   const nodeName = props.name ?? createId();
 

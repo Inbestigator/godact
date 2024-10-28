@@ -1,6 +1,9 @@
 {
   "name": "@inbestigator/godact",
-  "version": "0.4.1",
+  "version": "0.4.2",
+  "tasks": {
+    "parseDefs": "deno run --allow-read --allow-write parseNodeDefs.ts"
+  },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
     "react": "npm:react@18.3.1",
@@ -14,6 +17,9 @@
       "lib",
       "README.md",
       "deno.json"
+    ],
+    "exclude": [
+      "*.node.json"
     ]
   },
   "license": "MIT",

@@ -48,10 +48,7 @@ export interface Line2DProps extends Node2DProps {
  */
 export function Line2D(props: Line2DProps): ReactNode {
   return (
-    <GodotNode
-      props={props}
-      createNode={() => createLine2DNode(props)}
-    >
+    <GodotNode props={props} createNode={() => createLine2DNode(props)}>
       {props.children}
     </GodotNode>
   );
@@ -59,8 +56,7 @@ export function Line2D(props: Line2DProps): ReactNode {
 
 function createLine2DNode(props: Line2DProps): Node<Line2DProps> {
   const node = createNode<Line2DProps>(props);
-  const gradientId = createId();
-  const curveId = createId();
+  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId();
 
   return {
@@ -72,36 +68,38 @@ function createLine2DNode(props: Line2DProps): Node<Line2DProps> {
         parent,
         props: {
           ...props,
-          ...(props.gradient && {
-            gradient: {
-              typeSpecifier: "SubResource",
-              value: `"${gradientId}"`,
-            },
-          }),
-          ...(props.width_curve && {
-            gradient: {
-              typeSpecifier: "SubResource",
-              value: `"${curveId}"`,
-            },
-          }),
+          ...(props.gradient &&
+            {
+              gradient: {
+                typeSpecifier: "SubResource",
+                value: `"${resourceIds[0]}"`,
+              },
+            }),
+          ...(props.width_curve &&
+            {
+              width_curve: {
+                typeSpecifier: "SubResource",
+                value: `"${resourceIds[1]}"`,
+              },
+            }),
         },
         script,
       });
 
       if (props.gradient) {
-        script.external.push({
-          text: `[sub_resource type="Gradient" id="${gradientId}"]`,
+        script.internal.push({
+          text: `[sub_resource type="${props.gradient.type}" id="${
+            resourceIds[0]
+          }"]`,
           props: addCommonProps({ ...props.gradient.props }, script),
         });
       }
-
       if (props.width_curve) {
-        script.external.push({
-          text: `[sub_resource type="Curve" id="${curveId}"]`,
-          props: addCommonProps(
-            { ...props.width_curve.props },
-            script,
-          ),
+        script.internal.push({
+          text: `[sub_resource type="${props.width_curve.type}" id="${
+            resourceIds[1]
+          }"]`,
+          props: addCommonProps({ ...props.width_curve.props }, script),
         });
       }
 

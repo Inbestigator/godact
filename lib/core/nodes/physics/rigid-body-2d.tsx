@@ -74,7 +74,7 @@ function createRigidBody2DNode(
   props: RigidBody2DProps,
 ): Node<RigidBody2DProps> {
   const node = createNode<RigidBody2DProps>(props);
-  const materialId = createId();
+  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId();
 
   return {
@@ -86,12 +86,13 @@ function createRigidBody2DNode(
         parent,
         props: {
           ...props,
-          ...(props.physics_material_override && {
-            physics_material_override: {
-              typeSpecifier: "SubResource",
-              value: `"${materialId}"`,
-            },
-          }),
+          ...(props.physics_material_override &&
+            {
+              physics_material_override: {
+                typeSpecifier: "SubResource",
+                value: `"${resourceIds[0]}"`,
+              },
+            }),
         },
         script,
       });
@@ -99,7 +100,9 @@ function createRigidBody2DNode(
       if (props.physics_material_override) {
         script.internal.push({
           text:
-            `[sub_resource type="${props.physics_material_override.type}" id="${materialId}"]`,
+            `[sub_resource type="${props.physics_material_override.type}" id="${
+              resourceIds[0]
+            }"]`,
           props: addCommonProps(
             { ...props.physics_material_override.props },
             script,
