@@ -34,7 +34,7 @@ export interface PhysicsMaterialProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_physicsmaterial.html
  */
 export function createPhysicsMaterial(
-  props: PhysicsMaterialProps,
+  props: PhysicsMaterialProps = {},
 ): PhysicsMaterial {
   return {
     type: "PhysicsMaterial",

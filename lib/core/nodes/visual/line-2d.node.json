@@ -32,7 +32,7 @@
     },
     {
       "name": "points",
-      "type": "PackedArray<Vector2Type>"
+      "type": "PackedArrayType<Vector2Type>"
     },
     {
       "name": "round_precision",

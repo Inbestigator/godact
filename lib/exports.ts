@@ -35,8 +35,13 @@ export * from "./core/resources/shapes/world-boundary-shape-2d.ts";
 export * from "./core/resources/sprite-frames.ts";
 export * from "./core/resources/texture-2d.ts";
 export * from "./core/resources/gradient.ts";
+export * from "./core/resources/material.ts";
+export * from "./core/resources/curve.ts";
+export * from "./core/resources/tile-set.ts";
 
 // Types
 export * from "./core/types/vectors.ts";
 export * from "./core/types/shape.ts";
 export * from "./core/types/packed-array.ts";
+export * from "./core/types/byte.ts";
+export * from "./core/types/transform.ts";

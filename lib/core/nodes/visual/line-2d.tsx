@@ -9,7 +9,7 @@ import {
 } from "../../../internal/helpers.ts";
 import type { Node2DProps } from "../node-2d.tsx";
 import type { ColorType, Vector2Type } from "../../types/vectors.ts";
-import type { PackedArray } from "../../types/packed-array.ts";
+import type { PackedArrayType } from "../../types/packed-array.ts";
 import type { Gradient } from "../../resources/gradient.ts";
 import type { Curve } from "../../resources/curve.ts";
 
@@ -28,7 +28,7 @@ export interface Line2DProps extends Node2DProps {
   end_cap_mode?: 0 | 1 | 2;
   gradient?: Gradient;
   joint_mode?: 0 | 1 | 2;
-  points?: PackedArray<Vector2Type>;
+  points?: PackedArrayType<Vector2Type>;
   round_precision?: number;
   sharp_limit?: number;
   width?: number;

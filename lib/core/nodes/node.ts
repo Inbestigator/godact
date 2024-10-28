@@ -1,3 +1,4 @@
+import type { Material } from "../resources/material.ts";
 import type { ColorType } from "../types/vectors.ts";
 
 export interface NodeProps {
@@ -20,7 +21,7 @@ export interface NodeProps {
 export interface CanvasItemProps extends NodeProps {
   clip_children?: 0 | 1 | 2;
   light_mask?: number;
-  material?: null; // TODO Type: Material
+  material?: Material;
   modulate?: ColorType;
   self_modulate?: ColorType;
   show_behind_parent?: boolean;

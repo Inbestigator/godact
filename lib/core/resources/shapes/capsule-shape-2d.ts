@@ -32,7 +32,7 @@ export interface CapsuleShape2DProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_capsuleshape2d.html
  */
 export function createCapsuleShape2D(
-  props: CapsuleShape2DProps,
+  props: CapsuleShape2DProps = {},
 ): CapsuleShape2D {
   return {
     type: "CapsuleShape2D",

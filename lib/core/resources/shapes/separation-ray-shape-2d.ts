@@ -32,7 +32,7 @@ export interface SeparationRayShape2DProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_separationrayshape2d.html
  */
 export function createSeparationRayShape2D(
-  props: SeparationRayShape2DProps,
+  props: SeparationRayShape2DProps = {},
 ): SeparationRayShape2D {
   return {
     type: "SeparationRayShape2D",

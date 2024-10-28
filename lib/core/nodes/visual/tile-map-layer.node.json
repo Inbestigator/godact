@@ -28,11 +28,11 @@
     },
     {
       "name": "tile_map_data",
-      "type": "null"
+      "type": "PackedArrayType<ByteType>"
     },
     {
       "name": "tile_set",
-      "type": "null"
+      "type": "TileSet"
     },
     {
       "name": "use_kinematic_bodies",
@@ -57,6 +57,17 @@
     "```"
   ],
   "docsHref": "https://docs.godotengine.org/en/stable/classes/class_tilemaplayer.html",
-  "specialProps": {},
-  "resources": {}
+  "specialProps": {
+    "tile_set": {
+      "type": "ExtResource",
+      "idIndex": 0
+    }
+  },
+  "resources": {
+    "tile_set": {
+      "type": "Custom",
+      "idIndex": 0,
+      "value": "script.external.push({text:`[ext_resource type=\"TileSet\" path=\"${props.tile_set.props.path}\" id=\"${resourceIds[0]}\"]`,});"
+    }
+  }
 }

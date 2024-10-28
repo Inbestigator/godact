@@ -1,9 +1,9 @@
 /**
  * Return type of createPackedArray
  *
- * @category Visual
+ * @category Utility
  */
-export interface PackedArray<T> {
+export interface PackedArrayType<T> {
   typeSpecifier: string;
   value: string;
 }
@@ -16,12 +16,12 @@ export interface PackedArray<T> {
  * createPackedArray({ typeSpecifier: "Int", value: "0" }, { typeSpecifier: "Int", value: "1" });
  * ```
  *
- * @category Visual
+ * @category Utility
  * @see https://docs.godotengine.org/en/stable/classes/class_packedarray.html
  */
 export function PackedArray<T extends { typeSpecifier: string; value: string }>(
   ...props: T[]
-): PackedArray<T> {
+): PackedArrayType<T> {
   if (!("typeSpecifier" in props[0]) || !("value" in props[0])) {
     throw new Error(
       "Not a valid packable type. Please provide a type specifier and value.",

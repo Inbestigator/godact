@@ -33,7 +33,7 @@ export interface ConvexPolygonShape2DProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_convexpolygonshape2d.html
  */
 export function createConvexPolygonShape2D(
-  props: ConvexPolygonShape2DProps,
+  props: ConvexPolygonShape2DProps = {},
 ): ConvexPolygonShape2D {
   return {
     type: "ConvexPolygonShape2D",

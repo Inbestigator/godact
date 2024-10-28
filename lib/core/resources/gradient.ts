@@ -1,4 +1,4 @@
-import type { PackedArray } from "../types/packed-array.ts";
+import type { PackedArrayType } from "../types/packed-array.ts";
 import type { ColorType, Float32Type } from "../types/vectors.ts";
 
 /**
@@ -17,10 +17,10 @@ export interface Gradient {
  * @category Visual
  */
 export interface GradientProps {
-  colors?: PackedArray<ColorType>;
+  colors?: PackedArrayType<ColorType>;
   interpolation_color_space?: 0 | 1 | 2;
   interpolation_mode?: 0 | 1 | 2;
-  offset?: PackedArray<Float32Type>;
+  offset?: PackedArrayType<Float32Type>;
 }
 
 /**
@@ -34,7 +34,7 @@ export interface GradientProps {
  * @category Visual
  * @see https://docs.godotengine.org/en/stable/classes/class_gradient.html
  */
-export function createGradient(props: GradientProps): Gradient {
+export function createGradient(props: GradientProps = {}): Gradient {
   return {
     type: "Gradient",
     props,

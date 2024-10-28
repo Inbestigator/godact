@@ -33,7 +33,7 @@ export interface RectangleShape2DProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_rectangleshape2d.html
  */
 export function createRectangleShape2D(
-  props: RectangleShape2DProps,
+  props: RectangleShape2DProps = {},
 ): RectangleShape2D {
   return {
     type: "RectangleShape2D",

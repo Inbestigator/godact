@@ -34,7 +34,7 @@ export interface SegmentShape2DProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_segmentshape2d.html
  */
 export function createSegmentShape2D(
-  props: SegmentShape2DProps,
+  props: SegmentShape2DProps = {},
 ): SegmentShape2D {
   return {
     type: "SegmentShape2D",

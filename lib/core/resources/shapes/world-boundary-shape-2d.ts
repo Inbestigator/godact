@@ -34,7 +34,7 @@ export interface WorldBoundaryShape2DProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_worldboundaryshape2d.html
  */
 export function createWorldBoundaryShape2D(
-  props: WorldBoundaryShape2DProps,
+  props: WorldBoundaryShape2DProps = {},
 ): WorldBoundaryShape2D {
   return {
     type: "WorldBoundaryShape2D",
