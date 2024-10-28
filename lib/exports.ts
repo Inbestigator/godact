@@ -1,34 +1,3 @@
-/**
- * Convert React components to Godot scenes.
- *
- * Due to the sheer number of Godot nodes (>200)
- *
- * - **By request**: If you really want a specific node, you can either add it in, or request it
- *   > To request a node, please open an [issue](https://github.com/inbestigator/godact/issues/new) with the label `node request`
- * - **Others**: The rest of the registry will slowly be filled in
- *
- * @example
- * ```tsx
- * import {
- *   CharacterBody2D,
- *   CollisionShape2D,
- *   createCircleShape2D,
- * } from "@inbestigator/godact";
- *
- * function Player() {
- *   return (
- *     <CharacterBody2D name="Player">
- *       <CollisionShape2D shape={createCircleShape2D({})} />
- *     </CharacterBody2D>
- *   );
- * }
- *
- * createGodactScene(<Player />, "./scenes/player.tscn");
- * ```
- *
- * @module
- */
-
 // Core
 export * from "./core/godact.ts";
 
