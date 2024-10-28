@@ -1,5 +1,5 @@
 /**
- * Convert a React component to a Godot scene.
+ * Convert React components to Godot scenes.
  *
  * Due to the sheer number of Godot nodes (>200)
  *
