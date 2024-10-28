@@ -32,10 +32,9 @@ export interface AnimatedSprite2DProps extends Node2DProps {
 }
 
 /**
- * General-purpose sprite node.
+ * Sprite node that contains multiple textures as frames to play for animation.
  *
  * @prop animation
- *
  * **Must** be placed after the `sprite_frames` prop to take effect.
  *
  * @example
@@ -64,7 +63,7 @@ function createAnimatedSprite2DNode(
   props: AnimatedSprite2DProps,
 ): Node<AnimatedSprite2DProps> {
   const node = createNode<AnimatedSprite2DProps>(props);
-  const framesId = createId();
+  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId();
 
   return {
@@ -76,46 +75,44 @@ function createAnimatedSprite2DNode(
         parent,
         props: {
           ...props,
-          ...(props.sprite_frames && {
-            sprite_frames: {
-              typeSpecifier: "SubResource",
-              value: `"${framesId}"`,
-            },
-          }),
+          ...(props.sprite_frames &&
+            {
+              sprite_frames: {
+                typeSpecifier: "SubResource",
+                value: `"${resourceIds[0]}"`,
+              },
+            }),
         },
         script,
       });
 
       if (props.sprite_frames) {
         script.internal.push({
-          text: `[sub_resource type="SpriteFrames" id="${framesId}"]`,
+          text: `[sub_resource type="SpriteFrames" id="${resourceIds[0]}"]`,
           props: addCommonProps({
             ...(props.sprite_frames && {
               animations: {
                 typeSpecifier: "Verbatim",
                 value: `[${
-                  props.sprite_frames.props.map(
-                    (animation) => {
-                      const ids = animation.frames.map(() => createId());
-                      animation.frames.forEach((frame, i) => {
-                        script.external.push({
-                          text:
-                            `[ext_resource type="Texture2D" path="${frame.texture.props.path}" id="${
-                              ids[i]
-                            }"]`,
-                        });
+                  props.sprite_frames.props.map((animation) => {
+                    const ids = animation.frames.map(() => createId());
+                    animation.frames.forEach((frame, i) => {
+                      script.external.push({
+                        text:
+                          `[ext_resource type="Texture2D" path="${frame.texture.props.path}" id="${
+                            ids[i]
+                          }"]`,
                       });
-
-                      return `{"frames":[${
-                        animation.frames.map((
-                          frame,
-                          i,
-                        ) => (`{"duration":${frame.duration},"texture":ExtResource("${
-                          ids[i]
-                        }")}`)).join(",")
-                      }],"loop":${animation.loop},"name":"${animation.name}","speed":${animation.speed}}`;
-                    },
-                  ).join(",")
+                    });
+                    return `{"frames":[${
+                      animation.frames.map((
+                        frame,
+                        i,
+                      ) => (`{"duration":${frame.duration},"texture":ExtResource("${
+                        ids[i]
+                      }")}`)).join(",")
+                    }],"loop":${animation.loop},"name":"${animation.name}","speed":${animation.speed}}`;
+                  }).join(",")
                 }]`,
               },
             }),

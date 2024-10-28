@@ -3,15 +3,15 @@ import React, { type ReactNode } from "react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
 import {
+  addCommonProps,
   addNodeEntry,
-  convertCommonTypes,
   createId,
 } from "../../internal/helpers.ts";
 import type { Node2DProps } from "./node-2d.tsx";
 import type { ColorType } from "../types/vectors.ts";
 import type { Shape2DTypes } from "../types/shape.ts";
 
-React.version;
+React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
 /**
  * Props for a CollisionShape2D
@@ -27,14 +27,11 @@ export interface CollisionShape2DProps extends Node2DProps {
 }
 
 /**
- * A node that provides a Shape2D to a CollisionObject2D parent.
+ * A 2D game object, inherited by all 2D-related nodes. Has a position, rotation, scale, and Z index.
  *
  * @example
  * ```tsx
- * <CollisionShape2D
- *   shape={createRectangleShape2D({ size: Vector2(2, 3) })}
- *   position={Vector2(1, 2)}
- * />
+ * <Node2D />
  * ```
  *
  * @category Node2D
@@ -55,7 +52,7 @@ function createCollisionShape2DNode(
   props: CollisionShape2DProps,
 ): Node<CollisionShape2DProps> {
   const node = createNode<CollisionShape2DProps>(props);
-  const shapeId = createId();
+  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId();
 
   return {
@@ -67,20 +64,28 @@ function createCollisionShape2DNode(
         parent,
         props: {
           ...props,
-          shape: { typeSpecifier: "SubResource", value: `"${shapeId}"` },
+          ...(props.shape &&
+            {
+              shape: {
+                typeSpecifier: "SubResource",
+                value: `"${resourceIds[0]}"`,
+              },
+            }),
         },
         script,
       });
 
-      script.internal.push({
-        text: `[sub_resource type="${props.shape.type}" id="${shapeId}"]`,
-        props: Object.entries(props.shape.props).map(
-          ([key, value]) => `${key} = ${convertCommonTypes(value)}`,
-        ),
-      });
+      if (props.shape) {
+        script.internal.push({
+          text: `[sub_resource type="${props.shape.type}" id="${
+            resourceIds[0]
+          }"]`,
+          props: addCommonProps({ ...props.shape.props }, script),
+        });
+      }
 
       for (const child of node.children) {
-        child.insertMe(script, parent ? `${parent}/${nodeName}` : nodeName);
+        child.insertMe(script, parent ? `${parent}/${nodeName}` : ".");
       }
     },
   };
