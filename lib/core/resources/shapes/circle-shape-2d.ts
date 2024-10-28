@@ -30,7 +30,9 @@ export interface CircleShape2DProps {
  * @category Shape2D
  * @see https://docs.godotengine.org/en/stable/classes/class_circleshape2d.html
  */
-export function createCircleShape2D(props: CircleShape2DProps): CircleShape2D {
+export function createCircleShape2D(
+  props: CircleShape2DProps = {},
+): CircleShape2D {
   return {
     type: "CircleShape2D",
     props,

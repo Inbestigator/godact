@@ -31,7 +31,7 @@ export interface CurveProps {
  * @category Visual
  * @see https://docs.godotengine.org/en/stable/classes/class_curve.html
  */
-export function createCurve(props: CurveProps): Curve {
+export function createCurve(props: CurveProps = {}): Curve {
   return {
     type: "Curve",
     props,

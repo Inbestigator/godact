@@ -58,11 +58,30 @@ export function addNodeEntry({
   props: Record<string, unknown>;
   script: ScriptParts;
 }) {
+  const materialId = createId();
+  if (props.material) {
+    script.internal.push({
+      text: `[sub_resource type="Material" id="${materialId}"]`,
+    });
+  }
   script.nodes.push({
     text: `[node name="${name}" type="${type}"${
       parent ? ` parent="${parent}"` : ""
     }]`,
-    props: addCommonProps(props, script),
+    props: addCommonProps(
+      {
+        ...props,
+        ...(props.material
+          ? {
+            material: {
+              typeSpecifier: "SubResource",
+              value: `"${materialId}"`,
+            },
+          }
+          : {}),
+      },
+      script,
+    ),
   });
 }
 

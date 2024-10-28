@@ -15,7 +15,6 @@ React.version; // Purely linter fix, remove once import React doesn't cause no-u
  */
 export interface Camera2DProps extends Node2DProps {
   anchor_mode?: 0 | 1;
-  custom_viewport?: null; // TODO createNode
   drag_bottom_margin?: number;
   drag_horizontal_enabled?: boolean;
   drag_horizontal_offset?: number;
