@@ -16,6 +16,7 @@ import {
   CharacterBody2D,
   CollisionShape2D,
   createCircleShape2D,
+  createGodactScene,
 } from "@inbestigator/godact";
 
 function Player() {
