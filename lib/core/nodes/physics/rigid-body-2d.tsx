@@ -7,9 +7,11 @@ import {
   addNodeEntry,
   createId,
 } from "../../../internal/helpers.ts";
-import type { PhysicsBody2DProps } from "./physics-props.ts";
-import type { Vector2Type } from "../../types/vectors.ts";
-import type { PhysicsMaterial } from "../../resources/physics/physics-material.ts";
+import type {
+  PhysicsBody2DProps,
+  PhysicsMaterial,
+  Vector2Type,
+} from "@inbestigator/godact";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
@@ -75,7 +77,7 @@ function createRigidBody2DNode(
 ): Node<RigidBody2DProps> {
   const node = createNode<RigidBody2DProps>(props);
   const resourceIds = new Array(100).fill(createId());
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,

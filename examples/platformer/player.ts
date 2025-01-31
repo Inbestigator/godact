@@ -23,7 +23,11 @@ export function _physics_process(delta: number) {
   if (direction) {
     Godot.velocity.x = direction * SPEED;
   } else {
-    Godot.velocity.x = Godot.move_toward(Godot.velocity.x, 0, SPEED);
+    Godot.velocity.x = Godot.move_toward(
+      Godot.velocity.x,
+      0,
+      SPEED * delta * (Godot.is_on_floor() ? 2 : 1),
+    );
   }
 
   Godot.move_and_slide();

@@ -1,4 +1,4 @@
-import type { AnyNode } from "acorn";
+import type { AnyNode, IfStatement } from "acorn";
 
 export function ts2gd(node: AnyNode, indent = 0): string {
   const indentation = " ".repeat(indent);
@@ -8,6 +8,20 @@ export function ts2gd(node: AnyNode, indent = 0): string {
     return "";
   }
 
+  function ifStatement(node: IfStatement) {
+    gdscript += ts2gd(node.consequent, indent + 4);
+
+    if (node.alternate) {
+      if (node.alternate.type === "IfStatement") {
+        gdscript += `${indentation}elif ${ts2gd(node.alternate.test)}:\n`;
+        ifStatement(node.alternate);
+      } else {
+        gdscript += `${indentation}else:\n`;
+        gdscript += ts2gd(node.alternate, indent + 4);
+      }
+    }
+  }
+
   switch (node.type) {
     case "Program":
       node.body.forEach((childNode) => {
@@ -15,11 +29,11 @@ export function ts2gd(node: AnyNode, indent = 0): string {
       });
       break;
 
-    case "IfStatement":
+    case "IfStatement": {
       gdscript += `${indentation}if ${ts2gd(node.test)}:\n`;
-      gdscript += ts2gd(node.consequent, indent + 4);
+      ifStatement(node);
       break;
-
+    }
     case "BlockStatement":
       node.body.forEach((childNode) => {
         gdscript += ts2gd(childNode, indent);
@@ -182,6 +196,12 @@ export function ts2gd(node: AnyNode, indent = 0): string {
 
     case "UnaryExpression":
       gdscript += `${node.operator}${ts2gd(node.argument)}`;
+      break;
+
+    case "ConditionalExpression":
+      gdscript += `${ts2gd(node.consequent)} if ${ts2gd(node.test)} else ${
+        ts2gd(node.alternate)
+      }`;
       break;
 
     default:

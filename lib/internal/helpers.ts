@@ -3,6 +3,8 @@ import { parse } from "acorn";
 import { ts2gd } from "./ts2gd.ts";
 import { buildSync } from "esbuild";
 import { join } from "node:path";
+import crypto from "node:crypto";
+import { stringify } from "flatted";
 
 export function convertCommonTypes(value: unknown) {
   if (
@@ -32,10 +34,10 @@ export function addCommonProps(
 ) {
   if (props.script) {
     const origin = props.script as string;
-    if (origin.endsWith(".ts")) {
+    if (origin.endsWith(".ts") || origin.endsWith(".js")) {
       const out = join(
         (script.out ?? "").split("/").slice(0, -1).join("/"),
-        origin.replace(".ts", ".gd"),
+        origin.replace(/\.(?:ts|js)/, ".gd"),
       );
 
       Deno.mkdirSync(out.split("/").slice(0, -1).join("/"), {
@@ -47,9 +49,9 @@ export function addCommonProps(
         transpile(origin),
       );
 
-      props.script = `res://${origin.replace(".ts", ".gd")}`;
+      props.script = `res://${origin.replace(/\.(?:ts|js)/, ".gd")}`;
     }
-    const scriptId = createId();
+    const scriptId = createId(props);
 
     script.external.push({
       text:
@@ -80,7 +82,7 @@ export function addNodeEntry({
   props: Record<string, unknown>;
   script: ScriptParts;
 }) {
-  const materialId = createId();
+  const materialId = createId(props);
   if (props.material) {
     script.internal.push({
       text: `[sub_resource type="Material" id="${materialId}"]`,
@@ -107,11 +109,26 @@ export function addNodeEntry({
   });
 }
 
-export function createId() {
-  return crypto.randomUUID().replaceAll("-", "_");
+export function createId(data?: unknown) {
+  if (data) {
+    if (typeof data === "object" && "children" in data) {
+      delete data.children;
+    }
+    const hash = crypto.createHash("sha256");
+    hash.update(stringify(data));
+    return hash.digest("hex").slice(0, 8);
+  }
+
+  return crypto.randomUUID().slice(0, 8);
 }
 
-function transpile(filePath: string): string {
+/**
+ * Transpiles a TypeScript file into a GDScript format.
+ *
+ * @param filePath - The path to the TypeScript file to be transpiled.
+ * @returns The transpiled script as a string.
+ */
+export function transpile(filePath: string): string {
   const { outputFiles } = buildSync({
     entryPoints: [filePath],
     bundle: true,

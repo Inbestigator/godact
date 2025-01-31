@@ -3,8 +3,7 @@ import React, { type ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addNodeEntry, createId } from "../../../internal/helpers.ts";
-import type { CollisionObject2DProps } from "./physics-props.ts";
-import type { Vector2Type } from "../../types/vectors.ts";
+import type { CollisionObject2DProps, Vector2Type } from "@inbestigator/godact";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
@@ -56,7 +55,7 @@ export function Area2D(props: Area2DProps): ReactNode {
 
 function createArea2DNode(props: Area2DProps): Node<Area2DProps> {
   const node = createNode<Area2DProps>(props);
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,

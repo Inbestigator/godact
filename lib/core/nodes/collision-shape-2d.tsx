@@ -7,9 +7,11 @@ import {
   addNodeEntry,
   createId,
 } from "../../internal/helpers.ts";
-import type { Node2DProps } from "./node-2d.tsx";
-import type { ColorType } from "../types/vectors.ts";
-import type { Shape2DTypes } from "../types/shape.ts";
+import type {
+  ColorType,
+  Node2DProps,
+  Shape2DTypes,
+} from "@inbestigator/godact";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
@@ -53,7 +55,7 @@ function createCollisionShape2DNode(
 ): Node<CollisionShape2DProps> {
   const node = createNode<CollisionShape2DProps>(props);
   const resourceIds = new Array(100).fill(createId());
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,

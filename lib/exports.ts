@@ -1,5 +1,6 @@
 // Core
 export * from "./core/godact.ts";
+export { transpile } from "./internal/helpers.ts";
 
 // Nodes
 export * from "./core/nodes/node.ts";

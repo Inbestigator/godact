@@ -7,7 +7,7 @@ import {
   addNodeEntry,
   createId,
 } from "../../../internal/helpers.ts";
-import type { StaticBody2DProps } from "./static-body-2d.tsx";
+import type { StaticBody2DProps } from "@inbestigator/godact";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
@@ -51,7 +51,7 @@ function createAnimatableBody2DNode(
 ): Node<AnimatableBody2DProps> {
   const node = createNode<AnimatableBody2DProps>(props);
   const resourceIds = new Array(100).fill(createId());
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,
