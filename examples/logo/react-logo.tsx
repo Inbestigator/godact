@@ -54,4 +54,4 @@ function ReactLogo() {
   );
 }
 
-createGodactScene(<ReactLogo />, "../../../../Projects/godact/Game/main.tscn");
+createGodactScene(<ReactLogo />, "./dist/react-logo.tscn");

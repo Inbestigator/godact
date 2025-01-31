@@ -34,10 +34,10 @@ export function addCommonProps(
 ) {
   if (props.script) {
     const origin = props.script as string;
-    if (origin.endsWith(".ts")) {
+    if (origin.endsWith(".ts") || origin.endsWith(".js")) {
       const out = join(
         (script.out ?? "").split("/").slice(0, -1).join("/"),
-        origin.replace(".ts", ".gd"),
+        origin.replace(/\.(?:ts|js)/, ".gd"),
       );
 
       Deno.mkdirSync(out.split("/").slice(0, -1).join("/"), {
@@ -49,7 +49,7 @@ export function addCommonProps(
         transpile(origin),
       );
 
-      props.script = `res://${origin.replace(".ts", ".gd")}`;
+      props.script = `res://${origin.replace(/\.(?:ts|js)/, ".gd")}`;
     }
     const scriptId = createId(props);
 
@@ -122,7 +122,13 @@ export function createId(data?: unknown) {
   return crypto.randomUUID().slice(0, 8);
 }
 
-function transpile(filePath: string): string {
+/**
+ * Transpiles a TypeScript file into a GDScript format.
+ *
+ * @param filePath - The path to the TypeScript file to be transpiled.
+ * @returns The transpiled script as a string.
+ */
+export function transpile(filePath: string): string {
   const { outputFiles } = buildSync({
     entryPoints: [filePath],
     bundle: true,
