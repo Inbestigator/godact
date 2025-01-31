@@ -180,6 +180,10 @@ export function ts2gd(node: AnyNode, indent = 0): string {
       } ${ts2gd(node.right)}`;
       break;
 
+    case "UnaryExpression":
+      gdscript += `${node.operator}${ts2gd(node.argument)}`;
+      break;
+
     default:
       gdscript += `# Unhandled node type: ${node.type}`;
   }

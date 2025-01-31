@@ -7,10 +7,12 @@ export interface Renderer {
   compileScript: () => string;
 }
 
-export type ScriptParts = Record<
-  "descriptor" | "external" | "internal" | "nodes" | "connections",
-  { text: string; props?: string[] }[]
->;
+export type ScriptParts =
+  & { out?: string }
+  & Record<
+    "descriptor" | "external" | "internal" | "nodes" | "connections",
+    { text: string; props?: string[] }[]
+  >;
 
 const defaultParts: ScriptParts = {
   descriptor: [{ text: `[gd_scene format=3]` }],
@@ -20,9 +22,10 @@ const defaultParts: ScriptParts = {
   connections: [],
 };
 
-export function createRenderer(): Renderer {
+export function createRenderer(out?: string): Renderer {
   const nodes = createContainer<Node<unknown>>();
   const parts = structuredClone(defaultParts);
+  parts.out = out;
 
   function render() {
     Object.assign(parts, structuredClone(defaultParts));
@@ -33,6 +36,7 @@ export function createRenderer(): Renderer {
 
   function compileScript() {
     return Object.values(parts)
+      .filter(Array.isArray)
       .map((part) =>
         part
           .map(

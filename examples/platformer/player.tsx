@@ -13,7 +13,7 @@ export default function Player() {
     <CharacterBody2D
       name="Player"
       position={Vector2(64, 64)}
-      script="res://player.gd"
+      script="./player.ts"
     >
       <Sprite2D
         name="Sprite2D"

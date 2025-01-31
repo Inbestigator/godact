@@ -11,4 +11,4 @@ function MainScene() {
   );
 }
 
-createGodactScene(<MainScene />, "./examples/main.tscn");
+createGodactScene(<MainScene />, "./dist/main.tscn");

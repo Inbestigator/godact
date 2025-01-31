@@ -2,6 +2,7 @@ import type { ScriptParts } from "./renderers/renderer.ts";
 import { parse } from "acorn";
 import { ts2gd } from "./ts2gd.ts";
 import { buildSync } from "esbuild";
+import { join } from "node:path";
 
 export function convertCommonTypes(value: unknown) {
   if (
@@ -30,11 +31,19 @@ export function addCommonProps(
   script: ScriptParts,
 ) {
   if (props.script) {
-    if ((props.script as string).endsWith(".ts")) {
-      const origin = props.script as string;
+    const origin = props.script as string;
+    if (origin.endsWith(".ts")) {
+      const out = join(
+        (script.out ?? "").split("/").slice(0, -1).join("/"),
+        origin.replace(".ts", ".gd"),
+      );
+
+      Deno.mkdirSync(out.split("/").slice(0, -1).join("/"), {
+        recursive: true,
+      });
 
       Deno.writeTextFileSync(
-        origin.replace(".ts", ".gd"),
+        out,
         transpile(origin),
       );
 

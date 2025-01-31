@@ -15,7 +15,7 @@ import { createRenderer } from "../internal/renderers/renderer.ts";
  * @param out Path to output file
  */
 export function createGodactScene(component: ReactNode, out: string) {
-  const container = createRenderer();
+  const container = createRenderer(out);
 
   const root = reconciler.createContainer(
     container,
@@ -31,9 +31,11 @@ export function createGodactScene(component: ReactNode, out: string) {
   if (root !== null) {
     reconciler.updateContainer(component, root, null);
 
-    Deno.writeFileSync(
+    Deno.mkdirSync(out.split("/").slice(0, -1).join("/"), { recursive: true });
+
+    Deno.writeTextFileSync(
       out,
-      new TextEncoder().encode(container.compileScript()),
+      container.compileScript(),
     );
   }
 }

@@ -53,4 +53,4 @@ function ReactLogo() {
   );
 }
 
-createGodactScene(<ReactLogo />, "./react-logo.tscn");
+createGodactScene(<ReactLogo />, "./dist/react-logo.tscn");
