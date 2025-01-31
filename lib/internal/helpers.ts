@@ -1,4 +1,7 @@
 import type { ScriptParts } from "./renderers/renderer.ts";
+import { parse } from "acorn";
+import { ts2gd } from "./ts2gd.ts";
+import { buildSync } from "esbuild";
 
 export function convertCommonTypes(value: unknown) {
   if (
@@ -27,6 +30,16 @@ export function addCommonProps(
   script: ScriptParts,
 ) {
   if (props.script) {
+    if ((props.script as string).endsWith(".ts")) {
+      const origin = props.script as string;
+
+      Deno.writeTextFileSync(
+        origin.replace(".ts", ".gd"),
+        transpile(origin),
+      );
+
+      props.script = `res://${origin.replace(".ts", ".gd")}`;
+    }
     const scriptId = createId();
 
     script.external.push({
@@ -87,4 +100,21 @@ export function addNodeEntry({
 
 export function createId() {
   return crypto.randomUUID().replaceAll("-", "_");
+}
+
+function transpile(filePath: string): string {
+  const { outputFiles } = buildSync({
+    entryPoints: [filePath],
+    bundle: true,
+    write: false,
+  });
+  const ast = parse(
+    outputFiles[0].text.replace("(() => {", "").replace(/}\)\(\);\s*$/, ""),
+    { ecmaVersion: "latest" },
+  );
+
+  return ts2gd(ast).replace(/"extends (.+)"/, "extends $1").replaceAll(
+    "Godot.",
+    "",
+  ).replaceAll(/console\.(?:log|warn|error)/g, "print");
 }
