@@ -7,9 +7,11 @@ import {
   addNodeEntry,
   createId,
 } from "../../../internal/helpers.ts";
-import type { Vector2Type } from "../../types/vectors.ts";
-import type { Node2DProps } from "../node-2d.tsx";
-import type { SpriteFrames } from "../../resources/sprite-frames.ts";
+import type {
+  Node2DProps,
+  SpriteFrames,
+  Vector2Type,
+} from "@inbestigator/godact";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 

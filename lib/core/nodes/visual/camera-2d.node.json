@@ -101,7 +101,7 @@
   ],
   "category": "Visual",
   "docs": [
-    "Camera node for 2D scenes. // TODO createNode",
+    "Camera node for 2D scenes. // TODO custom_viewport",
     "",
     "@example",
     "```tsx",

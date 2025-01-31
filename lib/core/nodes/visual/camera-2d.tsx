@@ -3,8 +3,7 @@ import React, { type ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addNodeEntry, createId } from "../../../internal/helpers.ts";
-import type { Node2DProps } from "../node-2d.tsx";
-import type { Vector2Type } from "../../types/vectors.ts";
+import type { Node2DProps, Vector2Type } from "@inbestigator/godact";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
@@ -15,6 +14,7 @@ React.version; // Purely linter fix, remove once import React doesn't cause no-u
  */
 export interface Camera2DProps extends Node2DProps {
   anchor_mode?: 0 | 1;
+  custom_viewport?: null;
   drag_bottom_margin?: number;
   drag_horizontal_enabled?: boolean;
   drag_horizontal_offset?: number;
@@ -40,7 +40,7 @@ export interface Camera2DProps extends Node2DProps {
 }
 
 /**
- * Camera node for 2D scenes.
+ * Camera node for 2D scenes. // TODO custom_viewport
  *
  * @example
  * ```tsx

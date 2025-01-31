@@ -3,10 +3,12 @@ import React, { type ReactNode } from "react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addNodeEntry, createId } from "../../../internal/helpers.ts";
-import type { Node2DProps } from "../node-2d.tsx";
-import type { PackedArrayType } from "../../types/packed-array.ts";
-import type { ByteType } from "../../types/byte.ts";
-import type { TileSet } from "../../resources/tile-set.ts";
+import type {
+  ByteType,
+  Node2DProps,
+  PackedArrayType,
+  TileSet,
+} from "@inbestigator/godact";
 
 React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 

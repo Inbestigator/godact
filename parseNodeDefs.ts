@@ -45,16 +45,48 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
   const interfaceProps = props
     .map((prop) => `${prop.name}${prop.required ? "" : "?"}: ${prop.type};`)
     .join("\n  ");
+  const nonImportableProps = [
+    "string",
+    "number",
+    "boolean",
+    "ReactNode",
+    "true",
+    "false",
+    "null",
+  ];
+  const propImports = Array.from(
+    new Set(
+      [...props, { type: extendsName, name: "extends" }]
+        .filter((p) =>
+          !nonImportableProps.includes(p.type) && !p.type.includes("|")
+        )
+        .map((p) => {
+          const match = p.type.match(/(.+)<(.+)>/);
+          if (match) {
+            return [match[1], match[2]];
+          }
+          return p.type;
+        }),
+    ),
+  );
 
   return `// @ts-types="@types/react"
   import React, { type ReactNode } from "react";
   import { GodotNode } from "${"../".repeat(deep)}internal/element.ts";
   import { createNode, type Node } from "${"../".repeat(deep)}internal/node.ts";
   import {
-    addCommonProps,
+    ${
+    Object.values(resources).some((v) =>
+        v.type !== "Custom" ||
+        (v.type === "Custom" && v.value?.includes("addCommonProps"))
+      )
+      ? "addCommonProps,"
+      : ""
+  }
     addNodeEntry,
     createId,
   } from "${"../".repeat(deep)}internal/helpers.ts";
+  import type {${propImports.join(",\n")}} from "@inbestigator/godact";
   
   React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
   
@@ -168,7 +200,10 @@ function generateComponents(dir: string, nodesToUpdate: string[]) {
 
       const outputPath = `${dir}/${entry.name.split(".")[0]}.tsx`;
 
-      if (!nodesToUpdate.includes(componentDefinition.name)) {
+      if (
+        !nodesToUpdate.includes(componentDefinition.name) &&
+        nodesToUpdate[0] !== "all"
+      ) {
         if (nodesToUpdate.length > 0) {
           continue;
         } else {
