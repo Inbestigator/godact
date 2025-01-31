@@ -153,7 +153,11 @@ export function ts2gd(node: AnyNode, indent = 0): string {
       break;
 
     case "ForInStatement":
-      gdscript += `${indentation}for ${ts2gd(node.left)} in ${
+      gdscript += `${indentation}for ${
+        node.left.type === "VariableDeclaration"
+          ? ts2gd(node.left.declarations[0].id)
+          : ts2gd(node.left)
+      } in ${
         ts2gd(
           node.right,
         )
