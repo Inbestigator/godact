@@ -60,7 +60,7 @@ export function Line2D(props: Line2DProps): ReactNode {
 function createLine2DNode(props: Line2DProps): Node<Line2DProps> {
   const node = createNode<Line2DProps>(props);
   const resourceIds = new Array(100).fill(createId());
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,

@@ -119,7 +119,7 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
       ? "\nconst resourceIds = new Array(100).fill(createId());"
       : ""
   }
-    const nodeName = props.name ?? createId();
+    const nodeName = props.name ?? createId(props);
   
     return {
       ...node,

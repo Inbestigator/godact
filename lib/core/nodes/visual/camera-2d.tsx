@@ -60,7 +60,7 @@ export function Camera2D(props: Camera2DProps): ReactNode {
 
 function createCamera2DNode(props: Camera2DProps): Node<Camera2DProps> {
   const node = createNode<Camera2DProps>(props);
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,

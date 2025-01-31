@@ -56,7 +56,7 @@ export function Sprite2D(props: Sprite2DProps): ReactNode {
 function createSprite2DNode(props: Sprite2DProps): Node<Sprite2DProps> {
   const node = createNode<Sprite2DProps>(props);
   const resourceIds = new Array(100).fill(createId());
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,

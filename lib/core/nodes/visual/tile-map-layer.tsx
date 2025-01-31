@@ -58,7 +58,7 @@ function createTileMapLayerNode(
 ): Node<TileMapLayerProps> {
   const node = createNode<TileMapLayerProps>(props);
   const resourceIds = new Array(100).fill(createId());
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,

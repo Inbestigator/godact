@@ -57,7 +57,7 @@ function createStaticBody2DNode(
 ): Node<StaticBody2DProps> {
   const node = createNode<StaticBody2DProps>(props);
   const resourceIds = new Array(100).fill(createId());
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,

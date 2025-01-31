@@ -46,7 +46,7 @@ export function Node2D(props: Node2DProps): ReactNode {
 
 function createNode2DNode(props: Node2DProps): Node<Node2DProps> {
   const node = createNode<Node2DProps>(props);
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,

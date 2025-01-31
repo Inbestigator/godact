@@ -55,7 +55,7 @@ export function Area2D(props: Area2DProps): ReactNode {
 
 function createArea2DNode(props: Area2DProps): Node<Area2DProps> {
   const node = createNode<Area2DProps>(props);
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,

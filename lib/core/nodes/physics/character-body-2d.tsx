@@ -60,7 +60,7 @@ function createCharacterBody2DNode(
   props: CharacterBody2DProps,
 ): Node<CharacterBody2DProps> {
   const node = createNode<CharacterBody2DProps>(props);
-  const nodeName = props.name ?? createId();
+  const nodeName = props.name ?? createId(props);
 
   return {
     ...node,
