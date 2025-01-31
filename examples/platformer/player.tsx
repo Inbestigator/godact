@@ -7,6 +7,7 @@ import {
   Sprite2D,
   Vector2,
 } from "@inbestigator/godact";
+import "./player.ts"; // This just makes watchers update for this one too
 
 export default function Player() {
   return (
