@@ -5,6 +5,7 @@ import { buildSync } from "esbuild";
 import { join } from "node:path";
 import crypto from "node:crypto";
 import { stringify } from "flatted";
+import fs from "node:fs";
 
 export function convertCommonTypes(value: unknown) {
   if (
@@ -40,11 +41,11 @@ export function addCommonProps(
         origin.replace(/\.(?:ts|js)/, ".gd"),
       );
 
-      Deno.mkdirSync(out.split("/").slice(0, -1).join("/"), {
+      fs.mkdirSync(out.split("/").slice(0, -1).join("/"), {
         recursive: true,
       });
 
-      Deno.writeTextFileSync(
+      fs.writeFileSync(
         out,
         transpile(origin),
       );
