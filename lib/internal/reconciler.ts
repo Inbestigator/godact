@@ -1,4 +1,4 @@
-// @ts-types="npm:@types/react-reconciler"
+// @ts-types="npm:@types/react-reconciler@^0.28.9"
 import ReactReconciler, { type HostConfig } from "react-reconciler";
 import { DefaultEventPriority } from "react-reconciler/constants.js";
 import { isNode, type Node } from "./node.ts";
