@@ -74,7 +74,7 @@ export default {
       type: "Custom",
 
       value:
-        'script.internal.push({ text: `[sub_resource type="SpriteFrames" id="${resourceIds[0]}"]`, props: addCommonProps({ ...(props.sprite_frames && { animations: { typeSpecifier: "Verbatim", value: `[${props.sprite_frames.props.map((animation) => { const ids = animation.frames.map(() => createId()); animation.frames.forEach((frame, i) => { script.external.push({ text: `[ext_resource type="Texture2D" path="${frame.texture.props.path}" id="${ids[i]}"]`, }); }); return `{"frames":[${animation.frames.map((frame, i) => (`{"duration":${frame.duration},"texture":ExtResource("${ids[i]}")}`)).join(",")}],"loop":${animation.loop},"name":"${animation.name}","speed":${animation.speed}}`; }).join(",")}]`, }, }), }, script), });',
+        'script.internal.push({ text: `[sub_resource type="SpriteFrames" id="${{ID}}"]`, props: addCommonProps({ ...(props.sprite_frames && { animations: { typeSpecifier: "Verbatim", value: `[${props.sprite_frames.props.map((animation) => { const ids = animation.frames.map(() => createId()); animation.frames.forEach((frame, i) => { script.external.push({ text: `[ext_resource type="Texture2D" path="${frame.texture.props.path}" id="${ids[i]}"]`, }); }); return `{"frames":[${animation.frames.map((frame, i) => (`{"duration":${frame.duration},"texture":ExtResource("${ids[i]}")}`)).join(",")}],"loop":${animation.loop},"name":"${animation.name}","speed":${animation.speed}}`; }).join(",")}]`, }, }), }, script), });',
     },
   },
 } as ComponentDefinition;

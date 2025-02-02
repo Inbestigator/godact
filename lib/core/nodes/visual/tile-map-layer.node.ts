@@ -72,7 +72,7 @@ export default {
       type: "Custom",
 
       value:
-        'script.external.push({text:`[ext_resource type="TileSet" path="${props.tile_set.props.path}" id="${resourceIds[0]}"]`,});',
+        'script.external.push({text:`[ext_resource type="TileSet" path="${props.tile_set.props.path}" id="${{ID}}"]`,});',
     },
   },
 } as ComponentDefinition;

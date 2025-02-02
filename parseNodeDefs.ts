@@ -76,6 +76,18 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     ),
   );
 
+  const mappedKeys: Record<string, number> = {};
+  let index = 0;
+
+  Object.keys(resources).forEach((key) => {
+    mappedKeys[key] = index++;
+  });
+
+  Object.keys(specialProps).forEach((key) => {
+    if (mappedKeys[key] !== undefined) return;
+    mappedKeys[key] = index++;
+  });
+
   return `import type { ReactNode } from "types/react";
   import { GodotNode } from "${"../".repeat(deep)}internal/element.ts";
   import { createNode, type Node } from "${"../".repeat(deep)}internal/node.ts";
@@ -135,15 +147,21 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
             ...props,
             ${
     Object.entries(specialProps)
-      .map(([key, value], i) => {
+      .map(([key, value]) => {
         if (value.type === "SubResource") {
-          return `...(props.${key} && { ${key}: { typeSpecifier: "SubResource", value: \`"\${resourceIds[${i}]}"\`} })`;
+          return `...(props.${key} && { ${key}: { typeSpecifier: "SubResource", value: \`"\${resourceIds[${
+            mappedKeys[key]
+          }]}"\`} })`;
         }
         if (value.type === "ExtResource") {
-          return `...(props.${key} && { ${key}: { typeSpecifier: "ExtResource", value: \`"\${resourceIds[${i}]}"\`} })`;
+          return `...(props.${key} && { ${key}: { typeSpecifier: "ExtResource", value: \`"\${resourceIds[${
+            mappedKeys[key]
+          }]}"\`} })`;
         }
         if (value.type === "Custom" && value.value) {
-          return `...(props.${key} && { ${value.value}})`;
+          return `...(props.${key} && { ${
+            value.value.replaceAll("{ID}", `resourceIds[${mappedKeys[key]}]`)
+          } })`;
         }
         throw new Error("Unknown resource type");
       })
@@ -155,15 +173,21 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
 
         ${
     Object.entries(resources)
-      .map(([key, value], i) => {
+      .map(([key, value]) => {
         if (value.type === "SubResource") {
-          return `if (props.${key}) {script.internal.push({ text: \`[sub_resource type="\${props.${key}.type}" id="\${resourceIds[${i}]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
+          return `if (props.${key}) {script.internal.push({ text: \`[sub_resource type="\${props.${key}.type}" id="\${resourceIds[${
+            mappedKeys[key]
+          }]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
         }
         if (value.type === "ExtResource") {
-          return `if (props.${key}) {script.external.push({ text: \`[ext_resource type="\${props.${key}.type}" id="\${resourceIds[${i}]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
+          return `if (props.${key}) {script.external.push({ text: \`[ext_resource type="\${props.${key}.type}" id="\${resourceIds[${
+            mappedKeys[key]
+          }]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
         }
         if (value.type === "Custom" && value.value) {
-          return `if (props.${key}) {${value.value}};`;
+          return `if (props.${key}) {${
+            value.value.replaceAll("{ID}", `resourceIds[${mappedKeys[key]}]`)
+          }};`;
         }
         throw new Error("Unknown resource type");
       })

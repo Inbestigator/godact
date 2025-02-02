@@ -115,19 +115,21 @@ Component status:
 - 4: Ready
 - 5: Exported and available in lib
 
-| Node             | Category | Component status | Props todo    |
-| ---------------- | -------- | ---------------- | ------------- |
-| Node             | Base     | N/A              | `multiplayer` |
-| CanvasItem       | Base     | N/A              |               |
-| Node2D           | Org      | 5                |               |
-| TileMapLayer     | Visual   | 5                |               |
-| Sprite2D         | Visual   | 5                |               |
-| Line2D           | Visual   | 5                |               |
-| AnimatedSprite2D | Visual   | 5                |               |
-| Camera2D         | Visual   | 5                |               |
-| CollisionShape2D | Physics  | 5                |               |
-| CharacterBody2D  | Physics  | 5                |               |
-| RigidBody2D      | Physics  | 5                |               |
-| StaticBody2D     | Physics  | 5                |               |
-| AnimatableBody2D | Physics  | 5                |               |
-| Area2D           | Physics  | 5                |               |
+| Node             | Category  | Component status | Props todo                                     |
+| ---------------- | --------- | ---------------- | ---------------------------------------------- |
+| Node             | Base      | N/A              | `multiplayer`                                  |
+| CanvasItem       | Base      | N/A              |                                                |
+| Node2D           | Primitive | 5                |                                                |
+| Control          | Primitive | 5                | `size_flags_horizontal`, `size_flags_vertical` |
+| TileMapLayer     | Visual    | 5                |                                                |
+| Sprite2D         | Visual    | 5                |                                                |
+| Line2D           | Visual    | 5                |                                                |
+| AnimatedSprite2D | Visual    | 5                |                                                |
+| Camera2D         | Visual    | 5                |                                                |
+| CollisionShape2D | Physics   | 5                |                                                |
+| CharacterBody2D  | Physics   | 5                |                                                |
+| RigidBody2D      | Physics   | 5                |                                                |
+| StaticBody2D     | Physics   | 5                |                                                |
+| AnimatableBody2D | Physics   | 5                |                                                |
+| Area2D           | Physics   | 5                |                                                |
+| PhysicalBone2D   | Physics   | 5                |                                                |
