@@ -3,8 +3,8 @@
 Convert React components to Godot scenes and transpile Typescript/Javascript
 code to GDScript.
 
-Hypothetically, you can now make a game without touching the Godot editor, other
-than to run it.
+You can now make an entire Godot game without touching the Godot editor, other
+than to run it! https://github.com/Inbestigator/flappy-bird
 
 Due to the sheer number of Godot nodes (>200)
 
