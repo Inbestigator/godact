@@ -6,15 +6,11 @@ const Godot: any = null;
 let processCount = 0;
 let currentIndex = 1;
 
-export function _ready() {
-  setVisible(currentIndex);
-}
-
 export function _process(delta: number) {
   processCount += 1;
   Godot.rotation += delta / 5;
   if (
-    processCount >= 10 && currentIndex < Godot.get_child(1).get_child_count()
+    processCount >= 4 && currentIndex < Godot.get_child(1).get_child_count()
   ) {
     processCount = 0;
     setVisible(currentIndex);

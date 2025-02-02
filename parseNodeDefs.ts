@@ -70,8 +70,7 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     ),
   );
 
-  return `// @ts-types="@types/react"
-  import React, { type ReactNode } from "react";
+  return `import type { ReactNode } from "types/react";
   import { GodotNode } from "${"../".repeat(deep)}internal/element.ts";
   import { createNode, type Node } from "${"../".repeat(deep)}internal/node.ts";
   import {
@@ -87,8 +86,6 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     createId,
   } from "${"../".repeat(deep)}internal/helpers.ts";
   import type {${propImports.join(",\n")}} from "@inbestigator/godact";
-  
-  React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
   
   /**
    * Props for a ${name}

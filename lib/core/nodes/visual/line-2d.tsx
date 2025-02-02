@@ -1,5 +1,4 @@
-// @ts-types="@types/react"
-import React, { type ReactNode } from "react";
+import type { ReactNode } from "types/react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import {
@@ -15,8 +14,6 @@ import type {
   PackedArrayType,
   Vector2Type,
 } from "@inbestigator/godact";
-
-React.version; // Purely linter fix, remove once import React doesn't cause no-unused-vars and verbatim-module-syntax
 
 /**
  * Props for a Line2D

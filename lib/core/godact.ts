@@ -1,7 +1,7 @@
-// @ts-types="@types/react"
-import type { ReactNode } from "react";
+import type { ReactNode } from "types/react";
 import { reconciler } from "../internal/reconciler.ts";
 import { createRenderer } from "../internal/renderers/renderer.ts";
+import fs from "node:fs";
 
 /**
  * Create a Godot scene from a React component.
@@ -31,9 +31,9 @@ export function createGodactScene(component: ReactNode, out: string) {
   if (root !== null) {
     reconciler.updateContainer(component, root, null);
 
-    Deno.mkdirSync(out.split("/").slice(0, -1).join("/"), { recursive: true });
+    fs.mkdirSync(out.split("/").slice(0, -1).join("/"), { recursive: true });
 
-    Deno.writeTextFileSync(
+    fs.writeFileSync(
       out,
       container.compileScript(),
     );
