@@ -5,56 +5,20 @@ export default {
   name: "Sprite2D",
   extends: "Node2DProps",
   inherits: node2dNode,
-  props: [
-    {
-      name: "centered",
-      type: "boolean",
-    },
-    {
-      name: "flip_h",
-      type: "boolean",
-    },
-    {
-      name: "flip_v",
-      type: "boolean",
-    },
-    {
-      name: "frame",
-      type: "number",
-    },
-    {
-      name: "frame_coords",
-      type: "Vector2Type",
-    },
-    {
-      name: "hframes",
-      type: "number",
-    },
-    {
-      name: "offset",
-      type: "Vector2Type",
-    },
-    {
-      name: "region_enabled",
-      type: "boolean",
-    },
-    {
-      name: "region_filter_clip_enabled",
-      type: "boolean",
-    },
-    {
-      name: "region_rect",
-      type: "Rect2Type",
-    },
-    {
-      name: "texture",
-      type: "Texture2D",
-    },
-    {
-      name: "vframes",
-      type: "number",
-    },
-  ],
+  props: {
+    centered: "boolean",
+    flip_h: "boolean",
+    flip_v: "boolean",
+    frame: "number",
+    frame_coords: "Vector2Type",
+    hframes: "number",
+    offset: "Vector2Type",
+    region_enabled: "boolean",
+    region_filter_clip_enabled: "boolean",
+    region_rect: "Rect2Type",
+    texture: "Texture2D",
+    vframes: "number",
+  },
   category: "Visual",
   docs: [
     "General-purpose sprite node.",

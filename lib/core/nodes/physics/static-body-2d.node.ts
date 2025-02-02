@@ -3,20 +3,11 @@ import type { ComponentDefinition } from "../../../../parseNodeDefs.ts";
 export default {
   name: "StaticBody2D",
   extends: "PhysicsBody2DProps",
-  props: [
-    {
-      name: "constant_angular_velocity",
-      type: "number",
-    },
-    {
-      name: "constant_linear_velocity",
-      type: "Vector2Type",
-    },
-    {
-      name: "physics_material_override",
-      type: "PhysicsMaterial",
-    },
-  ],
+  props: {
+    constant_angular_velocity: "number",
+    constant_linear_velocity: "Vector2Type",
+    physics_material_override: "PhysicsMaterial",
+  },
   category: "PhysicsBody2D",
   docs: [
     "A 2D physics body that can't be moved by external forces. When moved manually, it doesn't affect other bodies in its path.",

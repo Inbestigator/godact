@@ -5,48 +5,18 @@ export default {
   name: "AnimatedSprite2D",
   extends: "Node2DProps",
   inherits: node2dNode,
-  props: [
-    {
-      name: "animation",
-      type: "string",
-    },
-    {
-      name: "autoplay",
-      type: "string",
-    },
-    {
-      name: "centered",
-      type: "boolean",
-    },
-    {
-      name: "flip_h",
-      type: "boolean",
-    },
-    {
-      name: "flip_v",
-      type: "boolean",
-    },
-    {
-      name: "frame",
-      type: "number",
-    },
-    {
-      name: "frame_progress",
-      type: "number",
-    },
-    {
-      name: "offset",
-      type: "Vector2Type",
-    },
-    {
-      name: "speed_scale",
-      type: "number",
-    },
-    {
-      name: "sprite_frames",
-      type: "SpriteFrames",
-    },
-  ],
+  props: {
+    animation: "string",
+    autoplay: "string",
+    centered: "boolean",
+    flip_h: "boolean",
+    flip_v: "boolean",
+    frame: "number",
+    frame_progress: "number",
+    offset: "Vector2Type",
+    speed_scale: "number",
+    sprite_frames: "SpriteFrames",
+  },
   category: "Visual",
   docs: [
     "Sprite node that contains multiple textures as frames to play for animation.",
