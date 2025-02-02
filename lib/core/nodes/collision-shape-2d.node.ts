@@ -10,7 +10,7 @@ export default {
     disabled: "boolean",
     one_way_collision: "boolean",
     one_way_collision_margin: "number",
-    shape: { type: "Shape2DTypes", required: true },
+    shape: "Shape2DTypes!",
   },
   category: "Node2D",
   docs: [

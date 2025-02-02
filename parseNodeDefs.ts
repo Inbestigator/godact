@@ -1,13 +1,8 @@
-type Prop = {
-  type: string;
-  required?: boolean;
-} | string;
-
 export type ComponentDefinition = {
   name: string;
   extends: string;
   inherits?: ComponentDefinition;
-  props: Record<string, Prop>;
+  props: Record<string, string>;
   docs: string[];
   docsHref: string;
   category: string;
@@ -49,11 +44,7 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
   const propsInterface = `${name}Props`;
   const interfaceProps = Object.entries(props)
     .map(([k, v]) =>
-      `${k}${
-        typeof v === "string"
-          ? `?: ${v}`
-          : `${v.required ? "" : "?"}: ${v.type}`
-      };`
+      `${k}${v.endsWith("!") ? `: ${v.slice(0, -1)}` : `?: ${v}`};`
     )
     .join("\n  ");
   const nonImportableProps = [
@@ -64,16 +55,21 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     "true",
     "false",
     "null",
+    "undefined",
+    "any",
+    "void",
+    "never",
+    "unknown",
   ];
   const propImports = Array.from(
     new Set(
-      [...Object.values(props), { type: extendsName, name: "extends" }]
+      [...Object.values(props), extendsName]
         .filter((p) =>
-          !nonImportableProps.includes(typeof p === "string" ? p : p.type) &&
-          !(typeof p === "string" ? p : p.type).includes("|")
+          !nonImportableProps.includes(p.replace("!", "")) &&
+          !p.includes("|")
         )
         .map((p) => {
-          const type = typeof p === "string" ? p : p.type;
+          const type = p.replace("!", "");
           const match = type.match(/(.+)<(.+)>/);
           if (match) {
             return [match[1], match[2]];
