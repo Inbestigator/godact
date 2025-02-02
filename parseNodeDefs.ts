@@ -4,9 +4,10 @@ type Prop = {
   required?: boolean;
 };
 
-type ComponentDefinition = {
+export type ComponentDefinition = {
   name: string;
   extends: string;
+  inherits?: ComponentDefinition;
   props: Prop[];
   docs: string[];
   docsHref: string;
@@ -15,7 +16,6 @@ type ComponentDefinition = {
     string,
     {
       type: "SubResource" | "ExtResource" | "Custom";
-      idIndex: number;
       value?: string;
     }
   >;
@@ -23,13 +23,19 @@ type ComponentDefinition = {
     string,
     {
       type: "SubResource" | "ExtResource" | "Custom";
-      idIndex: number;
       value?: string;
     }
   >;
 };
 
 function generateComponent(def: ComponentDefinition, deep: number): string {
+  if (def.inherits) {
+    def.specialProps = {
+      ...def.inherits.specialProps,
+      ...def.specialProps,
+    };
+    def.resources = { ...def.inherits.resources, ...def.resources };
+  }
   const {
     name,
     props,
@@ -129,12 +135,12 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
             ...props,
             ${
     Object.entries(specialProps)
-      .map(([key, value]) => {
+      .map(([key, value], i) => {
         if (value.type === "SubResource") {
-          return `...(props.${key} && { ${key}: { typeSpecifier: "SubResource", value: \`"\${resourceIds[${value.idIndex}]}"\`} })`;
+          return `...(props.${key} && { ${key}: { typeSpecifier: "SubResource", value: \`"\${resourceIds[${i}]}"\`} })`;
         }
         if (value.type === "ExtResource") {
-          return `...(props.${key} && { ${key}: { typeSpecifier: "ExtResource", value: \`"\${resourceIds[${value.idIndex}]}"\`} })`;
+          return `...(props.${key} && { ${key}: { typeSpecifier: "ExtResource", value: \`"\${resourceIds[${i}]}"\`} })`;
         }
         if (value.type === "Custom" && value.value) {
           return `...(props.${key} && { ${value.value}})`;
@@ -149,12 +155,12 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
 
         ${
     Object.entries(resources)
-      .map(([key, value]) => {
+      .map(([key, value], i) => {
         if (value.type === "SubResource") {
-          return `if (props.${key}) {script.internal.push({ text: \`[sub_resource type="\${props.${key}.type}" id="\${resourceIds[${value.idIndex}]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
+          return `if (props.${key}) {script.internal.push({ text: \`[sub_resource type="\${props.${key}.type}" id="\${resourceIds[${i}]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
         }
         if (value.type === "ExtResource") {
-          return `if (props.${key}) {script.external.push({ text: \`[ext_resource type="\${props.${key}.type}" id="\${resourceIds[${value.idIndex}]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
+          return `if (props.${key}) {script.external.push({ text: \`[ext_resource type="\${props.${key}.type}" id="\${resourceIds[${i}]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
         }
         if (value.type === "Custom" && value.value) {
           return `if (props.${key}) {${value.value}};`;
@@ -185,15 +191,12 @@ function tsxExists(loc: string): boolean {
   }
 }
 
-function generateComponents(dir: string, nodesToUpdate: string[]) {
+async function generateComponents(dir: string, nodesToUpdate: string[]) {
   for (const entry of Deno.readDirSync(dir)) {
     const filePath = `${dir}/${entry.name}`;
 
-    if (entry.isFile && entry.name.endsWith(".node.json")) {
-      const fileContents = Deno.readTextFileSync(filePath);
-      const componentDefinition = JSON.parse(
-        fileContents,
-      ) as ComponentDefinition;
+    if (entry.isFile && entry.name.endsWith(".node.ts")) {
+      const componentDefinition = await import(filePath).then((m) => m.default);
 
       const outputPath = `${dir}/${entry.name.split(".")[0]}.tsx`;
 
@@ -226,10 +229,10 @@ function generateComponents(dir: string, nodesToUpdate: string[]) {
 
       console.log(`Generated ${componentDefinition.name}.tsx in ${dir}`);
     } else if (entry.isDirectory) {
-      generateComponents(filePath, nodesToUpdate);
+      await generateComponents(filePath, nodesToUpdate);
     }
   }
 }
 
 const nodesToUpdate = Deno.args;
-generateComponents("./lib/core/nodes", nodesToUpdate);
+await generateComponents("./lib/core/nodes", nodesToUpdate);
