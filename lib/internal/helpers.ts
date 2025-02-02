@@ -140,7 +140,7 @@ export function transpile(filePath: string): string {
   );
 
   return ts2gd(ast).replace(/"extends (.+)"/, "extends $1").replaceAll(
-    "Godot.",
+    /(?:Godot|Math)\./g,
     "",
   ).replaceAll(/console\.(?:log|warn|error)/g, "print");
 }

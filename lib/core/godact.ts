@@ -1,5 +1,4 @@
-// @ts-types="@types/react"
-import type { ReactNode } from "react";
+import type { ReactNode } from "types/react";
 import { reconciler } from "../internal/reconciler.ts";
 import { createRenderer } from "../internal/renderers/renderer.ts";
 
