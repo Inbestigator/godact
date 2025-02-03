@@ -62,8 +62,8 @@ function createAnimatableBody2DNode(
           ...(props.physics_material_override &&
             {
               physics_material_override: {
-                typeSpecifier: "SubResource",
-                value: `"${resourceIds[0]}"`,
+                type: "SubResource",
+                id: resourceIds[0],
               },
             }),
         },

@@ -64,12 +64,7 @@ function createCollisionShape2DNode(
         props: {
           ...props,
           ...(props.shape &&
-            {
-              shape: {
-                typeSpecifier: "SubResource",
-                value: `"${resourceIds[0]}"`,
-              },
-            }),
+            { shape: { type: "SubResource", id: resourceIds[0] } }),
         },
         script,
       });

@@ -1,4 +1,4 @@
-import type { ScriptSections } from "./renderers/renderer.ts";
+import type { PartProp, ScriptSections } from "./renderers/renderer.ts";
 import { parse } from "acorn";
 import { ts2gd } from "./ts2gd.ts";
 import { buildSync } from "esbuild";
@@ -7,34 +7,12 @@ import crypto from "node:crypto";
 import { stringify } from "flatted";
 import fs from "node:fs";
 
-export function convertCommonTypes(value: unknown) {
-  if (
-    value &&
-    typeof value === "object" &&
-    "typeSpecifier" in value &&
-    typeof value.typeSpecifier === "string" &&
-    "value" in value &&
-    typeof value.value === "string"
-  ) {
-    if (value.typeSpecifier === "Verbatim") {
-      return value.value;
-    }
-    return `${value.typeSpecifier}(${value.value})`;
-  }
-
-  if (typeof value === "string") {
-    return `"${value}"`;
-  }
-
-  return value;
-}
-
 export function addCommonProps(
-  props: Record<string, unknown>,
+  props: Record<string, PartProp>,
   script: ScriptSections,
-) {
-  if (props.script) {
-    const origin = props.script as string;
+): Record<string, PartProp> {
+  if (props.script && typeof props.script === "string") {
+    const origin = props.script;
     if (origin.endsWith(".ts") || origin.endsWith(".js")) {
       const out = join(
         (script.out ?? "").split("/").slice(0, -1).join("/"),
@@ -50,25 +28,25 @@ export function addCommonProps(
         transpile(origin),
       );
 
-      props.script = `res://${origin.replace(/\.(?:ts|js)/, ".gd")}`;
+      const scriptId = createId(props);
+
+      script.external.push({
+        type: "Script",
+        inlineArgs: { path: `res://${origin.replace(/\.(?:ts|js)/, ".gd")}` },
+        id: scriptId,
+      });
+
+      props.script = {
+        type: "ExtResource",
+        id: scriptId,
+      };
     }
-    const scriptId = createId(props);
-
-    script.external.push({
-      type: "Script",
-      inlineArgs: { path: props.script as string },
-      id: scriptId,
-    });
-
-    props.script = {
-      typeSpecifier: "ExtResource",
-      value: `"${scriptId}"`,
-    };
   }
 
-  return Object.entries(props)
-    .filter(([key, _value]) => key !== "children" && key !== "name")
-    .map(([key, value]) => `${key} = ${convertCommonTypes(value)}`);
+  delete props.name;
+  delete props.children;
+
+  return props;
 }
 
 export function addNodeEntry({
@@ -93,7 +71,7 @@ export function addNodeEntry({
   }
   script.nodes.push({
     type,
-    id: "00000000",
+    id: name,
     inlineArgs: parent ? { parent } : {},
     props: addCommonProps(
       {
@@ -101,8 +79,8 @@ export function addNodeEntry({
         ...(props.material
           ? {
             material: {
-              typeSpecifier: "SubResource",
-              value: `"${materialId}"`,
+              type: "SubResource",
+              id: materialId,
             },
           }
           : {}),

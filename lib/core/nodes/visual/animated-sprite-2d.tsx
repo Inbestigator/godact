@@ -75,32 +75,27 @@ function createAnimatedSprite2DNode(
         props: {
           ...props,
           ...(props.sprite_frames &&
-            {
-              sprite_frames: {
-                typeSpecifier: "SubResource",
-                value: `"${resourceIds[0]}"`,
-              },
-            }),
+            { sprite_frames: { type: "SubResource", id: resourceIds[0] } }),
         },
         script,
       });
 
       if (props.sprite_frames) {
         script.internal.push({
-          text: `[sub_resource type="SpriteFrames" id="${resourceIds[0]}"]`,
+          type: "SpriteFrames",
+          id: resourceIds[0],
           props: addCommonProps({
             ...(props.sprite_frames && {
               animations: {
-                typeSpecifier: "Verbatim",
+                type: "Verbatim",
                 value: `[${
                   props.sprite_frames.props.map((animation) => {
                     const ids = animation.frames.map(() => createId());
                     animation.frames.forEach((frame, i) => {
                       script.external.push({
-                        text:
-                          `[ext_resource type="Texture2D" path="${frame.texture.props.path}" id="${
-                            ids[i]
-                          }"]`,
+                        type: "Texture2D",
+                        id: ids[i],
+                        inlineArgs: { path: frame.texture.props.path },
                       });
                     });
                     return `{"frames":[${

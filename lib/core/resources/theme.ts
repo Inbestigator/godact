@@ -5,7 +5,7 @@
  */
 export interface Theme {
   type: "Theme";
-  props: ThemeProps[];
+  props: ThemeProps;
 }
 
 /**
@@ -30,7 +30,7 @@ export interface ThemeProps {
  * @category Visual
  * @see https://docs.godotengine.org/en/stable/classes/class_theme.html
  */
-export function createTheme(props: ThemeProps[]): Theme {
+export function createTheme(props: ThemeProps): Theme {
   return {
     type: "Theme",
     props,

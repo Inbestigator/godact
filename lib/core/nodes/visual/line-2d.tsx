@@ -69,19 +69,9 @@ function createLine2DNode(props: Line2DProps): Node<Line2DProps> {
         props: {
           ...props,
           ...(props.gradient &&
-            {
-              gradient: {
-                typeSpecifier: "SubResource",
-                value: `"${resourceIds[0]}"`,
-              },
-            }),
+            { gradient: { type: "SubResource", id: resourceIds[0] } }),
           ...(props.width_curve &&
-            {
-              width_curve: {
-                typeSpecifier: "SubResource",
-                value: `"${resourceIds[1]}"`,
-              },
-            }),
+            { width_curve: { type: "SubResource", id: resourceIds[1] } }),
         },
         script,
       });

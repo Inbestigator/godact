@@ -67,22 +67,16 @@ function createTileMapLayerNode(
         props: {
           ...props,
           ...(props.tile_set &&
-            {
-              tile_set: {
-                typeSpecifier: "ExtResource",
-                value: `"${resourceIds[0]}"`,
-              },
-            }),
+            { tile_set: { type: "ExtResource", id: resourceIds[0] } }),
         },
         script,
       });
 
       if (props.tile_set) {
         script.external.push({
-          text:
-            `[ext_resource type="TileSet" path="${props.tile_set.props.path}" id="${
-              resourceIds[0]
-            }"]`,
+          type: "TileSet",
+          id: "{resourceIds[0]}",
+          inlineArgs: { path: props.tile_set.props.path },
         });
       }
 

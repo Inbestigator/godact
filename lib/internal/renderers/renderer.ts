@@ -7,15 +7,39 @@ export interface Renderer {
   compileScript: () => string;
 }
 
-interface ScriptPart {
+export interface ScriptPart {
   type: string;
   id: string;
   inlineArgs?: Record<string, string>;
-  props?: string[];
+  props?: Record<string, PartProp>;
 }
 
-interface PartProp {
+export interface ReturnProps {
+  type: string;
+  props: Record<string, PartProp>;
 }
+
+export type PartProp =
+  | {
+    type: "SubResource";
+    id: string;
+  }
+  | {
+    type: "ExtResource";
+    id: string;
+  }
+  | {
+    type: "Wrapped";
+    value: string;
+    wrapper: string;
+  }
+  | {
+    type: "Verbatim";
+    value: string;
+  }
+  | string
+  | number
+  | boolean;
 
 export type ScriptSections =
   & { out?: string }
@@ -43,38 +67,58 @@ export function createRenderer(out?: string): Renderer {
     }
   }
 
-  function inlineArgs(args: Record<string, string>) {
-    return Object.entries(args).map(([key, value]) => `${key}="${value}"`).join(
-      " ",
-    );
+  function addSection(section: keyof ScriptSections, part: ScriptPart[]) {
+    let text = "\n";
+    const entryType = section === "external"
+      ? "ext_resource"
+      : section === "internal"
+      ? "sub_resource"
+      : section === "nodes"
+      ? "node"
+      : "connection";
+    part.forEach((entry) => {
+      text += `[${entryType} type="${entry.type}" ${
+        section === "nodes" ? "name" : "id"
+      }="${entry.id}"${
+        Object.entries(entry.inlineArgs ?? {}).map(([key, value]) =>
+          ` ${key}="${value}"`
+        ).join("")
+      }]\n`;
+      text += entry.props
+        ? Object.entries(entry.props).map(([key, prop]) => {
+          if (
+            typeof prop === "string" || typeof prop === "number" ||
+            typeof prop === "boolean"
+          ) {
+            switch (typeof prop) {
+              case "string":
+                return `${key} = "${prop}"`;
+              case "number":
+              case "boolean":
+                return `${key} = ${prop}`;
+            }
+          }
+          switch (prop.type) {
+            case "SubResource":
+              return `${key} = SubResource("${prop.id}")`;
+            case "ExtResource":
+              return `${key} = ExtResource("${prop.id}")`;
+            case "Wrapped":
+              return `${key} = ${prop.wrapper}(${prop.value})`;
+          }
+        }).join("\n") + "\n"
+        : "";
+    });
+    return text;
   }
 
   function compileScript() {
     let text = "[gd_scene format=3]\n";
-    parts.external.forEach((entry) => {
-      text += `[ext_resource type="${entry.type}" ${
-        entry.inlineArgs ? inlineArgs(entry.inlineArgs) : ""
-      } id="${entry.id}"]\n`;
-      text += entry.props ? entry.props.join("\n") : "";
-    });
-    parts.internal.forEach((entry) => {
-      text += `[sub_resource type="${entry.type}" ${
-        entry.inlineArgs ? inlineArgs(entry.inlineArgs) : ""
-      } id="${entry.id}"]\n`;
-      text += entry.props ? entry.props.join("\n") : "";
-    });
+    text += addSection("external", parts.external);
+    text += addSection("internal", parts.internal);
+    text += addSection("nodes", parts.nodes);
+    text += addSection("connections", parts.connections);
     return text;
-    // return Object.values(parts)
-    //   .filter(Array.isArray)
-    //   .map((part: ScriptLine[]) =>
-    //     part
-    //       .map(
-    //         (entry) =>
-    //           entry.text + (entry.props ? "\n" + entry.props.join("\n") : ""),
-    //       )
-    //       .join("\n")
-    //   )
-    //   .join("\n");
   }
 
   return {

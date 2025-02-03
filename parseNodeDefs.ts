@@ -152,14 +152,14 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     Object.entries(specialProps)
       .map(([key, value]) => {
         if (value.type === "SubResource") {
-          return `...(props.${key} && { ${key}: { typeSpecifier: "SubResource", value: \`"\${resourceIds[${
+          return `...(props.${key} && { ${key}: { type: "SubResource", id: resourceIds[${
             mappedKeys[key]
-          }]}"\`} })`;
+          }]} })`;
         }
         if (value.type === "ExtResource") {
-          return `...(props.${key} && { ${key}: { typeSpecifier: "ExtResource", value: \`"\${resourceIds[${
+          return `...(props.${key} && { ${key}: { type: "ExtResource", id: resourceIds[${
             mappedKeys[key]
-          }]}"\`} })`;
+          }]} })`;
         }
         if (value.type === "Custom" && value.value) {
           return `...(props.${key} && { ${

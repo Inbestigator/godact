@@ -111,12 +111,7 @@ function createControlNode(props: ControlProps): Node<ControlProps> {
         props: {
           ...props,
           ...(props.theme &&
-            {
-              theme: {
-                typeSpecifier: "ExtResource",
-                value: `"${resourceIds[0]}"`,
-              },
-            }),
+            { theme: { type: "ExtResource", id: resourceIds[0] } }),
         },
         script,
       });

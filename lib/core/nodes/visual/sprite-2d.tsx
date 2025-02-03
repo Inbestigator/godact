@@ -65,12 +65,7 @@ function createSprite2DNode(props: Sprite2DProps): Node<Sprite2DProps> {
         props: {
           ...props,
           ...(props.texture &&
-            {
-              texture: {
-                typeSpecifier: "ExtResource",
-                value: `"${resourceIds[0]}"`,
-              },
-            }),
+            { texture: { type: "ExtResource", id: resourceIds[0] } }),
         },
         script,
       });
