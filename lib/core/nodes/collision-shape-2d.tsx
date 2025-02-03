@@ -76,9 +76,8 @@ function createCollisionShape2DNode(
 
       if (props.shape) {
         script.internal.push({
-          text: `[sub_resource type="${props.shape.type}" id="${
-            resourceIds[0]
-          }"]`,
+          type: props.shape.type,
+          id: resourceIds[0],
           props: addCommonProps({ ...props.shape.props }, script),
         });
       }

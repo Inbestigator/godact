@@ -178,14 +178,14 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     Object.entries(resources)
       .map(([key, value]) => {
         if (value.type === "SubResource") {
-          return `if (props.${key}) {script.internal.push({ text: \`[sub_resource type="\${props.${key}.type}" id="\${resourceIds[${
+          return `if (props.${key}) {script.internal.push({ type: props.${key}.type, id: resourceIds[${
             mappedKeys[key]
-          }]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
+          }], props: addCommonProps({ ...props.${key}.props }, script) });}`;
         }
         if (value.type === "ExtResource") {
-          return `if (props.${key}) {script.external.push({ text: \`[ext_resource type="\${props.${key}.type}" id="\${resourceIds[${
+          return `if (props.${key}) {script.external.push({ type: props.${key}.type, id: resourceIds[${
             mappedKeys[key]
-          }]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
+          }], props: addCommonProps({ ...props.${key}.props }, script) });}`;
         }
         if (value.type === "Custom" && value.value) {
           return `if (props.${key}) {${

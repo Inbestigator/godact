@@ -88,17 +88,15 @@ function createLine2DNode(props: Line2DProps): Node<Line2DProps> {
 
       if (props.gradient) {
         script.internal.push({
-          text: `[sub_resource type="${props.gradient.type}" id="${
-            resourceIds[0]
-          }"]`,
+          type: props.gradient.type,
+          id: resourceIds[0],
           props: addCommonProps({ ...props.gradient.props }, script),
         });
       }
       if (props.width_curve) {
         script.internal.push({
-          text: `[sub_resource type="${props.width_curve.type}" id="${
-            resourceIds[1]
-          }"]`,
+          type: props.width_curve.type,
+          id: resourceIds[1],
           props: addCommonProps({ ...props.width_curve.props }, script),
         });
       }

@@ -1,11 +1,11 @@
 import { type Container, createContainer } from "./container.ts";
-import type { ScriptParts } from "./renderers/renderer.ts";
+import type { ScriptSections } from "./renderers/renderer.ts";
 
 export interface Node<Props> {
   props: Props;
   children: Container<Node<unknown>>;
   text: () => string;
-  insertMe: (script: ScriptParts, parent?: string) => void;
+  insertMe: (script: ScriptSections, parent?: string) => void;
 }
 
 export function createNode<Props>(props: Props): Node<Props> {
@@ -13,9 +13,7 @@ export function createNode<Props>(props: Props): Node<Props> {
 
   function text(): string {
     return [...children]
-      .map(function (child) {
-        return child.text();
-      })
+      .map((c) => c.text())
       .join("");
   }
 
@@ -23,7 +21,7 @@ export function createNode<Props>(props: Props): Node<Props> {
     props,
     children,
     text,
-    insertMe(_script) {},
+    insertMe() {},
   };
 }
 

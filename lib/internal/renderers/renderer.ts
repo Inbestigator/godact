@@ -7,15 +7,24 @@ export interface Renderer {
   compileScript: () => string;
 }
 
-export type ScriptParts =
+interface ScriptPart {
+  type: string;
+  id: string;
+  inlineArgs?: Record<string, string>;
+  props?: string[];
+}
+
+interface PartProp {
+}
+
+export type ScriptSections =
   & { out?: string }
   & Record<
-    "descriptor" | "external" | "internal" | "nodes" | "connections",
-    { text: string; props?: string[] }[]
+    "external" | "internal" | "nodes" | "connections",
+    ScriptPart[]
   >;
 
-const defaultParts: ScriptParts = {
-  descriptor: [{ text: `[gd_scene format=3]` }],
+const defaultParts: ScriptSections = {
   external: [],
   internal: [],
   nodes: [],
@@ -34,18 +43,38 @@ export function createRenderer(out?: string): Renderer {
     }
   }
 
+  function inlineArgs(args: Record<string, string>) {
+    return Object.entries(args).map(([key, value]) => `${key}="${value}"`).join(
+      " ",
+    );
+  }
+
   function compileScript() {
-    return Object.values(parts)
-      .filter(Array.isArray)
-      .map((part) =>
-        part
-          .map(
-            (entry) =>
-              entry.text + (entry.props ? "\n" + entry.props.join("\n") : ""),
-          )
-          .join("\n")
-      )
-      .join("\n");
+    let text = "[gd_scene format=3]\n";
+    parts.external.forEach((entry) => {
+      text += `[ext_resource type="${entry.type}" ${
+        entry.inlineArgs ? inlineArgs(entry.inlineArgs) : ""
+      } id="${entry.id}"]\n`;
+      text += entry.props ? entry.props.join("\n") : "";
+    });
+    parts.internal.forEach((entry) => {
+      text += `[sub_resource type="${entry.type}" ${
+        entry.inlineArgs ? inlineArgs(entry.inlineArgs) : ""
+      } id="${entry.id}"]\n`;
+      text += entry.props ? entry.props.join("\n") : "";
+    });
+    return text;
+    // return Object.values(parts)
+    //   .filter(Array.isArray)
+    //   .map((part: ScriptLine[]) =>
+    //     part
+    //       .map(
+    //         (entry) =>
+    //           entry.text + (entry.props ? "\n" + entry.props.join("\n") : ""),
+    //       )
+    //       .join("\n")
+    //   )
+    //   .join("\n");
   }
 
   return {

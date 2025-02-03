@@ -71,10 +71,8 @@ function createPhysicalBone2DNode(
 
       if (props.physics_material_override) {
         script.internal.push({
-          text:
-            `[sub_resource type="${props.physics_material_override.type}" id="${
-              resourceIds[0]
-            }"]`,
+          type: props.physics_material_override.type,
+          id: resourceIds[0],
           props: addCommonProps(
             { ...props.physics_material_override.props },
             script,

@@ -123,9 +123,8 @@ function createControlNode(props: ControlProps): Node<ControlProps> {
 
       if (props.theme) {
         script.external.push({
-          text: `[ext_resource type="${props.theme.type}" id="${
-            resourceIds[0]
-          }"]`,
+          type: props.theme.type,
+          id: resourceIds[0],
           props: addCommonProps({ ...props.theme.props }, script),
         });
       }

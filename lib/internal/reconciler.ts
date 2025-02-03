@@ -52,58 +52,30 @@ const config: HostConfig<
   detachDeletedInstance: (_instance) => {},
   beforeActiveInstanceBlur: () => {},
   afterActiveInstanceBlur: () => {},
-  getInstanceFromNode: (_node: unknown) => null,
-  getInstanceFromScope: (_scopeInstance: unknown) => null,
-
+  getInstanceFromNode: () => null,
+  getInstanceFromScope: () => null,
   clearContainer: (renderer) => {
     renderer.nodes.clear();
   },
   appendChildToContainer: (renderer, child) => {
     renderer.nodes.add(child);
   },
-  removeChildFromContainer: (renderer, child) => {
-    renderer.nodes.remove(child);
-  },
-  insertInContainerBefore: (renderer, child, before) => {
-    renderer.nodes.addBefore(child, before);
-  },
-
   appendInitialChild: (parent, child) => {
     parent.children.add(child);
   },
-  appendChild: (parent, child) => {
-    parent.children.add(child);
-  },
-  removeChild: (parent, child) => {
-    parent.children.remove(child);
-  },
-  insertBefore: (parent, child, before) => {
-    parent.children.addBefore(child, before);
-  },
-
   prepareUpdate: () => true,
-  commitUpdate: (node, _payload, _type, _oldProps, newProps) => {
-    node.props = newProps.props;
-  },
-  commitTextUpdate: (node, _oldText, newText) => {
-    node.props = newText;
-  },
-
   prepareForCommit: () => null,
   resetAfterCommit: (renderer) => {
     renderer.render();
   },
-  prepareScopeUpdate: (_scopeInstance: unknown, _instance: unknown) => {},
-
+  prepareScopeUpdate: () => {},
   preparePortalMount: () => {
     throw new Error("Portals are not supported");
   },
   getPublicInstance: () => {
     throw new Error("Refs are currently not supported");
   },
-
   finalizeInitialChildren: () => false,
-
   getCurrentEventPriority: () => DefaultEventPriority,
 };
 

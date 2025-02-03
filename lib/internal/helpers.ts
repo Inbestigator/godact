@@ -1,4 +1,4 @@
-import type { ScriptParts } from "./renderers/renderer.ts";
+import type { ScriptSections } from "./renderers/renderer.ts";
 import { parse } from "acorn";
 import { ts2gd } from "./ts2gd.ts";
 import { buildSync } from "esbuild";
@@ -31,7 +31,7 @@ export function convertCommonTypes(value: unknown) {
 
 export function addCommonProps(
   props: Record<string, unknown>,
-  script: ScriptParts,
+  script: ScriptSections,
 ) {
   if (props.script) {
     const origin = props.script as string;
@@ -55,8 +55,9 @@ export function addCommonProps(
     const scriptId = createId(props);
 
     script.external.push({
-      text:
-        `[ext_resource type="Script" path="${props.script}" id="${scriptId}"]`,
+      type: "Script",
+      inlineArgs: { path: props.script as string },
+      id: scriptId,
     });
 
     props.script = {
@@ -81,18 +82,19 @@ export function addNodeEntry({
   name: string;
   parent?: string;
   props: Record<string, unknown>;
-  script: ScriptParts;
+  script: ScriptSections;
 }) {
   const materialId = createId(props);
   if (props.material) {
     script.internal.push({
-      text: `[sub_resource type="Material" id="${materialId}"]`,
+      type: "Material",
+      id: materialId,
     });
   }
   script.nodes.push({
-    text: `[node name="${name}" type="${type}"${
-      parent ? ` parent="${parent}"` : ""
-    }]`,
+    type,
+    id: "00000000",
+    inlineArgs: parent ? { parent } : {},
     props: addCommonProps(
       {
         ...props,

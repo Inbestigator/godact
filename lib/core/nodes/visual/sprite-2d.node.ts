@@ -42,7 +42,7 @@ export default {
       type: "Custom",
 
       value:
-        'script.external.push({text:`[ext_resource type="Texture2D" path="${props.texture.props.path}" id="${{ID}}"]`,});',
+        'script.external.push({type: "Texture2D", inlineArgs: {path: props.texture.props.path}, id: {ID}});',
     },
   },
 } as ComponentDefinition;
