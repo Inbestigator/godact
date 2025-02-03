@@ -78,12 +78,12 @@ function Floor() {
 
 export const expectedSimpleScene = `[gd_scene format=3]
 
-[ext_resource type="Texture2D" id="00000000" path="res://icon.svg"]
-[ext_resource type="Texture2D" id="00000000" path="res://icon.svg"]
+[ext_resource type="Texture2D" id="139c80fb" path="res://icon.svg"]
 
-[sub_resource type="RectangleShape2D" id="00000000"]
+
+[sub_resource type="RectangleShape2D" id="abac4573"]
 size = Vector2(128, 128)
-[sub_resource type="RectangleShape2D" id="00000000"]
+[sub_resource type="RectangleShape2D" id="7b68d7e2"]
 size = Vector2(64, 64)
 
 [node type="Node2D" name="SimpleScene"]
@@ -91,16 +91,16 @@ size = Vector2(64, 64)
 [node type="CharacterBody2D" name="Player" parent="."]
 position = Vector2(64, 64)
 [node type="Sprite2D" name="Sprite2D" parent="./Player"]
-texture = ExtResource("00000000")
+texture = ExtResource("139c80fb")
 [node type="CollisionShape2D" name="CollisionShape2D" parent="./Player"]
-shape = SubResource("00000000")
+shape = SubResource("abac4573")
 [node type="StaticBody2D" name="Floor" parent="."]
 scale = Vector2(18, 1)
 position = Vector2(576, 615)
 [node type="CollisionShape2D" name="CollisionShape2D" parent="./Floor"]
-shape = SubResource("00000000")
+shape = SubResource("7b68d7e2")
 [node type="Sprite2D" name="Sprite2D" parent="./Floor"]
-texture = ExtResource("00000000")
+texture = ExtResource("139c80fb")
 scale = Vector2(0.5, 0.5)
 
 `;
