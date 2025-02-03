@@ -32,18 +32,10 @@ export function addCommonProps(
         transpile(origin),
       );
 
-      const scriptId = createId(props);
-
-      script.external.push({
-        type: "Script",
-        inlineArgs: { path: `res://${origin.replace(/\.(?:ts|js)/, ".gd")}` },
-        id: scriptId,
-      });
-
       props.script = {
-        type: "ExtResource",
-        id: scriptId,
-      };
+        type: "Script",
+        props: { path: `res://${origin.replace(/\.(?:ts|js)/, ".gd")}` },
+      } as unknown as PartProp;
     }
   }
 
