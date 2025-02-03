@@ -32,17 +32,6 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_sprite2d.html",
-  specialProps: {
-    texture: {
-      type: "ExtResource",
-    },
-  },
-  resources: {
-    texture: {
-      type: "Custom",
-
-      value:
-        'script.external.push({text:`[ext_resource type="Texture2D" path="${props.texture.props.path}" id="${{ID}}"]`,});',
-    },
-  },
+  specialProps: {},
+  resources: {},
 } as ComponentDefinition;

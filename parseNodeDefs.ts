@@ -152,14 +152,14 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     Object.entries(specialProps)
       .map(([key, value]) => {
         if (value.type === "SubResource") {
-          return `...(props.${key} && { ${key}: { typeSpecifier: "SubResource", value: \`"\${resourceIds[${
+          return `...(props.${key} && { ${key}: { type: "SubResource", id: resourceIds[${
             mappedKeys[key]
-          }]}"\`} })`;
+          }]} })`;
         }
         if (value.type === "ExtResource") {
-          return `...(props.${key} && { ${key}: { typeSpecifier: "ExtResource", value: \`"\${resourceIds[${
+          return `...(props.${key} && { ${key}: { type: "ExtResource", id: resourceIds[${
             mappedKeys[key]
-          }]}"\`} })`;
+          }]} })`;
         }
         if (value.type === "Custom" && value.value) {
           return `...(props.${key} && { ${
@@ -178,14 +178,14 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     Object.entries(resources)
       .map(([key, value]) => {
         if (value.type === "SubResource") {
-          return `if (props.${key}) {script.internal.push({ text: \`[sub_resource type="\${props.${key}.type}" id="\${resourceIds[${
+          return `if (props.${key}) {script.internal.push({ type: props.${key}.type, id: resourceIds[${
             mappedKeys[key]
-          }]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
+          }], props: addCommonProps({ ...props.${key}.props }, script) });}`;
         }
         if (value.type === "ExtResource") {
-          return `if (props.${key}) {script.external.push({ text: \`[ext_resource type="\${props.${key}.type}" id="\${resourceIds[${
+          return `if (props.${key}) {script.external.push({ type: props.${key}.type, id: resourceIds[${
             mappedKeys[key]
-          }]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
+          }], props: addCommonProps({ ...props.${key}.props }, script) });}`;
         }
         if (value.type === "Custom" && value.value) {
           return `if (props.${key}) {${

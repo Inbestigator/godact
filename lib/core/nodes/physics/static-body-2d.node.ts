@@ -23,14 +23,6 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_staticbody2d.html",
-  specialProps: {
-    physics_material_override: {
-      type: "SubResource",
-    },
-  },
-  resources: {
-    physics_material_override: {
-      type: "SubResource",
-    },
-  },
+  specialProps: {},
+  resources: {},
 } as ComponentDefinition;

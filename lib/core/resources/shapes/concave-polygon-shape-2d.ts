@@ -1,3 +1,4 @@
+import { PackedArray, type PackedArrayType } from "../../types/packed-array.ts";
 import type { Vector2Type } from "../../types/vectors.ts";
 
 /**
@@ -7,7 +8,9 @@ import type { Vector2Type } from "../../types/vectors.ts";
  */
 export interface ConcavePolygonShape2D {
   type: "ConcavePolygonShape2D";
-  props: ConcavePolygonShape2DProps;
+  props: {
+    segments: PackedArrayType<Vector2Type>;
+  };
 }
 
 /**
@@ -37,6 +40,6 @@ export function createConcavePolygonShape2D(
 ): ConcavePolygonShape2D {
   return {
     type: "ConcavePolygonShape2D",
-    props,
+    props: { segments: PackedArray<Vector2Type>(...(props.segments ?? [])) },
   };
 }

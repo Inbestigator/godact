@@ -23,14 +23,6 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_collisionshape2d.html",
-  specialProps: {
-    shape: {
-      type: "SubResource",
-    },
-  },
-  resources: {
-    shape: {
-      type: "SubResource",
-    },
-  },
+  specialProps: {},
+  resources: {},
 } as ComponentDefinition;

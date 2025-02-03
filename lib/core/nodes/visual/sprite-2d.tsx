@@ -52,7 +52,6 @@ export function Sprite2D(props: Sprite2DProps): ReactNode {
 
 function createSprite2DNode(props: Sprite2DProps): Node<Sprite2DProps> {
   const node = createNode<Sprite2DProps>(props);
-  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId(props);
 
   return {
@@ -64,25 +63,9 @@ function createSprite2DNode(props: Sprite2DProps): Node<Sprite2DProps> {
         parent,
         props: {
           ...props,
-          ...(props.texture &&
-            {
-              texture: {
-                typeSpecifier: "ExtResource",
-                value: `"${resourceIds[0]}"`,
-              },
-            }),
         },
         script,
       });
-
-      if (props.texture) {
-        script.external.push({
-          text:
-            `[ext_resource type="Texture2D" path="${props.texture.props.path}" id="${
-              resourceIds[0]
-            }"]`,
-        });
-      }
 
       for (const child of node.children) {
         child.insertMe(script, parent ? `${parent}/${nodeName}` : ".");

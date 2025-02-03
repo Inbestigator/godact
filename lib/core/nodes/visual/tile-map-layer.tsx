@@ -54,7 +54,6 @@ function createTileMapLayerNode(
   props: TileMapLayerProps,
 ): Node<TileMapLayerProps> {
   const node = createNode<TileMapLayerProps>(props);
-  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId(props);
 
   return {
@@ -66,25 +65,9 @@ function createTileMapLayerNode(
         parent,
         props: {
           ...props,
-          ...(props.tile_set &&
-            {
-              tile_set: {
-                typeSpecifier: "ExtResource",
-                value: `"${resourceIds[0]}"`,
-              },
-            }),
         },
         script,
       });
-
-      if (props.tile_set) {
-        script.external.push({
-          text:
-            `[ext_resource type="TileSet" path="${props.tile_set.props.path}" id="${
-              resourceIds[0]
-            }"]`,
-        });
-      }
 
       for (const child of node.children) {
         child.insertMe(script, parent ? `${parent}/${nodeName}` : ".");

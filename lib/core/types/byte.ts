@@ -4,7 +4,8 @@
  * @category Utility
  */
 export interface ByteType {
-  typeSpecifier: "Byte";
+  type: "Wrapped";
+  wrapper: "Byte";
   value: string;
 }
 
@@ -21,7 +22,8 @@ export interface ByteType {
  */
 export function Byte(value: string): ByteType {
   return {
-    typeSpecifier: "Byte",
+    type: "Wrapped",
+    wrapper: "Byte",
     value: `"${value}"`,
   };
 }

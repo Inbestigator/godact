@@ -4,7 +4,8 @@
  * @category Vectors
  */
 export interface Vector2Type {
-  typeSpecifier: "Vector2";
+  type: "Wrapped";
+  wrapper: "Vector2";
   value: string;
   x: number;
   y: number;
@@ -23,7 +24,8 @@ export interface Vector2Type {
  */
 export function Vector2(x: number, y: number): Vector2Type {
   return {
-    typeSpecifier: "Vector2",
+    type: "Wrapped",
+    wrapper: "Vector2",
     value: `${x}, ${y}`,
     x,
     y,
@@ -36,7 +38,8 @@ export function Vector2(x: number, y: number): Vector2Type {
  * @category Vectors
  */
 export interface Vector3Type {
-  typeSpecifier: "Vector3";
+  type: "Wrapped";
+  wrapper: "Vector3";
   value: string;
   x: number;
   y: number;
@@ -56,7 +59,8 @@ export interface Vector3Type {
  */
 export function Vector3(x: number, y: number, z: number): Vector3Type {
   return {
-    typeSpecifier: "Vector3",
+    type: "Wrapped",
+    wrapper: "Vector3",
     value: `${x}, ${y}, ${z}`,
     x,
     y,
@@ -70,7 +74,8 @@ export function Vector3(x: number, y: number, z: number): Vector3Type {
  * @category Vectors
  */
 export interface ColorType {
-  typeSpecifier: "Color";
+  type: "Wrapped";
+  wrapper: "Color";
   value: string;
   r: number;
   g: number;
@@ -96,7 +101,8 @@ export function Color(r: number, g: number, b: number, a: number): ColorType {
   const normalizedA = Math.max(0, Math.min(a / 255, 1));
 
   return {
-    typeSpecifier: "Color",
+    type: "Wrapped",
+    wrapper: "Color",
     value: `${normalizedR}, ${normalizedG}, ${normalizedB}, ${normalizedA}`,
     r: normalizedR,
     g: normalizedG,
@@ -111,7 +117,8 @@ export function Color(r: number, g: number, b: number, a: number): ColorType {
  * @category Vectors
  */
 export interface Rect2Type {
-  typeSpecifier: "Rect2";
+  type: "Wrapped";
+  wrapper: "Rect2";
   value: string;
 }
 
@@ -128,7 +135,8 @@ export interface Rect2Type {
  */
 export function Rect2(r: number, g: number, b: number, a: number): Rect2Type {
   return {
-    typeSpecifier: "Rect2",
+    type: "Wrapped",
+    wrapper: "Rect2",
     value: `${r}, ${g}, ${b}, ${a}`,
   };
 }
@@ -139,8 +147,9 @@ export function Rect2(r: number, g: number, b: number, a: number): Rect2Type {
  * @category Vectors
  */
 export interface Float32Type {
-  typeSpecifier: "Float32";
-  value: string;
+  type: "Wrapped";
+  wrapper: "Float32";
+  value: number;
   n: number;
 }
 
@@ -157,8 +166,9 @@ export interface Float32Type {
  */
 export function Float32(n: number): Float32Type {
   return {
-    typeSpecifier: "Float32",
-    value: `${n}`,
+    type: "Wrapped",
+    wrapper: "Float32",
+    value: n,
     n,
   };
 }

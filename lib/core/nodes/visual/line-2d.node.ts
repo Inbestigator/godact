@@ -29,20 +29,6 @@ export default {
     "```",
   ],
   docsHref: "https://docs.godotengine.org/en/stable/classes/class_line2d.html",
-  specialProps: {
-    gradient: {
-      type: "SubResource",
-    },
-    width_curve: {
-      type: "SubResource",
-    },
-  },
-  resources: {
-    gradient: {
-      type: "SubResource",
-    },
-    width_curve: {
-      type: "SubResource",
-    },
-  },
+  specialProps: {},
+  resources: {},
 } as ComponentDefinition;

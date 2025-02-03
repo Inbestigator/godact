@@ -4,7 +4,8 @@
  * @category Utility
  */
 export interface NodePathType {
-  typeSpecifier: "NodePath";
+  type: "Wrapped";
+  wrapper: "NodePath";
   value: string;
 }
 
@@ -21,7 +22,8 @@ export interface NodePathType {
  */
 export function NodePath(value: string): NodePathType {
   return {
-    typeSpecifier: "NodePath",
+    type: "Wrapped",
+    wrapper: "NodePath",
     value: `"${value}"`,
   };
 }

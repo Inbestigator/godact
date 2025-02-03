@@ -29,17 +29,6 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_tilemaplayer.html",
-  specialProps: {
-    tile_set: {
-      type: "ExtResource",
-    },
-  },
-  resources: {
-    tile_set: {
-      type: "Custom",
-
-      value:
-        'script.external.push({text:`[ext_resource type="TileSet" path="${props.tile_set.props.path}" id="${{ID}}"]`,});',
-    },
-  },
+  specialProps: {},
+  resources: {},
 } as ComponentDefinition;
