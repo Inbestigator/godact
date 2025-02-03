@@ -1,3 +1,4 @@
+import type { ReactNode } from "types/react";
 import type { Material } from "../resources/material.ts";
 import type { ColorType } from "../types/vectors.ts";
 
@@ -16,6 +17,7 @@ export interface NodeProps {
     messages: 0 | 1 | 2;
   };
   script?: string;
+  children?: ReactNode;
 }
 
 export interface CanvasItemProps extends NodeProps {

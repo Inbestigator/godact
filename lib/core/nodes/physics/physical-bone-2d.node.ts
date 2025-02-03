@@ -5,7 +5,7 @@ export default {
   name: "PhysicalBone2D",
   extends: "RigidBody2DProps",
   inherits: rigidBody2dNode,
-  props: [],
+  props: {},
   category: "PhysicsBody2D",
   docs: [
     "A RigidBody2D-derived node used to make Bone2Ds in a Skeleton2D react to physics.",

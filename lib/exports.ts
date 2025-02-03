@@ -5,6 +5,8 @@ export { transpile } from "./internal/helpers.ts";
 // Nodes
 export * from "./core/nodes/node.ts";
 export * from "./core/nodes/node-2d.tsx";
+export * from "./core/nodes/control.tsx";
+
 export * from "./core/nodes/visual/sprite-2d.tsx";
 export * from "./core/nodes/visual/camera-2d.tsx";
 export * from "./core/nodes/visual/tile-map-layer.tsx";
@@ -20,6 +22,7 @@ export * from "./core/nodes/physics/rigid-body-2d.tsx";
 export * from "./core/nodes/physics/static-body-2d.tsx";
 export * from "./core/nodes/physics/animatable-body-2d.tsx";
 export * from "./core/nodes/physics/area-2d.tsx";
+export * from "./core/nodes/physics/physical-bone-2d.tsx";
 
 // Resources
 export * from "./core/resources/physics/physics-material.ts";
@@ -39,6 +42,7 @@ export * from "./core/resources/gradient.ts";
 export * from "./core/resources/material.ts";
 export * from "./core/resources/curve.ts";
 export * from "./core/resources/tile-set.ts";
+export * from "./core/resources/theme.ts";
 
 // Types
 export * from "./core/types/vectors.ts";
@@ -46,3 +50,4 @@ export * from "./core/types/shape.ts";
 export * from "./core/types/packed-array.ts";
 export * from "./core/types/byte.ts";
 export * from "./core/types/transform.ts";
+export * from "./core/types/node-path.ts";

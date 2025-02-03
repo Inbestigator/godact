@@ -1,14 +1,8 @@
-type Prop = {
-  name: string;
-  type: string;
-  required?: boolean;
-};
-
 export type ComponentDefinition = {
   name: string;
   extends: string;
   inherits?: ComponentDefinition;
-  props: Prop[];
+  props: Record<string, string>;
   docs: string[];
   docsHref: string;
   category: string;
@@ -48,8 +42,10 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
   } = def;
 
   const propsInterface = `${name}Props`;
-  const interfaceProps = props
-    .map((prop) => `${prop.name}${prop.required ? "" : "?"}: ${prop.type};`)
+  const interfaceProps = Object.entries(props)
+    .map(([k, v]) =>
+      `${k}${v.endsWith("!") ? `: ${v.slice(0, -1)}` : `?: ${v}`};`
+    )
     .join("\n  ");
   const nonImportableProps = [
     "string",
@@ -59,22 +55,41 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     "true",
     "false",
     "null",
+    "undefined",
+    "any",
+    "void",
+    "never",
+    "unknown",
   ];
   const propImports = Array.from(
     new Set(
-      [...props, { type: extendsName, name: "extends" }]
+      [...Object.values(props), extendsName]
         .filter((p) =>
-          !nonImportableProps.includes(p.type) && !p.type.includes("|")
+          !nonImportableProps.includes(p.replace("!", "")) &&
+          !p.includes("|")
         )
         .map((p) => {
-          const match = p.type.match(/(.+)<(.+)>/);
+          const type = p.replace("!", "");
+          const match = type.match(/(.+)<(.+)>/);
           if (match) {
             return [match[1], match[2]];
           }
-          return p.type;
+          return type;
         }),
     ),
   );
+
+  const mappedKeys: Record<string, number> = {};
+  let index = 0;
+
+  Object.keys(resources).forEach((key) => {
+    mappedKeys[key] = index++;
+  });
+
+  Object.keys(specialProps).forEach((key) => {
+    if (mappedKeys[key] !== undefined) return;
+    mappedKeys[key] = index++;
+  });
 
   return `import type { ReactNode } from "types/react";
   import { GodotNode } from "${"../".repeat(deep)}internal/element.ts";
@@ -135,15 +150,21 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
             ...props,
             ${
     Object.entries(specialProps)
-      .map(([key, value], i) => {
+      .map(([key, value]) => {
         if (value.type === "SubResource") {
-          return `...(props.${key} && { ${key}: { typeSpecifier: "SubResource", value: \`"\${resourceIds[${i}]}"\`} })`;
+          return `...(props.${key} && { ${key}: { typeSpecifier: "SubResource", value: \`"\${resourceIds[${
+            mappedKeys[key]
+          }]}"\`} })`;
         }
         if (value.type === "ExtResource") {
-          return `...(props.${key} && { ${key}: { typeSpecifier: "ExtResource", value: \`"\${resourceIds[${i}]}"\`} })`;
+          return `...(props.${key} && { ${key}: { typeSpecifier: "ExtResource", value: \`"\${resourceIds[${
+            mappedKeys[key]
+          }]}"\`} })`;
         }
         if (value.type === "Custom" && value.value) {
-          return `...(props.${key} && { ${value.value}})`;
+          return `...(props.${key} && { ${
+            value.value.replaceAll("{ID}", `resourceIds[${mappedKeys[key]}]`)
+          } })`;
         }
         throw new Error("Unknown resource type");
       })
@@ -155,15 +176,21 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
 
         ${
     Object.entries(resources)
-      .map(([key, value], i) => {
+      .map(([key, value]) => {
         if (value.type === "SubResource") {
-          return `if (props.${key}) {script.internal.push({ text: \`[sub_resource type="\${props.${key}.type}" id="\${resourceIds[${i}]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
+          return `if (props.${key}) {script.internal.push({ text: \`[sub_resource type="\${props.${key}.type}" id="\${resourceIds[${
+            mappedKeys[key]
+          }]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
         }
         if (value.type === "ExtResource") {
-          return `if (props.${key}) {script.external.push({ text: \`[ext_resource type="\${props.${key}.type}" id="\${resourceIds[${i}]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
+          return `if (props.${key}) {script.external.push({ text: \`[ext_resource type="\${props.${key}.type}" id="\${resourceIds[${
+            mappedKeys[key]
+          }]}"]\`, props: addCommonProps({ ...props.${key}.props }, script) });}`;
         }
         if (value.type === "Custom" && value.value) {
-          return `if (props.${key}) {${value.value}};`;
+          return `if (props.${key}) {${
+            value.value.replaceAll("{ID}", `resourceIds[${mappedKeys[key]}]`)
+          }};`;
         }
         throw new Error("Unknown resource type");
       })

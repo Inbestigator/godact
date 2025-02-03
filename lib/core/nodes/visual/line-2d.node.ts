@@ -5,56 +5,20 @@ export default {
   name: "Line2D",
   extends: "Node2DProps",
   inherits: node2dNode,
-  props: [
-    {
-      name: "antialiased",
-      type: "boolean",
-    },
-    {
-      name: "begin_cap_mode",
-      type: "0 | 1 | 2",
-    },
-    {
-      name: "closed",
-      type: "boolean",
-    },
-    {
-      name: "default_color",
-      type: "ColorType",
-    },
-    {
-      name: "end_cap_mode",
-      type: "0 | 1 | 2",
-    },
-    {
-      name: "gradient",
-      type: "Gradient",
-    },
-    {
-      name: "joint_mode",
-      type: "0 | 1 | 2",
-    },
-    {
-      name: "points",
-      type: "PackedArrayType<Vector2Type>",
-    },
-    {
-      name: "round_precision",
-      type: "number",
-    },
-    {
-      name: "sharp_limit",
-      type: "number",
-    },
-    {
-      name: "width",
-      type: "number",
-    },
-    {
-      name: "width_curve",
-      type: "Curve",
-    },
-  ],
+  props: {
+    antialiased: "boolean",
+    begin_cap_mode: "0 | 1 | 2",
+    closed: "boolean",
+    default_color: "ColorType",
+    end_cap_mode: "0 | 1 | 2",
+    gradient: "Gradient",
+    joint_mode: "0 | 1 | 2",
+    points: "PackedArrayType<Vector2Type>",
+    round_precision: "number",
+    sharp_limit: "number",
+    width: "number",
+    width_curve: "Curve",
+  },
   category: "Visual",
   docs: [
     "A 2D polyline that can optionally be textured.",

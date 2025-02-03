@@ -5,12 +5,7 @@ export default {
   name: "AnimatableBody2D",
   extends: "StaticBody2DProps",
   inherits: staticBody2dNode,
-  props: [
-    {
-      name: "sync_to_physics",
-      type: "true",
-    },
-  ],
+  props: { sync_to_physics: "true" },
   category: "PhysicsBody2D",
   docs: [
     "A 2D physics body that can't be moved by external forces. When moved manually, it affects other bodies in its path.",

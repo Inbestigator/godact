@@ -3,68 +3,23 @@ import type { ComponentDefinition } from "../../../../parseNodeDefs.ts";
 export default {
   name: "Area2D",
   extends: "CollisionObject2DProps",
-  props: [
-    {
-      name: "angular_damp",
-      type: "number",
-    },
-    {
-      name: "angular_damp_space_override",
-      type: "0 | 1 | 2 | 3 | 4",
-    },
-    {
-      name: "audio_bus_name",
-      type: "string",
-    },
-    {
-      name: "audio_bus_override",
-      type: "boolean",
-    },
-    {
-      name: "gravity",
-      type: "number",
-    },
-    {
-      name: "gravity_direction",
-      type: "Vector2Type",
-    },
-    {
-      name: "gravity_point",
-      type: "boolean",
-    },
-    {
-      name: "gravity_point_center",
-      type: "Vector2Type",
-    },
-    {
-      name: "gravity_point_unit_distance",
-      type: "number",
-    },
-    {
-      name: "gravity_space_override",
-      type: "0 | 1 | 2 | 3 | 4",
-    },
-    {
-      name: "linear_damp",
-      type: "number",
-    },
-    {
-      name: "linear_damp_space_override",
-      type: "0 | 1 | 2 | 3 | 4",
-    },
-    {
-      name: "monitorable",
-      type: "boolean",
-    },
-    {
-      name: "monitoring",
-      type: "boolean",
-    },
-    {
-      name: "priority",
-      type: "number",
-    },
-  ],
+  props: {
+    angular_damp: "number",
+    angular_damp_space_override: "0 | 1 | 2 | 3 | 4",
+    audio_bus_name: "string",
+    audio_bus_override: "boolean",
+    gravity: "number",
+    gravity_direction: "Vector2Type",
+    gravity_point: "boolean",
+    gravity_point_center: "Vector2Type",
+    gravity_point_unit_distance: "number",
+    gravity_space_override: "0 | 1 | 2 | 3 | 4",
+    linear_damp: "number",
+    linear_damp_space_override: "0 | 1 | 2 | 3 | 4",
+    monitorable: "boolean",
+    monitoring: "boolean",
+    priority: "number",
+  },
   category: "PhysicsBody2D",
   docs: [
     "A region of 2D space that detects other CollisionObject2Ds entering or exiting it.",

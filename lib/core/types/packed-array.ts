@@ -1,5 +1,5 @@
 /**
- * Return type of createPackedArray
+ * Return type for PackedArray
  *
  * @category Utility
  */
@@ -13,7 +13,7 @@ export interface PackedArrayType<T> {
  *
  * @example
  * ```tsx
- * createPackedArray({ typeSpecifier: "Int", value: "0" }, { typeSpecifier: "Int", value: "1" });
+ * PackedArray({ typeSpecifier: "Int", value: "0" }, { typeSpecifier: "Int", value: "1" });
  * ```
  *
  * @category Utility

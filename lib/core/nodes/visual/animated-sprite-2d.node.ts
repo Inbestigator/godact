@@ -5,48 +5,18 @@ export default {
   name: "AnimatedSprite2D",
   extends: "Node2DProps",
   inherits: node2dNode,
-  props: [
-    {
-      name: "animation",
-      type: "string",
-    },
-    {
-      name: "autoplay",
-      type: "string",
-    },
-    {
-      name: "centered",
-      type: "boolean",
-    },
-    {
-      name: "flip_h",
-      type: "boolean",
-    },
-    {
-      name: "flip_v",
-      type: "boolean",
-    },
-    {
-      name: "frame",
-      type: "number",
-    },
-    {
-      name: "frame_progress",
-      type: "number",
-    },
-    {
-      name: "offset",
-      type: "Vector2Type",
-    },
-    {
-      name: "speed_scale",
-      type: "number",
-    },
-    {
-      name: "sprite_frames",
-      type: "SpriteFrames",
-    },
-  ],
+  props: {
+    animation: "string",
+    autoplay: "string",
+    centered: "boolean",
+    flip_h: "boolean",
+    flip_v: "boolean",
+    frame: "number",
+    frame_progress: "number",
+    offset: "Vector2Type",
+    speed_scale: "number",
+    sprite_frames: "SpriteFrames",
+  },
   category: "Visual",
   docs: [
     "Sprite node that contains multiple textures as frames to play for animation.",
@@ -74,7 +44,7 @@ export default {
       type: "Custom",
 
       value:
-        'script.internal.push({ text: `[sub_resource type="SpriteFrames" id="${resourceIds[0]}"]`, props: addCommonProps({ ...(props.sprite_frames && { animations: { typeSpecifier: "Verbatim", value: `[${props.sprite_frames.props.map((animation) => { const ids = animation.frames.map(() => createId()); animation.frames.forEach((frame, i) => { script.external.push({ text: `[ext_resource type="Texture2D" path="${frame.texture.props.path}" id="${ids[i]}"]`, }); }); return `{"frames":[${animation.frames.map((frame, i) => (`{"duration":${frame.duration},"texture":ExtResource("${ids[i]}")}`)).join(",")}],"loop":${animation.loop},"name":"${animation.name}","speed":${animation.speed}}`; }).join(",")}]`, }, }), }, script), });',
+        'script.internal.push({ text: `[sub_resource type="SpriteFrames" id="${{ID}}"]`, props: addCommonProps({ ...(props.sprite_frames && { animations: { typeSpecifier: "Verbatim", value: `[${props.sprite_frames.props.map((animation) => { const ids = animation.frames.map(() => createId()); animation.frames.forEach((frame, i) => { script.external.push({ text: `[ext_resource type="Texture2D" path="${frame.texture.props.path}" id="${ids[i]}"]`, }); }); return `{"frames":[${animation.frames.map((frame, i) => (`{"duration":${frame.duration},"texture":ExtResource("${ids[i]}")}`)).join(",")}],"loop":${animation.loop},"name":"${animation.name}","speed":${animation.speed}}`; }).join(",")}]`, }, }), }, script), });',
     },
   },
 } as ComponentDefinition;
