@@ -1,11 +1,7 @@
 import type { ReactNode } from "types/react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
-import {
-  addCommonProps,
-  addNodeEntry,
-  createId,
-} from "../../internal/helpers.ts";
+import { addNodeEntry, createId } from "../../internal/helpers.ts";
 import type {
   ColorType,
   Node2DProps,
@@ -51,7 +47,6 @@ function createCollisionShape2DNode(
   props: CollisionShape2DProps,
 ): Node<CollisionShape2DProps> {
   const node = createNode<CollisionShape2DProps>(props);
-  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId(props);
 
   return {
@@ -63,19 +58,9 @@ function createCollisionShape2DNode(
         parent,
         props: {
           ...props,
-          ...(props.shape &&
-            { shape: { type: "SubResource", id: resourceIds[0] } }),
         },
         script,
       });
-
-      if (props.shape) {
-        script.internal.push({
-          type: props.shape.type,
-          id: resourceIds[0],
-          props: addCommonProps({ ...props.shape.props }, script),
-        });
-      }
 
       for (const child of node.children) {
         child.insertMe(script, parent ? `${parent}/${nodeName}` : ".");

@@ -24,6 +24,6 @@ export function NodePath(value: string): NodePathType {
   return {
     type: "Wrapped",
     wrapper: "NodePath",
-    value,
+    value: `"${value}"`,
   };
 }

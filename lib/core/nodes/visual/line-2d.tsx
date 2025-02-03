@@ -1,11 +1,7 @@
 import type { ReactNode } from "types/react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
-import {
-  addCommonProps,
-  addNodeEntry,
-  createId,
-} from "../../../internal/helpers.ts";
+import { addNodeEntry, createId } from "../../../internal/helpers.ts";
 import type {
   ColorType,
   Curve,
@@ -56,7 +52,6 @@ export function Line2D(props: Line2DProps): ReactNode {
 
 function createLine2DNode(props: Line2DProps): Node<Line2DProps> {
   const node = createNode<Line2DProps>(props);
-  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId(props);
 
   return {
@@ -68,28 +63,9 @@ function createLine2DNode(props: Line2DProps): Node<Line2DProps> {
         parent,
         props: {
           ...props,
-          ...(props.gradient &&
-            { gradient: { type: "SubResource", id: resourceIds[0] } }),
-          ...(props.width_curve &&
-            { width_curve: { type: "SubResource", id: resourceIds[1] } }),
         },
         script,
       });
-
-      if (props.gradient) {
-        script.internal.push({
-          type: props.gradient.type,
-          id: resourceIds[0],
-          props: addCommonProps({ ...props.gradient.props }, script),
-        });
-      }
-      if (props.width_curve) {
-        script.internal.push({
-          type: props.width_curve.type,
-          id: resourceIds[1],
-          props: addCommonProps({ ...props.width_curve.props }, script),
-        });
-      }
 
       for (const child of node.children) {
         child.insertMe(script, parent ? `${parent}/${nodeName}` : ".");

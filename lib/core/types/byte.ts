@@ -24,6 +24,6 @@ export function Byte(value: string): ByteType {
   return {
     type: "Wrapped",
     wrapper: "Byte",
-    value: value,
+    value: `"${value}"`,
   };
 }

@@ -1,11 +1,7 @@
 import type { ReactNode } from "types/react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
-import {
-  addCommonProps,
-  addNodeEntry,
-  createId,
-} from "../../../internal/helpers.ts";
+import { addNodeEntry, createId } from "../../../internal/helpers.ts";
 import type {
   PhysicsBody2DProps,
   PhysicsMaterial,
@@ -53,7 +49,6 @@ function createStaticBody2DNode(
   props: StaticBody2DProps,
 ): Node<StaticBody2DProps> {
   const node = createNode<StaticBody2DProps>(props);
-  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId(props);
 
   return {
@@ -65,27 +60,9 @@ function createStaticBody2DNode(
         parent,
         props: {
           ...props,
-          ...(props.physics_material_override &&
-            {
-              physics_material_override: {
-                type: "SubResource",
-                id: resourceIds[0],
-              },
-            }),
         },
         script,
       });
-
-      if (props.physics_material_override) {
-        script.internal.push({
-          type: props.physics_material_override.type,
-          id: resourceIds[0],
-          props: addCommonProps(
-            { ...props.physics_material_override.props },
-            script,
-          ),
-        });
-      }
 
       for (const child of node.children) {
         child.insertMe(script, parent ? `${parent}/${nodeName}` : ".");

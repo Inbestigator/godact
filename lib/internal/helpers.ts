@@ -1,4 +1,8 @@
-import type { PartProp, ScriptSections } from "./renderers/renderer.ts";
+import type {
+  PartProp,
+  ScriptPart,
+  ScriptSections,
+} from "./renderers/renderer.ts";
 import { parse } from "acorn";
 import { ts2gd } from "./ts2gd.ts";
 import { buildSync } from "esbuild";
@@ -43,10 +47,68 @@ export function addCommonProps(
     }
   }
 
-  delete props.name;
-  delete props.children;
+  const { name: _name, children: _children, ...rest } = props;
 
-  return props;
+  return handleRsrc(rest, script);
+}
+
+function handleRsrc(
+  props: Record<string, PartProp>,
+  script: ScriptSections,
+) {
+  const newProps: Record<string, PartProp> = {};
+  for (const [key, value] of Object.entries(props)) {
+    if (
+      typeof value !== "object" ||
+      ["ExtResource", "SubResource", "Wrapped", "Verbatim"].includes(value.type)
+    ) {
+      newProps[key] = value;
+      continue;
+    }
+    const extRsrcTypes = [
+      "Script",
+      "Texture2D",
+      "Font",
+      "TileSet",
+    ];
+    const inlineArgsProps = [
+      "path",
+    ];
+    const resourceId = createId(value);
+    const isExternal = extRsrcTypes.includes(value.type);
+    newProps[key] = {
+      type: isExternal ? "ExtResource" : "SubResource",
+      id: resourceId,
+    };
+    const inlineArgs: ScriptPart["inlineArgs"] = {};
+    const props: ScriptPart["props"] = {};
+    for (
+      const [propKey, propValue] of Object.entries(
+        "props" in value ? { ...value.props as ScriptPart["props"] } : {},
+      )
+    ) {
+      if (inlineArgsProps.includes(propKey)) {
+        if (typeof propValue === "string") {
+          inlineArgs[propKey] = propValue;
+        }
+      } else {
+        props[propKey] = propValue;
+      }
+    }
+    if (
+      !script[isExternal ? "external" : "internal"].some((s) =>
+        s.id === resourceId
+      )
+    ) {
+      script[isExternal ? "external" : "internal"].push({
+        type: value.type,
+        id: resourceId,
+        inlineArgs,
+        props: addCommonProps(props, script),
+      });
+    }
+  }
+  return newProps;
 }
 
 export function addNodeEntry({
@@ -62,28 +124,13 @@ export function addNodeEntry({
   props: Record<string, unknown>;
   script: ScriptSections;
 }) {
-  const materialId = createId(props);
-  if (props.material) {
-    script.internal.push({
-      type: "Material",
-      id: materialId,
-    });
-  }
   script.nodes.push({
     type,
     id: name,
     inlineArgs: parent ? { parent } : {},
     props: addCommonProps(
       {
-        ...props,
-        ...(props.material
-          ? {
-            material: {
-              type: "SubResource",
-              id: materialId,
-            },
-          }
-          : {}),
+        ...props as Record<string, PartProp>,
       },
       script,
     ),

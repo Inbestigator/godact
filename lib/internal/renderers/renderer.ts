@@ -14,11 +14,6 @@ export interface ScriptPart {
   props?: Record<string, PartProp>;
 }
 
-export interface ReturnProps {
-  type: string;
-  props: Record<string, PartProp>;
-}
-
 export type PartProp =
   | {
     type: "SubResource";
@@ -114,10 +109,11 @@ export function createRenderer(out?: string): Renderer {
 
   function compileScript() {
     let text = "[gd_scene format=3]\n";
-    text += addSection("external", parts.external);
-    text += addSection("internal", parts.internal);
-    text += addSection("nodes", parts.nodes);
-    text += addSection("connections", parts.connections);
+    for (
+      const key of ["external", "internal", "nodes", "connections"] as const
+    ) {
+      text += addSection(key, parts[key]);
+    }
     return text;
   }
 

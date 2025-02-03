@@ -1,11 +1,7 @@
 import type { ReactNode } from "types/react";
 import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
-import {
-  addCommonProps,
-  addNodeEntry,
-  createId,
-} from "../../internal/helpers.ts";
+import { addNodeEntry, createId } from "../../internal/helpers.ts";
 import type {
   CanvasItemProps,
   NodePathType,
@@ -98,7 +94,6 @@ export function Control(props: ControlProps): ReactNode {
 
 function createControlNode(props: ControlProps): Node<ControlProps> {
   const node = createNode<ControlProps>(props);
-  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId(props);
 
   return {
@@ -110,19 +105,9 @@ function createControlNode(props: ControlProps): Node<ControlProps> {
         parent,
         props: {
           ...props,
-          ...(props.theme &&
-            { theme: { type: "ExtResource", id: resourceIds[0] } }),
         },
         script,
       });
-
-      if (props.theme) {
-        script.external.push({
-          type: props.theme.type,
-          id: resourceIds[0],
-          props: addCommonProps({ ...props.theme.props }, script),
-        });
-      }
 
       for (const child of node.children) {
         child.insertMe(script, parent ? `${parent}/${nodeName}` : ".");

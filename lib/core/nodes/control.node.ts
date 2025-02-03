@@ -55,14 +55,6 @@ export default {
     "```",
   ],
   docsHref: "https://docs.godotengine.org/en/stable/classes/class_control.html",
-  specialProps: {
-    theme: {
-      type: "ExtResource",
-    },
-  },
-  resources: {
-    theme: {
-      type: "ExtResource",
-    },
-  },
+  specialProps: {},
+  resources: {},
 } as ComponentDefinition;
