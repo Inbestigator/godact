@@ -33,6 +33,7 @@ export type PartProp =
     value: string;
   }
   | PartProp[]
+  | { [key: string]: PartProp }
   | string
   | number
   | boolean;
@@ -59,8 +60,7 @@ function stringifyProp(prop: PartProp): string {
     switch (typeof prop) {
       case "string":
         return `"${prop}"`;
-      case "number":
-      case "boolean":
+      default:
         return prop.toString();
     }
   }
@@ -75,7 +75,11 @@ function stringifyProp(prop: PartProp): string {
     case "Wrapped":
       return `${prop.wrapper}(${prop.value})`;
   }
-  return prop.toString();
+  return `{${
+    Object.entries(prop)
+      .map(([key, value]) => `"${key}": ${stringifyProp(value)}`)
+      .join(", ")
+  }}`;
 }
 
 export function createRenderer(out?: string): Renderer {

@@ -1,11 +1,7 @@
 import type { ReactNode } from "types/react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
-import {
-  addCommonProps,
-  addNodeEntry,
-  createId,
-} from "../../../internal/helpers.ts";
+import { addNodeEntry, createId } from "../../../internal/helpers.ts";
 import type {
   Node2DProps,
   SpriteFrames,
@@ -62,7 +58,6 @@ function createAnimatedSprite2DNode(
   props: AnimatedSprite2DProps,
 ): Node<AnimatedSprite2DProps> {
   const node = createNode<AnimatedSprite2DProps>(props);
-  const resourceIds = new Array(100).fill(createId());
   const nodeName = props.name ?? createId(props);
 
   return {
@@ -74,45 +69,9 @@ function createAnimatedSprite2DNode(
         parent,
         props: {
           ...props,
-          ...(props.sprite_frames &&
-            { sprite_frames: { type: "SubResource", id: resourceIds[0] } }),
         },
         script,
       });
-
-      if (props.sprite_frames) {
-        script.internal.push({
-          type: "SpriteFrames",
-          id: resourceIds[0],
-          props: addCommonProps({
-            ...(props.sprite_frames && {
-              animations: {
-                type: "Verbatim",
-                value: `[${
-                  props.sprite_frames.props.map((animation) => {
-                    const ids = animation.frames.map(() => createId());
-                    animation.frames.forEach((frame, i) => {
-                      script.external.push({
-                        type: "Texture2D",
-                        id: ids[i],
-                        inlineArgs: { path: frame.texture.props.path },
-                      });
-                    });
-                    return `{"frames":[${
-                      animation.frames.map((
-                        frame,
-                        i,
-                      ) => (`{"duration":${frame.duration},"texture":ExtResource("${
-                        ids[i]
-                      }")}`)).join(",")
-                    }],"loop":${animation.loop},"name":"${animation.name}","speed":${animation.speed}}`;
-                  }).join(",")
-                }]`,
-              },
-            }),
-          }, script),
-        });
-      }
 
       for (const child of node.children) {
         child.insertMe(script, parent ? `${parent}/${nodeName}` : ".");

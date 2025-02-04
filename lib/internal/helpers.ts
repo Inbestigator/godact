@@ -57,12 +57,24 @@ function handleRsrcs(
       continue;
     }
     if (
-      typeof value !== "object" || Array.isArray(value) ||
-      ["ExtResource", "SubResource", "Wrapped", "Verbatim"].includes(
-        value.type,
-      )
+      typeof value !== "object" || ("type" in value &&
+        typeof value.type === "string" &&
+        ["ExtResource", "SubResource", "Wrapped", "Verbatim"].includes(
+          value.type,
+        ))
     ) {
       newProps[key] = value;
+      continue;
+    }
+    if (
+      !("type" in value) ||
+      typeof value.type !== "string"
+    ) {
+      newProps[key] = {};
+      Object.entries(value).forEach(([k, v]) => {
+        (newProps[key] as Record<string, PartProp>)[k] =
+          handleRsrcs({ v }, script).v;
+      });
       continue;
     }
     const resourceId = createId(value);

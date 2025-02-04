@@ -7,7 +7,7 @@ import type { Texture2D } from "./texture-2d.ts";
  */
 export interface SpriteFrames {
   type: "SpriteFrames";
-  props: SpriteFramesProps[];
+  props: { animations: SpriteFramesProps[] };
 }
 
 /**
@@ -30,7 +30,7 @@ export interface SpriteFramesProps {
  *
  * @example
  * ```tsx
- * createSpriteFrames([
+ * createSpriteFrames(
  *   {
  *     frames: [
  *       {
@@ -42,15 +42,17 @@ export interface SpriteFramesProps {
  *     speed: 2,
  *     name: "icon",
  *   },
- * ]);
+ * );
  * ```
  *
  * @category Visual
  * @see https://docs.godotengine.org/en/stable/classes/class_spriteframes.html
  */
-export function createSpriteFrames(props: SpriteFramesProps[]): SpriteFrames {
+export function createSpriteFrames(
+  ...props: SpriteFramesProps[]
+): SpriteFrames {
   return {
     type: "SpriteFrames",
-    props,
+    props: { animations: props },
   };
 }
