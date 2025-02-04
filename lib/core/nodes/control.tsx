@@ -3,6 +3,7 @@ import { GodotNode } from "../../internal/element.ts";
 import { createNode, type Node } from "../../internal/node.ts";
 import { addNodeEntry, createId } from "../../internal/helpers.ts";
 import type {
+  BitFieldType,
   CanvasItemProps,
   NodePathType,
   Theme,
@@ -65,9 +66,9 @@ export interface ControlProps extends CanvasItemProps {
   scale?: Vector2Type;
   shortcut_context?: NodePathType;
   size?: Vector2Type;
-  size_flags_horizontal?: number;
+  size_flags_horizontal?: BitFieldType;
   size_flags_stretch_ratio?: number;
-  size_flags_vertical?: number;
+  size_flags_vertical?: BitFieldType;
   theme?: Theme;
   theme_type_variation?: string;
   tooltip_text?: string;

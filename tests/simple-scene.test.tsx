@@ -8,7 +8,7 @@ import {
   StaticBody2D,
   Vector2,
 } from "@inbestigator/godact";
-import { createRenderer } from "../lib/internal/renderers/renderer.ts";
+import { createRenderer } from "../lib/internal/renderer.ts";
 import { reconciler } from "../lib/internal/reconciler.ts";
 import { assertEquals } from "@std/assert";
 
@@ -77,17 +77,12 @@ function Floor() {
 }
 
 export const expectedSimpleScene = `[gd_scene format=3]
-
 [ext_resource type="Texture2D" id="139c80fb" path="res://icon.svg"]
-
-
 [sub_resource type="RectangleShape2D" id="abac4573"]
 size = Vector2(128, 128)
 [sub_resource type="RectangleShape2D" id="7b68d7e2"]
 size = Vector2(64, 64)
-
 [node type="Node2D" name="SimpleScene"]
-
 [node type="CharacterBody2D" name="Player" parent="."]
 position = Vector2(64, 64)
 [node type="Sprite2D" name="Sprite2D" parent="./Player"]
@@ -102,5 +97,4 @@ shape = SubResource("7b68d7e2")
 [node type="Sprite2D" name="Sprite2D" parent="./Floor"]
 texture = ExtResource("139c80fb")
 scale = Vector2(0.5, 0.5)
-
 `;

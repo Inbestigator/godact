@@ -1,5 +1,5 @@
 import { type Container, createContainer } from "./container.ts";
-import type { ScriptSections } from "./renderers/renderer.ts";
+import type { ScriptSections } from "./renderer.ts";
 
 export interface Node<Props> {
   props: Props;

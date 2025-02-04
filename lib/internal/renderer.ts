@@ -1,5 +1,5 @@
-import { type Container, createContainer } from "../container.ts";
-import type { Node } from "../node.ts";
+import { type Container, createContainer } from "./container.ts";
+import type { Node } from "./node.ts";
 
 export interface Renderer {
   nodes: Container<Node<unknown>>;
@@ -32,6 +32,7 @@ export type PartProp =
     type: "Verbatim";
     value: string;
   }
+  | PartProp[]
   | string
   | number
   | boolean;
@@ -50,6 +51,33 @@ const defaultParts: ScriptSections = {
   connections: [],
 };
 
+function stringifyProp(prop: PartProp): string {
+  if (
+    typeof prop === "string" || typeof prop === "number" ||
+    typeof prop === "boolean"
+  ) {
+    switch (typeof prop) {
+      case "string":
+        return `"${prop}"`;
+      case "number":
+      case "boolean":
+        return prop.toString();
+    }
+  }
+  if (Array.isArray(prop)) {
+    return `[${prop.map((p) => stringifyProp(p)).join(", ")}]`;
+  }
+  switch (prop.type) {
+    case "SubResource":
+      return `SubResource("${prop.id}")`;
+    case "ExtResource":
+      return `ExtResource("${prop.id}")`;
+    case "Wrapped":
+      return `${prop.wrapper}(${prop.value})`;
+  }
+  return prop.toString();
+}
+
 export function createRenderer(out?: string): Renderer {
   const nodes = createContainer<Node<unknown>>();
   const parts = structuredClone(defaultParts);
@@ -63,7 +91,7 @@ export function createRenderer(out?: string): Renderer {
   }
 
   function addSection(section: keyof ScriptSections, part: ScriptPart[]) {
-    let text = "\n";
+    let text = "";
     const entryType = section === "external"
       ? "ext_resource"
       : section === "internal"
@@ -79,30 +107,11 @@ export function createRenderer(out?: string): Renderer {
           ` ${key}="${value}"`
         ).join("")
       }]\n`;
-      text += entry.props
-        ? Object.entries(entry.props).map(([key, prop]) => {
-          if (
-            typeof prop === "string" || typeof prop === "number" ||
-            typeof prop === "boolean"
-          ) {
-            switch (typeof prop) {
-              case "string":
-                return `${key} = "${prop}"`;
-              case "number":
-              case "boolean":
-                return `${key} = ${prop}`;
-            }
-          }
-          switch (prop.type) {
-            case "SubResource":
-              return `${key} = SubResource("${prop.id}")`;
-            case "ExtResource":
-              return `${key} = ExtResource("${prop.id}")`;
-            case "Wrapped":
-              return `${key} = ${prop.wrapper}(${prop.value})`;
-          }
-        }).join("\n") + "\n"
-        : "";
+      if (entry.props && Object.keys(entry.props).length) {
+        text += Object.entries(entry.props).map(([key, prop]) => {
+          return `${key} = ${stringifyProp(prop)}`;
+        }).join("\n") + "\n";
+      }
     });
     return text;
   }
