@@ -133,3 +133,4 @@ Component status:
 | AnimatableBody2D | Physics   | 5                |               |
 | Area2D           | Physics   | 5                |               |
 | PhysicalBone2D   | Physics   | 5                |               |
+| Button           | Controls  | 3, 5             | `shortcuts`   |
