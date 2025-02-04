@@ -20,7 +20,7 @@ export default function Floor() {
       />
       <Sprite2D
         name="Sprite2D"
-        texture={createTexture2D({ path: "res://icon.svg" })}
+        texture={createTexture2D("res://icon.svg")}
         scale={Vector2(0.5, 0.5)}
       />
     </StaticBody2D>

@@ -35,6 +35,4 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_characterbody2d.html",
-  specialProps: {},
-  resources: {},
 } as ComponentDefinition;

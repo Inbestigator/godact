@@ -5,7 +5,13 @@ export default {
   name: "PhysicalBone2D",
   extends: "RigidBody2DProps",
   inherits: rigidBody2dNode,
-  props: {},
+  props: {
+    auto_configure_joint: "boolean",
+    bone2d_index: "number",
+    bone2d_nodepath: "NodePathType",
+    follow_bone_when_simulating: "boolean",
+    simulate_physics: "boolean",
+  },
   category: "PhysicsBody2D",
   docs: [
     "A RigidBody2D-derived node used to make Bone2Ds in a Skeleton2D react to physics.",
@@ -21,6 +27,4 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_physicalbone2d.html",
-  specialProps: {},
-  resources: {},
 } as ComponentDefinition;

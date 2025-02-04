@@ -5,7 +5,7 @@ import type { ColorType } from "../types/vectors.ts";
 export interface NodeProps {
   auto_translate_mode?: 0 | 1 | 2;
   editor_description?: string;
-  multiplayer?: null; // TODO Type: MultiplayerAPI ?!?
+  // multiplayer?: null; TODO Type: MultiplayerAPI ?!?
   name?: string;
   physics_interpolation_mode?: 0 | 1 | 2;
   process_mode?: 0 | 1 | 2 | 3 | 4;

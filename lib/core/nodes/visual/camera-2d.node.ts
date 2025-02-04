@@ -7,7 +7,7 @@ export default {
   inherits: node2dNode,
   props: {
     anchor_mode: "0 | 1",
-    custom_viewport: "null",
+    // custom_viewport?: Node; AFAIK this is not in the editor, so it will be ommitted for now
     drag_bottom_margin: "number",
     drag_horizontal_enabled: "boolean",
     drag_horizontal_offset: "number",
@@ -33,7 +33,7 @@ export default {
   },
   category: "Visual",
   docs: [
-    "Camera node for 2D scenes. // TODO custom_viewport",
+    "Camera node for 2D scenes.",
     "",
     "@example",
     "```tsx",
@@ -42,6 +42,4 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_camera2d.html",
-  specialProps: {},
-  resources: {},
 } as ComponentDefinition;

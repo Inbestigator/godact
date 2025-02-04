@@ -34,6 +34,4 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_animatedsprite2d.html",
-  specialProps: {},
-  resources: {},
 } as ComponentDefinition;

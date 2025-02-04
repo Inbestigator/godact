@@ -46,7 +46,7 @@ function Player() {
     <CharacterBody2D name="Player" position={Vector2(64, 64)}>
       <Sprite2D
         name="Sprite2D"
-        texture={createTexture2D({ path: "res://icon.svg" })}
+        texture={createTexture2D("res://icon.svg")}
       />
       <CollisionShape2D
         name="CollisionShape2D"
@@ -69,7 +69,7 @@ function Floor() {
       />
       <Sprite2D
         name="Sprite2D"
-        texture={createTexture2D({ path: "res://icon.svg" })}
+        texture={createTexture2D("res://icon.svg")}
         scale={Vector2(0.5, 0.5)}
       />
     </StaticBody2D>

@@ -6,37 +6,14 @@ export type ComponentDefinition = {
   docs: string[];
   docsHref: string;
   category: string;
-  specialProps: Record<
-    string,
-    {
-      type: "SubResource" | "ExtResource" | "Custom";
-      value?: string;
-    }
-  >;
-  resources: Record<
-    string,
-    {
-      type: "SubResource" | "ExtResource" | "Custom";
-      value?: string;
-    }
-  >;
 };
 
 function generateComponent(def: ComponentDefinition, deep: number): string {
-  if (def.inherits) {
-    def.specialProps = {
-      ...def.inherits.specialProps,
-      ...def.specialProps,
-    };
-    def.resources = { ...def.inherits.resources, ...def.resources };
-  }
   const {
     name,
     props,
     category,
     extends: extendsName,
-    specialProps,
-    resources,
     docs,
     docsHref,
   } = def;
@@ -79,30 +56,10 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     ),
   );
 
-  const mappedKeys: Record<string, number> = {};
-  let index = 0;
-
-  Object.keys(resources).forEach((key) => {
-    mappedKeys[key] = index++;
-  });
-
-  Object.keys(specialProps).forEach((key) => {
-    if (mappedKeys[key] !== undefined) return;
-    mappedKeys[key] = index++;
-  });
-
   return `import type { ReactNode } from "types/react";
   import { GodotNode } from "${"../".repeat(deep)}internal/element.ts";
   import { createNode, type Node } from "${"../".repeat(deep)}internal/node.ts";
   import {
-    ${
-    Object.values(resources).some((v) =>
-        v.type !== "Custom" ||
-        (v.type === "Custom" && v.value?.includes("addCommonProps"))
-      )
-      ? "addCommonProps,"
-      : ""
-  }
     addNodeEntry,
     createId,
   } from "${"../".repeat(deep)}internal/helpers.ts";
@@ -132,11 +89,7 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
   }
   
   function create${name}Node(props: ${propsInterface}): Node<${propsInterface}> {
-    const node = createNode<${propsInterface}>(props);${
-    Object.keys(resources).length > 0 || Object.keys(specialProps).length > 0
-      ? "\nconst resourceIds = new Array(100).fill(createId());"
-      : ""
-  }
+    const node = createNode<${propsInterface}>(props);
     const nodeName = props.name ?? createId(props);
   
     return {
@@ -146,56 +99,9 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
           type: "${name}",
           name: nodeName,
           parent,
-          props: {
-            ...props,
-            ${
-    Object.entries(specialProps)
-      .map(([key, value]) => {
-        if (value.type === "SubResource") {
-          return `...(props.${key} && { ${key}: { type: "SubResource", id: resourceIds[${
-            mappedKeys[key]
-          }]} })`;
-        }
-        if (value.type === "ExtResource") {
-          return `...(props.${key} && { ${key}: { type: "ExtResource", id: resourceIds[${
-            mappedKeys[key]
-          }]} })`;
-        }
-        if (value.type === "Custom" && value.value) {
-          return `...(props.${key} && { ${
-            value.value.replaceAll("{ID}", `resourceIds[${mappedKeys[key]}]`)
-          } })`;
-        }
-        throw new Error("Unknown resource type");
-      })
-      .join(",\n")
-  }
-          },
+          props,
           script,
         });
-
-        ${
-    Object.entries(resources)
-      .map(([key, value]) => {
-        if (value.type === "SubResource") {
-          return `if (props.${key}) {script.internal.push({ type: props.${key}.type, id: resourceIds[${
-            mappedKeys[key]
-          }], props: addCommonProps({ ...props.${key}.props }, script) });}`;
-        }
-        if (value.type === "ExtResource") {
-          return `if (props.${key}) {script.external.push({ type: props.${key}.type, id: resourceIds[${
-            mappedKeys[key]
-          }], props: addCommonProps({ ...props.${key}.props }, script) });}`;
-        }
-        if (value.type === "Custom" && value.value) {
-          return `if (props.${key}) {${
-            value.value.replaceAll("{ID}", `resourceIds[${mappedKeys[key]}]`)
-          }};`;
-        }
-        throw new Error("Unknown resource type");
-      })
-      .join("\n")
-  }
 
         for (const child of node.children) {
           child.insertMe(script, parent ? \`\${parent}/\${nodeName}\` : ".");

@@ -29,6 +29,4 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_tilemaplayer.html",
-  specialProps: {},
-  resources: {},
 } as ComponentDefinition;

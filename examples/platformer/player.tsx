@@ -18,7 +18,7 @@ export default function Player() {
     >
       <Sprite2D
         name="Sprite2D"
-        texture={createTexture2D({ path: "res://icon.svg" })}
+        texture={createTexture2D("res://icon.svg")}
       />
       <CollisionShape2D
         name="CollisionShape2D"

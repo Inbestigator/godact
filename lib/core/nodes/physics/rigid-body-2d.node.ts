@@ -43,6 +43,4 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_rigidbody2d.html",
-  specialProps: {},
-  resources: {},
 } as ComponentDefinition;

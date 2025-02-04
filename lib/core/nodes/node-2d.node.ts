@@ -21,6 +21,4 @@ export default {
     "```",
   ],
   docsHref: "https://docs.godotengine.org/en/stable/classes/class_node2d.html",
-  specialProps: {},
-  resources: {},
 } as ComponentDefinition;

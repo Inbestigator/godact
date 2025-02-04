@@ -14,21 +14,12 @@ export interface ConvexPolygonShape2D {
 }
 
 /**
- * Props for createConvexPolygonShape2D
- *
- * @category Node2D
- */
-export interface ConvexPolygonShape2DProps {
-  points?: Vector2Type[];
-}
-
-/**
  * A 2D convex polygon shape used for physics collision.
  *
  * @example
  * ```tsx
  * <CollisionShape2D
- *   shape={createConvexPolygonShape2D({ points: [Vector2(1, 2), Vector2(3, 4)] })}
+ *   shape={createConvexPolygonShape2D(Vector2(1, 2), Vector2(3, 4))}
  * />
  * ```
  *
@@ -36,10 +27,10 @@ export interface ConvexPolygonShape2DProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_convexpolygonshape2d.html
  */
 export function createConvexPolygonShape2D(
-  props: ConvexPolygonShape2DProps = {},
+  ...points: Vector2Type[]
 ): ConvexPolygonShape2D {
   return {
     type: "ConvexPolygonShape2D",
-    props: { points: PackedArray<Vector2Type>(...(props.points ?? [])) },
+    props: { points: PackedArray<Vector2Type>(...points) },
   };
 }

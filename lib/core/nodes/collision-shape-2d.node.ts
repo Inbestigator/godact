@@ -23,6 +23,4 @@ export default {
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_collisionshape2d.html",
-  specialProps: {},
-  resources: {},
 } as ComponentDefinition;

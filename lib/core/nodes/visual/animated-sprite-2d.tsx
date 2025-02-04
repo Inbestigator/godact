@@ -35,7 +35,7 @@ export interface AnimatedSprite2DProps extends Node2DProps {
  * @example
  * ```tsx
  * <AnimatedSprite2D
- *   sprite_frames={createSpriteFrames([...])}
+ *   sprite_frames={createSpriteFrames(...)}
  *   animation="icon"
  * />
  * ```
@@ -67,9 +67,7 @@ function createAnimatedSprite2DNode(
         type: "AnimatedSprite2D",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 

@@ -52,9 +52,7 @@ function createAnimatableBody2DNode(
         type: "AnimatableBody2D",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 

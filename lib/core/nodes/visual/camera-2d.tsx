@@ -11,7 +11,6 @@ import type { Node2DProps, Vector2Type } from "@inbestigator/godact";
  */
 export interface Camera2DProps extends Node2DProps {
   anchor_mode?: 0 | 1;
-  custom_viewport?: null;
   drag_bottom_margin?: number;
   drag_horizontal_enabled?: boolean;
   drag_horizontal_offset?: number;
@@ -37,7 +36,7 @@ export interface Camera2DProps extends Node2DProps {
 }
 
 /**
- * Camera node for 2D scenes. // TODO custom_viewport
+ * Camera node for 2D scenes.
  *
  * @example
  * ```tsx
@@ -66,9 +65,7 @@ function createCamera2DNode(props: Camera2DProps): Node<Camera2DProps> {
         type: "Camera2D",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 

@@ -104,9 +104,7 @@ function createControlNode(props: ControlProps): Node<ControlProps> {
         type: "Control",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 

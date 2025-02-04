@@ -61,9 +61,7 @@ function createSprite2DNode(props: Sprite2DProps): Node<Sprite2DProps> {
         type: "Sprite2D",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 

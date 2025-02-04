@@ -13,28 +13,21 @@ export interface Shortcut {
 }
 
 /**
- * Props for createShortcut
- *
- * @category Keyboard
- */
-export type ShortcutProps = InputEventType[];
-
-/**
  * A color transition.
  *
  * @example
  * ```tsx
- * createShortcut({ path: "res://icon.svg" })
+ * createShortcut("res://icon.svg")
  * ```
  *
  * @category Keyboard
  * @see https://docs.godotengine.org/en/stable/classes/class_shortcut.html
  */
-export function createShortcut(...props: ShortcutProps): Shortcut {
+export function createShortcut(...events: InputEventType[]): Shortcut {
   return {
     type: "Shortcut",
     props: {
-      events: props,
+      events,
     },
   };
 }

@@ -123,7 +123,7 @@ export function addNodeEntry({
   type: string;
   name: string;
   parent?: string;
-  props: Record<string, unknown>;
+  props: unknown;
   script: ScriptSections;
 }) {
   script.nodes.push({

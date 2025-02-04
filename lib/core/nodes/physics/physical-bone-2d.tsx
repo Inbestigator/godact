@@ -2,7 +2,7 @@ import type { ReactNode } from "types/react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addNodeEntry, createId } from "../../../internal/helpers.ts";
-import type { RigidBody2DProps } from "@inbestigator/godact";
+import type { NodePathType, RigidBody2DProps } from "@inbestigator/godact";
 
 /**
  * Props for a PhysicalBone2D
@@ -10,6 +10,11 @@ import type { RigidBody2DProps } from "@inbestigator/godact";
  * @category PhysicsBody2D
  */
 export interface PhysicalBone2DProps extends RigidBody2DProps {
+  auto_configure_joint?: boolean;
+  bone2d_index?: number;
+  bone2d_nodepath?: NodePathType;
+  follow_bone_when_simulating?: boolean;
+  simulate_physics?: boolean;
 }
 
 /**
@@ -51,9 +56,7 @@ function createPhysicalBone2DNode(
         type: "PhysicalBone2D",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 

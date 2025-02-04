@@ -52,9 +52,7 @@ function createNode2DNode(props: Node2DProps): Node<Node2DProps> {
         type: "Node2D",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 
