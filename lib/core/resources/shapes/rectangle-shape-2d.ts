@@ -7,16 +7,9 @@ import type { Vector2Type } from "../../types/vectors.ts";
  */
 export interface RectangleShape2D {
   type: "RectangleShape2D";
-  props: RectangleShape2DProps;
-}
-
-/**
- * Props for createRectangleShape2D
- *
- * @category Node2D
- */
-export interface RectangleShape2DProps {
-  size?: Vector2Type;
+  props: {
+    size?: Vector2Type;
+  };
 }
 
 /**
@@ -33,10 +26,10 @@ export interface RectangleShape2DProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_rectangleshape2d.html
  */
 export function createRectangleShape2D(
-  props: RectangleShape2DProps = {},
+  size?: Vector2Type,
 ): RectangleShape2D {
   return {
     type: "RectangleShape2D",
-    props,
+    props: { size },
   };
 }
