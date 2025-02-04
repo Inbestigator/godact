@@ -38,9 +38,9 @@ export default {
     scale: "Vector2Type",
     shortcut_context: "NodePathType",
     size: "Vector2Type",
-    size_flags_horizontal: "number", // TODO Bitfield
+    size_flags_horizontal: "BitFieldType",
     size_flags_stretch_ratio: "number",
-    size_flags_vertical: "number", // TODO Bitfield
+    size_flags_vertical: "BitFieldType",
     theme: "Theme",
     theme_type_variation: "string",
     tooltip_text: "string",

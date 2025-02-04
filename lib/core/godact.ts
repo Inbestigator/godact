@@ -1,6 +1,6 @@
 import type { ReactNode } from "types/react";
 import { reconciler } from "../internal/reconciler.ts";
-import { createRenderer } from "../internal/renderers/renderer.ts";
+import { createRenderer } from "../internal/renderer.ts";
 import fs from "node:fs";
 
 /**

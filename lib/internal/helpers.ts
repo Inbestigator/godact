@@ -1,8 +1,4 @@
-import type {
-  PartProp,
-  ScriptPart,
-  ScriptSections,
-} from "./renderers/renderer.ts";
+import type { PartProp, ScriptPart, ScriptSections } from "./renderer.ts";
 import { parse } from "acorn";
 import { ts2gd } from "./ts2gd.ts";
 import { buildSync } from "esbuild";
@@ -41,52 +37,58 @@ export function addCommonProps(
 
   const { name: _name, children: _children, ...rest } = props;
 
-  return handleRsrc(rest, script);
+  return handleRsrcs(rest, script);
 }
 
-function handleRsrc(
+function handleRsrcs(
   props: Record<string, PartProp>,
   script: ScriptSections,
 ) {
   const newProps: Record<string, PartProp> = {};
   for (const [key, value] of Object.entries(props)) {
-    if (
-      typeof value !== "object" ||
-      ["ExtResource", "SubResource", "Wrapped", "Verbatim"].includes(value.type)
-    ) {
-      newProps[key] = value;
-      continue;
-    }
     const extRsrcTypes = [
       "Script",
       "Texture2D",
       "Font",
       "TileSet",
     ];
-    const inlineArgsProps = [
-      "path",
-    ];
+    if (Array.isArray(value) && typeof value[0] === "object") {
+      newProps[key] = value.map((v) => handleRsrcs({ v }, script).v);
+      continue;
+    }
+    if (
+      typeof value !== "object" || ("type" in value &&
+        typeof value.type === "string" &&
+        ["ExtResource", "SubResource", "Wrapped", "Verbatim"].includes(
+          value.type,
+        ))
+    ) {
+      newProps[key] = value;
+      continue;
+    }
+    if (
+      !("type" in value) ||
+      typeof value.type !== "string"
+    ) {
+      newProps[key] = {};
+      Object.entries(value).forEach(([k, v]) => {
+        (newProps[key] as Record<string, PartProp>)[k] =
+          handleRsrcs({ v }, script).v;
+      });
+      continue;
+    }
     const resourceId = createId(value);
     const isExternal = extRsrcTypes.includes(value.type);
     newProps[key] = {
       type: isExternal ? "ExtResource" : "SubResource",
       id: resourceId,
     };
-    const inlineArgs: ScriptPart["inlineArgs"] = {};
-    const props: ScriptPart["props"] = {};
-    for (
-      const [propKey, propValue] of Object.entries(
-        "props" in value ? { ...value.props as ScriptPart["props"] } : {},
-      )
-    ) {
-      if (inlineArgsProps.includes(propKey)) {
-        if (typeof propValue === "string") {
-          inlineArgs[propKey] = propValue;
-        }
-      } else {
-        props[propKey] = propValue;
-      }
-    }
+    const inlineArgs: ScriptPart["inlineArgs"] = "inlineArgs" in value
+      ? { ...value.inlineArgs as ScriptPart["inlineArgs"] }
+      : {};
+    const props: ScriptPart["props"] = "props" in value
+      ? { ...value.props as ScriptPart["props"] }
+      : {};
     if (
       !script[isExternal ? "external" : "internal"].some((s) =>
         s.id === resourceId
@@ -95,8 +97,16 @@ function handleRsrc(
       script[isExternal ? "external" : "internal"].push({
         type: value.type,
         id: resourceId,
-        inlineArgs,
-        props: addCommonProps(props, script),
+        inlineArgs: {
+          ...inlineArgs,
+          ...(isExternal &&
+            Object.fromEntries(
+              Object.entries(props).filter(([_, value]) =>
+                typeof value === "string"
+              ),
+            ) as ScriptPart["inlineArgs"]),
+        },
+        props: !isExternal ? addCommonProps(props, script) : {},
       });
     }
   }

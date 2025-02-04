@@ -27,24 +27,13 @@ export default {
     "@example",
     "```tsx",
     "<AnimatedSprite2D",
-    "  sprite_frames={createSpriteFrames([...])}",
+    "  sprite_frames={createSpriteFrames(...)}",
     '  animation="icon"',
     "/>",
     "```",
   ],
   docsHref:
     "https://docs.godotengine.org/en/stable/classes/class_animatedsprite2d.html",
-  specialProps: {
-    sprite_frames: {
-      type: "SubResource",
-    },
-  },
-  resources: {
-    sprite_frames: {
-      type: "Custom",
-
-      value:
-        'script.internal.push({ type: "SpriteFrames", id: {ID}, props: addCommonProps({ ...(props.sprite_frames && { animations: { type: "Verbatim", value: `[${props.sprite_frames.props.map((animation) => { const ids = animation.frames.map(() => createId()); animation.frames.forEach((frame, i) => { script.external.push({ type: "Texture2D", id: ids[i], inlineArgs: { path: frame.texture.props.path } }); }); return `{"frames":[${animation.frames.map((frame, i) => (`{"duration":${frame.duration},"texture":ExtResource("${ids[i]}")}`)).join(",")}],"loop":${animation.loop},"name":"${animation.name}","speed":${animation.speed}}`; }).join(",")}]`, }, }), }, script), });',
-    },
-  },
+  specialProps: {},
+  resources: {},
 } as ComponentDefinition;
