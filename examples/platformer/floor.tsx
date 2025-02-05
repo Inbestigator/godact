@@ -16,7 +16,7 @@ export default function Floor() {
     >
       <CollisionShape2D
         name="CollisionShape2D"
-        shape={createRectangleShape2D({ size: Vector2(64, 64) })}
+        shape={createRectangleShape2D(Vector2(64, 64))}
       />
       <Sprite2D
         name="Sprite2D"
