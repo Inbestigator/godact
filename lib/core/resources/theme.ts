@@ -1,4 +1,4 @@
-import type { CircleShape2D } from "./shapes/circle-shape-2d.ts";
+import type { Font } from "./font.ts";
 
 /**
  * Returntype of createTheme
@@ -17,7 +17,7 @@ export interface Theme {
  */
 export interface ThemeProps {
   default_base_scale?: number;
-  default_font?: CircleShape2D; // TODO Font
+  default_font?: Font;
   default_font_size?: number;
 }
 
