@@ -16,6 +16,7 @@ export * from "./core/nodes/visual/line-2d.tsx";
 
 export * from "./core/nodes/controls/base-button-props.ts";
 export * from "./core/nodes/controls/button.tsx";
+export * from "./core/nodes/controls/label.tsx";
 
 export * from "./core/nodes/physics/physics-props.ts";
 export * from "./core/nodes/physics/character-body-2d.tsx";
@@ -44,8 +45,8 @@ export * from "./core/resources/material.ts";
 export * from "./core/resources/curve.ts";
 export * from "./core/resources/tile-set.ts";
 export * from "./core/resources/theme.ts";
-
 export * from "./core/resources/shortcut.ts";
+export * from "./core/resources/label-settings.ts";
 
 // Types
 export * from "./core/types/vectors.ts";

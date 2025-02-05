@@ -42,7 +42,7 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     new Set(
       [...Object.values(props), extendsName]
         .filter((p) =>
-          !nonImportableProps.includes(p.replace("!", "")) &&
+          !nonImportableProps.includes(p.replace("[]", "").replace("!", "")) &&
           !p.includes("|")
         )
         .map((p) => {

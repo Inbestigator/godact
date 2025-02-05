@@ -208,6 +208,10 @@ export function ts2gd(node: AnyNode, indent = 0): string {
       }`;
       break;
 
+    case "AwaitExpression":
+      gdscript += `await ${ts2gd(node.argument)}`;
+      break;
+
     default:
       gdscript += `# Unhandled node type: ${node.type}`;
   }

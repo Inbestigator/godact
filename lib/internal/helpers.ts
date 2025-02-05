@@ -52,7 +52,7 @@ function handleRsrcs(
       "Font",
       "TileSet",
     ];
-    if (Array.isArray(value) && typeof value[0] === "object") {
+    if (Array.isArray(value)) {
       newProps[key] = value.map((v) => handleRsrcs({ v }, script).v);
       continue;
     }
