@@ -61,9 +61,7 @@ function createArea2DNode(props: Area2DProps): Node<Area2DProps> {
         type: "Area2D",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 

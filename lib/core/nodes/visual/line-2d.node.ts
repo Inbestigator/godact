@@ -29,6 +29,4 @@ export default {
     "```",
   ],
   docsHref: "https://docs.godotengine.org/en/stable/classes/class_line2d.html",
-  specialProps: {},
-  resources: {},
 } as ComponentDefinition;

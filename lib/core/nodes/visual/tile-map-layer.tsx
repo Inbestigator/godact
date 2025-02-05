@@ -63,9 +63,7 @@ function createTileMapLayerNode(
         type: "TileMapLayer",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 

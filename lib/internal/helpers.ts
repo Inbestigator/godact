@@ -123,7 +123,7 @@ export function addNodeEntry({
   type: string;
   name: string;
   parent?: string;
-  props: Record<string, unknown>;
+  props: unknown;
   script: ScriptSections;
 }) {
   script.nodes.push({
@@ -142,7 +142,8 @@ export function addNodeEntry({
 export function createId(data?: unknown) {
   if (data) {
     if (typeof data === "object" && "children" in data) {
-      delete data.children;
+      const { children: _, ...rest } = data;
+      data = rest;
     }
     const hash = crypto.createHash("sha256");
     hash.update(stringify(data));

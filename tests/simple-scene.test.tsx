@@ -46,11 +46,11 @@ function Player() {
     <CharacterBody2D name="Player" position={Vector2(64, 64)}>
       <Sprite2D
         name="Sprite2D"
-        texture={createTexture2D({ path: "res://icon.svg" })}
+        texture={createTexture2D("res://icon.svg")}
       />
       <CollisionShape2D
         name="CollisionShape2D"
-        shape={createRectangleShape2D({ size: Vector2(128, 128) })}
+        shape={createRectangleShape2D(Vector2(128, 128))}
       />
     </CharacterBody2D>
   );
@@ -65,11 +65,11 @@ function Floor() {
     >
       <CollisionShape2D
         name="CollisionShape2D"
-        shape={createRectangleShape2D({ size: Vector2(64, 64) })}
+        shape={createRectangleShape2D(Vector2(64, 64))}
       />
       <Sprite2D
         name="Sprite2D"
-        texture={createTexture2D({ path: "res://icon.svg" })}
+        texture={createTexture2D("res://icon.svg")}
         scale={Vector2(0.5, 0.5)}
       />
     </StaticBody2D>

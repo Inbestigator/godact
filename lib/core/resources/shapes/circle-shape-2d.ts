@@ -5,16 +5,9 @@
  */
 export interface CircleShape2D {
   type: "CircleShape2D";
-  props: CircleShape2DProps;
-}
-
-/**
- * Props for createCircleShape2D
- *
- * @category Node2D
- */
-export interface CircleShape2DProps {
-  radius?: number;
+  props: {
+    radius?: number;
+  };
 }
 
 /**
@@ -23,7 +16,7 @@ export interface CircleShape2DProps {
  * @example
  * ```tsx
  * <CollisionShape2D
- *   shape={createCircleShape2D({ radius: 5 })}
+ *   shape={createCircleShape2D(5)}
  * />
  * ```
  *
@@ -31,10 +24,12 @@ export interface CircleShape2DProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_circleshape2d.html
  */
 export function createCircleShape2D(
-  props: CircleShape2DProps = {},
+  radius?: number,
 ): CircleShape2D {
   return {
     type: "CircleShape2D",
-    props,
+    props: {
+      radius,
+    },
   };
 }

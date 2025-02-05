@@ -55,6 +55,4 @@ export default {
     "```",
   ],
   docsHref: "https://docs.godotengine.org/en/stable/classes/class_control.html",
-  specialProps: {},
-  resources: {},
 } as ComponentDefinition;

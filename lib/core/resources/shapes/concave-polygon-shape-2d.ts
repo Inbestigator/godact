@@ -14,21 +14,12 @@ export interface ConcavePolygonShape2D {
 }
 
 /**
- * Props for createConcavePolygonShape2D
- *
- * @category Node2D
- */
-export interface ConcavePolygonShape2DProps {
-  segments?: Vector2Type[];
-}
-
-/**
  * A 2D polyline shape used for physics collision.
  *
  * @example
  * ```tsx
  * <CollisionShape2D
- *   shape={createConcavePolygonShape2D({ segments: [Vector2(1, 2), Vector2(3, 4)] })}
+ *   shape={createConcavePolygonShape2D(Vector2(1, 2), Vector2(3, 4))}
  * />
  * ```
  *
@@ -36,10 +27,10 @@ export interface ConcavePolygonShape2DProps {
  * @see https://docs.godotengine.org/en/stable/classes/class_concavepolygonshape2d.html
  */
 export function createConcavePolygonShape2D(
-  props: ConcavePolygonShape2DProps = {},
+  ...segments: Vector2Type[]
 ): ConcavePolygonShape2D {
   return {
     type: "ConcavePolygonShape2D",
-    props: { segments: PackedArray<Vector2Type>(...(props.segments ?? [])) },
+    props: { segments: PackedArray<Vector2Type>(...segments) },
   };
 }

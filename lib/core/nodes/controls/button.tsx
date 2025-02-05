@@ -54,9 +54,7 @@ function createButtonNode(props: ButtonProps): Node<ButtonProps> {
         type: "Button",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 

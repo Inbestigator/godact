@@ -77,6 +77,7 @@ function stringifyProp(prop: PartProp): string {
   }
   return `{${
     Object.entries(prop)
+      .filter(([_k, v]) => typeof v !== "undefined")
       .map(([key, value]) => `"${key}": ${stringifyProp(value)}`)
       .join(", ")
   }}`;
@@ -112,9 +113,11 @@ export function createRenderer(out?: string): Renderer {
         ).join("")
       }]\n`;
       if (entry.props && Object.keys(entry.props).length) {
-        text += Object.entries(entry.props).map(([key, prop]) => {
-          return `${key} = ${stringifyProp(prop)}`;
-        }).join("\n") + "\n";
+        text += Object.entries(entry.props)
+          .filter(([_k, p]) => typeof p !== "undefined")
+          .map(([key, prop]) => {
+            return `${key} = ${stringifyProp(prop)}`;
+          }).join("\n") + "\n";
       }
     });
     return text;

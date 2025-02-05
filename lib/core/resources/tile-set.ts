@@ -5,16 +5,7 @@
  */
 export interface TileSet {
   type: "TileSet";
-  props: TileSetProps;
-}
-
-/**
- * Props for createTileSet
- *
- * @category Visual
- */
-export interface TileSetProps {
-  path: string;
+  props: { path: string };
 }
 
 /**
@@ -22,15 +13,18 @@ export interface TileSetProps {
  *
  * @example
  * ```tsx
- * <TileSet path="res://tileset.tres" />
+ * <TileMapLayer
+ *   name="TileMapLayer"
+ *   tile_set={createTileSet("res://tileset.tres")}
+ * />
  * ```
  *
  * @category Visual
  * @see https://docs.godotengine.org/en/stable/classes/class_tileset.html
  */
-export function createTileSet(props: TileSetProps): TileSet {
+export function createTileSet(path: string): TileSet {
   return {
     type: "TileSet",
-    props,
+    props: { path },
   };
 }

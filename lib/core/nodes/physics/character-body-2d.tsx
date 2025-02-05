@@ -66,9 +66,7 @@ function createCharacterBody2DNode(
         type: "CharacterBody2D",
         name: nodeName,
         parent,
-        props: {
-          ...props,
-        },
+        props,
         script,
       });
 
