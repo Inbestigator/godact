@@ -5,7 +5,7 @@ import {
   Sprite2D,
   StaticBody2D,
   Vector2,
-} from "@inbestigator/godact";
+} from "@gdx/godact";
 
 export default function Floor() {
   return (

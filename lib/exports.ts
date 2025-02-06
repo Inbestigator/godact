@@ -6,7 +6,6 @@ export { transpile } from "./internal/helpers.ts";
 export * from "./core/nodes/node.ts";
 export * from "./core/nodes/node-2d.tsx";
 export * from "./core/nodes/control.tsx";
-export * from "./core/nodes/collision-shape-2d.tsx";
 
 export * from "./core/nodes/visual/sprite-2d.tsx";
 export * from "./core/nodes/visual/camera-2d.tsx";
@@ -19,6 +18,7 @@ export * from "./core/nodes/controls/button.tsx";
 export * from "./core/nodes/controls/label.tsx";
 export * from "./core/nodes/controls/text-edit.tsx";
 
+export * from "./core/nodes/physics/collision-shape-2d.tsx";
 export * from "./core/nodes/physics/physics-props.ts";
 export * from "./core/nodes/physics/character-body-2d.tsx";
 export * from "./core/nodes/physics/rigid-body-2d.tsx";

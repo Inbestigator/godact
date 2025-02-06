@@ -1,5 +1,5 @@
-import type { ComponentDefinition } from "../../../parseNodeDefs.ts";
-import node2dNode from "./node-2d.node.ts";
+import type { ComponentDefinition } from "../../../../parseNodeDefs.ts";
+import node2dNode from "../node-2d.node.ts";
 
 export default {
   name: "CollisionShape2D",

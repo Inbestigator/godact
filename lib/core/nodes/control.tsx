@@ -8,7 +8,7 @@ import type {
   NodePathType,
   Theme,
   Vector2Type,
-} from "@inbestigator/godact";
+} from "@gdx/godact";
 
 /**
  * Props for a Control

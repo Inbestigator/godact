@@ -6,7 +6,7 @@ import {
   PackedArray,
   Vector2,
   type Vector2Type,
-} from "@inbestigator/godact";
+} from "@gdx/godact";
 import "./react-logo.ts"; // This just makes watchers update for this one too
 
 const createPoints = (radius: Vector2Type, rotation: number, numPoints = 101) =>

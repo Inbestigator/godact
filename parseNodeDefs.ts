@@ -63,7 +63,7 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
     addNodeEntry,
     createId,
   } from "${"../".repeat(deep)}internal/helpers.ts";
-  import type {${propImports.join(",\n")}} from "@inbestigator/godact";
+  import type {${propImports.join(",\n")}} from "@gdx/godact";
   
   /**
    * Props for a ${name}

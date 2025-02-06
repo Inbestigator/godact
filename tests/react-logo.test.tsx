@@ -5,7 +5,7 @@ import {
   PackedArray,
   Vector2,
   type Vector2Type,
-} from "@inbestigator/godact";
+} from "@gdx/godact";
 import { createRenderer } from "../lib/internal/renderer.ts";
 import { reconciler } from "../lib/internal/reconciler.ts";
 import { assertEquals } from "@std/assert";

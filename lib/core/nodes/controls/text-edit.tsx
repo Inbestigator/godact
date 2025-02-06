@@ -2,7 +2,7 @@ import type { ReactNode } from "types/react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addNodeEntry, createId } from "../../../internal/helpers.ts";
-import type { ControlProps, SyntaxHighlighter } from "@inbestigator/godact";
+import type { ControlProps, SyntaxHighlighter } from "@gdx/godact";
 
 /**
  * Props for a TextEdit

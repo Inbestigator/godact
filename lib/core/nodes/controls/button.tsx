@@ -2,7 +2,7 @@ import type { ReactNode } from "types/react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addNodeEntry, createId } from "../../../internal/helpers.ts";
-import type { BaseButtonProps, Texture2D } from "@inbestigator/godact";
+import type { BaseButtonProps, Texture2D } from "@gdx/godact";
 
 /**
  * Props for a Button

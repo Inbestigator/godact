@@ -9,7 +9,7 @@ import type {
   Node2DProps,
   PackedArrayType,
   Vector2Type,
-} from "@inbestigator/godact";
+} from "@gdx/godact";
 
 /**
  * Props for a Line2D

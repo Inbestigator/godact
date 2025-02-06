@@ -1,4 +1,4 @@
-import { createGodactScene, Node2D } from "@inbestigator/godact";
+import { createGodactScene, Node2D } from "@gdx/godact";
 import Player from "./player.tsx";
 import Floor from "./floor.tsx";
 

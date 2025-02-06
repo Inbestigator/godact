@@ -7,7 +7,7 @@ import {
   Sprite2D,
   StaticBody2D,
   Vector2,
-} from "@inbestigator/godact";
+} from "@gdx/godact";
 import { createRenderer } from "../lib/internal/renderer.ts";
 import { reconciler } from "../lib/internal/reconciler.ts";
 import { assertEquals } from "@std/assert";

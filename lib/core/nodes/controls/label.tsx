@@ -2,11 +2,7 @@ import type { ReactNode } from "types/react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addNodeEntry, createId } from "../../../internal/helpers.ts";
-import type {
-  BitFieldType,
-  ControlProps,
-  LabelSettings,
-} from "@inbestigator/godact";
+import type { BitFieldType, ControlProps, LabelSettings } from "@gdx/godact";
 
 /**
  * Props for a Label

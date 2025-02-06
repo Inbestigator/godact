@@ -1,12 +1,8 @@
 import type { ReactNode } from "types/react";
-import { GodotNode } from "../../internal/element.ts";
-import { createNode, type Node } from "../../internal/node.ts";
-import { addNodeEntry, createId } from "../../internal/helpers.ts";
-import type {
-  ColorType,
-  Node2DProps,
-  Shape2DTypes,
-} from "@inbestigator/godact";
+import { GodotNode } from "../../../internal/element.ts";
+import { createNode, type Node } from "../../../internal/node.ts";
+import { addNodeEntry, createId } from "../../../internal/helpers.ts";
+import type { ColorType, Node2DProps, Shape2DTypes } from "@gdx/godact";
 
 /**
  * Props for a CollisionShape2D

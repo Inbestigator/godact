@@ -7,7 +7,7 @@ import type {
   Rect2Type,
   Texture2D,
   Vector2Type,
-} from "@inbestigator/godact";
+} from "@gdx/godact";
 
 /**
  * Props for a Sprite2D

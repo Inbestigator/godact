@@ -7,7 +7,7 @@ import type {
   Node2DProps,
   PackedArrayType,
   TileSet,
-} from "@inbestigator/godact";
+} from "@gdx/godact";
 
 /**
  * Props for a TileMapLayer

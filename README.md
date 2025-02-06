@@ -23,7 +23,7 @@ import {
   createGodactScene,
   createTexture2D,
   Sprite2D,
-} from "@inbestigator/godact";
+} from "@gdx/godact";
 
 function Player() {
   return (
@@ -133,4 +133,6 @@ Component status:
 | AnimatableBody2D | Physics   | 5                |               |
 | Area2D           | Physics   | 5                |               |
 | PhysicalBone2D   | Physics   | 5                |               |
-| Button           | Controls  | 3, 5             | `shortcuts`   |
+| Button           | Controls  | 3, 5             | `shortcut`    |
+| TextEdit         | Controls  | 5                |               |
+| Label            | Controls  | 5                |               |

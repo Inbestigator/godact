@@ -6,7 +6,7 @@ import type {
   PhysicsBody2DProps,
   PhysicsMaterial,
   Vector2Type,
-} from "@inbestigator/godact";
+} from "@gdx/godact";
 
 /**
  * Props for a RigidBody2D
