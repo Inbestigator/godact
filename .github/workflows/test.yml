@@ -10,10 +10,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-      id-token: write
-
     steps:
       - uses: actions/checkout@v4
 
@@ -23,4 +19,4 @@ jobs:
 
       - name: Test
         run: |
-          deno test --allow-read
+          deno test --allow-read --allow-write
