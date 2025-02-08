@@ -1,6 +1,6 @@
 {
   "name": "@gdx/godact",
-  "version": "0.6.5",
+  "version": "0.7.0-rc-1",
   "tasks": {
     "parseDefs": "deno run --allow-read --allow-write parseNodeDefs.ts"
   },
