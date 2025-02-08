@@ -1,6 +1,6 @@
 {
   "name": "@gdx/godact",
-  "version": "0.6.5",
+  "version": "0.7.0-rc-1",
   "tasks": {
     "parseDefs": "deno run --allow-read --allow-write parseNodeDefs.ts"
   },
@@ -13,7 +13,10 @@
     "react": "npm:react@^18.3.1",
     "react-reconciler": "npm:react-reconciler@^0.29.2"
   },
-  "exports": "./lib/exports.ts",
+  "exports": {
+    ".": "./lib/exports.ts",
+    "./methods": "./lib/gdscript-methods.ts"
+  },
   "publish": {
     "include": [
       "lib",
