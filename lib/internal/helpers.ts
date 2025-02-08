@@ -10,7 +10,7 @@ import { cwd } from "node:process";
 import eventPropNums from "./events-props.json" with { type: "json" };
 
 const importMatch =
-  /(?:(?:const|let|var)\s+((?:[\s]|.)+?)\s*=\s*(?:await\s+)?)?(?:import\([`'"])([^`'"]+)[`'"].+/g;
+  /(?:(?:const|let|var)(.+?)=\s*(?:await\s+)?)?import\([`'"]([^`'"]+)[`'"].*/g;
 
 function extractDI(funcString: string): Record<string, string> {
   const matches = [...funcString.matchAll(importMatch)];
@@ -249,7 +249,7 @@ export function transpile(filePath: string): string {
   writeFileSync(
     filePath,
     original.replace(
-      /import((?:[\s]|.)+?)from\s+['"`]@gdx\/godact\/methods['"`].+/,
+      /import([\s\S]+?)from\s+['"`]@gdx\/godact\/methods['"`].*/,
       "const $1 = null;",
     ),
   );
