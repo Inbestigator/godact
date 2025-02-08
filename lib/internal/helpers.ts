@@ -5,12 +5,12 @@ import { buildSync } from "esbuild";
 import { join } from "node:path";
 import crypto from "node:crypto";
 import { stringify } from "flatted";
-import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { cwd } from "node:process";
 import eventPropNums from "./events-props.json" with { type: "json" };
 
 const importMatch =
-  /(?:(?:const|let|var)\s*(.+?)\s*=\s*(?:await )?)?(?:import\([`'"])([^`'"]+)[`'"].+/g;
+  /(?:(?:const|let|var)\s+((?:[\s]|.)+?)\s*=\s*(?:await\s+)?)?(?:import\([`'"])([^`'"]+)[`'"].+/g;
 
 function extractDI(funcString: string): Record<string, string> {
   const matches = [...funcString.matchAll(importMatch)];
@@ -26,7 +26,7 @@ export function addCommonProps(
 ): Record<string, PartProp> {
   const events = Object.entries(props).filter(
     ([k, v]) => k.startsWith("on") && typeof v === "function",
-  );
+  ).map(([k, v]) => [k, v.toString()]);
   const fileId = `${name}-${createId(events)}`;
   const gdOutDir = "./." + createId(script.out);
   mkdirSync(gdOutDir, { recursive: true });
@@ -36,9 +36,8 @@ export function addCommonProps(
       imports: [`"extends ${name}"`],
       fns: [],
     };
-    for (const [k, v] of events) {
-      let funcString = v.toString();
-      const dependencies = extractDI(funcString);
+    for (let [k, v] of events) {
+      const dependencies = extractDI(v);
 
       const imports = Object.entries(dependencies)
         .map(
@@ -53,7 +52,7 @@ export function addCommonProps(
         /[A-Z]/g,
         (m) => `_${m.toLowerCase()}`,
       );
-      const firstLine = funcString.split("\n")[0];
+      const firstLine = v.split("\n")[0];
       if ((/\(.*\)=>/).test(firstLine)) {
         const match = firstLine.match(/\((.*)\)=>({)?(.+)/);
         if (!match || !(funcName in eventPropNums)) {
@@ -71,17 +70,17 @@ export function addCommonProps(
             ) => `_${index + 1}`).join(",");
           functionProps = functionProps.concat(padding);
         }
-        funcString = [
+        v = [
           `function ${funcName}(${functionProps.join(",")}) ${
             match[2] ? "" : "{"
           }`,
           match[3],
-          ...funcString.split("\n").slice(1),
+          ...v.split("\n").slice(1),
           match[2] ? "" : "}",
         ].join("\n");
       }
       gdParts.fns.push(
-        `${funcString.replaceAll(importMatch, "")}\n${funcName}();`,
+        `${v.replaceAll(importMatch, "")}\n${funcName}();`,
       );
     }
 
@@ -245,14 +244,28 @@ export function createId(data?: unknown) {
  * @returns The transpiled script as a string.
  */
 export function transpile(filePath: string): string {
-  const { outputFiles } = buildSync({
+  const original = readFileSync(filePath, "utf-8");
+  // Silliest fix ever lmfao
+  writeFileSync(
+    filePath,
+    original.replace(
+      /import((?:[\s]|.)+?)from\s+['"`]@gdx\/godact\/methods['"`].+/,
+      "const $1 = null;",
+    ),
+  );
+
+  const { outputFiles: [{ text }] } = buildSync({
     entryPoints: [filePath],
     bundle: true,
     write: false,
   });
+  writeFileSync(
+    filePath,
+    original,
+  );
   const ast = parse(
-    outputFiles[0].text.replace("(() => {", "").replace(/}\)\(\);\s*$/, ""),
-    { ecmaVersion: "latest" },
+    text.replace("(() => {", "").replace(/}\)\(\);\s*$/, ""),
+    { ecmaVersion: "latest", sourceType: "module" },
   );
 
   return ts2gd(ast).replace(/"extends (.+)"/, "extends $1").replaceAll(

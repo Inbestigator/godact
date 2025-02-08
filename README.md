@@ -48,32 +48,35 @@ createGodactScene(<Player />, "./player.tscn");
 // player.ts
 "extends CharacterBody2D";
 
-const Godot: any = null;
+import { GlobalMethods } from "@gdx/godact/methods";
 
 const SPEED = 300.0;
 const JUMP_VELOCITY = -400.0;
 
 export function _physics_process(delta: number) {
-  if (!Godot.is_on_floor()) {
-    Godot.velocity += Godot.get_gravity() * delta;
+  if (!GlobalMethods.is_on_floor()) {
+    GlobalMethods.velocity += GlobalMethods.get_gravity() * delta;
   }
 
-  if (Godot.Input.is_action_just_pressed("ui_accept") && Godot.is_on_floor()) {
-    Godot.velocity.y = JUMP_VELOCITY;
+  if (
+    GlobalMethods.Input.is_action_just_pressed("ui_accept") &&
+    GlobalMethods.is_on_floor()
+  ) {
+    GlobalMethods.velocity.y = JUMP_VELOCITY;
   }
 
-  const direction = Godot.Input.get_axis("ui_left", "ui_right");
+  const direction = GlobalMethods.Input.get_axis("ui_left", "ui_right");
   if (direction) {
-    Godot.velocity.x = direction * SPEED;
+    GlobalMethods.velocity.x = direction * SPEED;
   } else {
-    Godot.velocity.x = Godot.move_toward(
-      Godot.velocity.x,
+    GlobalMethods.velocity.x = GlobalMethods.move_toward(
+      GlobalMethods.velocity.x,
       0,
-      SPEED * delta * (Godot.is_on_floor() ? 2 : 1),
+      SPEED * delta * (GlobalMethods.is_on_floor() ? 2 : 1),
     );
   }
 
-  Godot.move_and_slide();
+  GlobalMethods.move_and_slide();
 }
 ```
 
