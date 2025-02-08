@@ -3,6 +3,19 @@ import type { ComponentDefinition } from "../../../parseNodeDefs.ts";
 export default {
   name: "Node2D",
   extends: "CanvasItemProps",
+  events: [
+    {
+      name: "_ready",
+    },
+    {
+      name: "_physics_process",
+      props: { delta: "number" },
+    },
+    {
+      name: "_process",
+      props: { delta: "number" },
+    },
+  ],
   props: {
     position: "Vector2Type",
     rotation: "number",

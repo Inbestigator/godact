@@ -16,6 +16,9 @@ export interface Node2DProps extends CanvasItemProps {
   skew?: number;
   children?: ReactNode;
   transform?: Transform2D;
+  onReady?: () => void;
+  onPhysicsProcess?: (delta: number) => void;
+  onProcess?: (delta: number) => void;
 }
 
 /**

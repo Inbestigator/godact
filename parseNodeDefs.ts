@@ -3,20 +3,41 @@ export type ComponentDefinition = {
   extends: string;
   inherits?: ComponentDefinition;
   props: Record<string, string>;
+  events?: {
+    name: string;
+    props?: Record<string, string>;
+  }[];
   docs: string[];
   docsHref: string;
   category: string;
 };
 
-function generateComponent(def: ComponentDefinition, deep: number): string {
+function generateComponent(
+  def: ComponentDefinition,
+  deep: number,
+): string {
   const {
     name,
-    props,
     category,
     extends: extendsName,
     docs,
     docsHref,
   } = def;
+  let { props, events = [] } = def;
+
+  props = {
+    ...props,
+    ...Object.fromEntries(
+      events.map((
+        e,
+      ) => [
+        "on" + e.name.replaceAll(/_[a-z]/g, (m) => m[1].toUpperCase()),
+        `(${
+          Object.entries(e.props ?? {}).map(([k, v]) => `${k}: ${v}`).join(", ")
+        })=> void`,
+      ]),
+    ),
+  };
 
   const propsInterface = `${name}Props`;
   const interfaceProps = Object.entries(props)
@@ -40,10 +61,14 @@ function generateComponent(def: ComponentDefinition, deep: number): string {
   ];
   const propImports = Array.from(
     new Set(
-      [...Object.values(props), extendsName]
+      [
+        ...Object.values(props),
+        extendsName,
+        ...events.map((e) => Object.values(e.props ?? {})).flat(),
+      ]
         .filter((p) =>
           !nonImportableProps.includes(p.replace("[]", "").replace("!", "")) &&
-          !p.includes("|")
+          !p.includes("|") && !p.includes("=>")
         )
         .map((p) => {
           const type = p.replace("!", "");
