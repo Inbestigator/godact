@@ -19,6 +19,10 @@ function extractDI(funcString: string): Record<string, string> {
   );
 }
 
+function isCoreEvent(event: string): boolean {
+  return ["onReady", "onPhysicsProcess", "onProcess"].includes(event);
+}
+
 export function addCommonProps(
   props: Record<string, PartProp>,
   script: ScriptSections,
@@ -31,11 +35,25 @@ export function addCommonProps(
   const gdOutDir = "./." + createId(script.out);
   mkdirSync(gdOutDir, { recursive: true });
 
+  const signalsToConnect: string[] = [];
+
   if (!props.script && events.length) {
     const gdParts: { imports: string[]; fns: string[] } = {
       imports: [`"extends ${name}"`],
       fns: [],
     };
+    events.sort((
+      [k1],
+      [k2],
+    ) => (k1 === "onReady" ? 1 : k2 === "onReady" ? -1 : 0));
+
+    if (
+      !events.some(([k]) => k === "onReady") &&
+      events.some(([k]) => !isCoreEvent(k))
+    ) {
+      events.push(["onReady", "()=>{\n}"]) + 1;
+    }
+
     for (let [k, v] of events) {
       const dependencies = extractDI(v);
 
@@ -52,6 +70,9 @@ export function addCommonProps(
         /[A-Z]/g,
         (m) => `_${m.toLowerCase()}`,
       );
+      if (!isCoreEvent(k)) {
+        signalsToConnect.push(funcName);
+      }
       const firstLine = v.split("\n")[0];
       if ((/\(.*\)=>/).test(firstLine)) {
         const match = firstLine.match(/\((.*)\)=>({)?(.+)/);
@@ -74,7 +95,11 @@ export function addCommonProps(
           `function ${funcName}(${functionProps.join(",")}) ${
             match[2] ? "" : "{"
           }`,
-          match[3],
+          funcName === "_ready"
+            ? signalsToConnect.map((s) => `connect("${s.slice(1)}", ${s})`)
+              .join("\n")
+            : "",
+          match[3] !== "}" ? match[3] : "",
           ...v.split("\n").slice(1),
           match[2] ? "" : "}",
         ].join("\n");

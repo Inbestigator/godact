@@ -1,5 +1,13 @@
 {
   "_ready": 0,
   "_physics_process": 1,
-  "_process": 1
+  "_process": 1,
+  "_area_entered": 1,
+  "_area_exited": 1,
+  "_area_shape_entered": 4,
+  "_area_shape_exited": 4,
+  "_body_entered": 1,
+  "_body_exited": 1,
+  "_body_shape_entered": 4,
+  "_body_shape_exited": 4
 }

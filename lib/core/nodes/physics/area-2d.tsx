@@ -2,7 +2,12 @@ import type { ReactNode } from "types/react";
 import { GodotNode } from "../../../internal/element.ts";
 import { createNode, type Node } from "../../../internal/node.ts";
 import { addNodeEntry, createId } from "../../../internal/helpers.ts";
-import type { CollisionObject2DProps, Vector2Type } from "@gdx/godact";
+import type {
+  CollisionObject2DProps,
+  NodeMethods,
+  RID,
+  Vector2Type,
+} from "@gdx/godact";
 
 /**
  * Props for a Area2D
@@ -25,6 +30,34 @@ export interface Area2DProps extends CollisionObject2DProps {
   monitorable?: boolean;
   monitoring?: boolean;
   priority?: number;
+  onAreaEntered?: (area: NodeMethods) => void;
+  onAreaExited?: (area: NodeMethods) => void;
+  onAreaShapeEntered?: (
+    area_rid: RID,
+    area: NodeMethods,
+    area_shape_index: number,
+    local_shape_index: number,
+  ) => void;
+  onAreaShapeExited?: (
+    area_rid: RID,
+    area: NodeMethods,
+    area_shape_index: number,
+    local_shape_index: number,
+  ) => void;
+  onBodyEntered?: (body: NodeMethods) => void;
+  onBodyExited?: (body: NodeMethods) => void;
+  onBodyShapeEntered?: (
+    body_rid: RID,
+    body: NodeMethods,
+    body_shape_index: number,
+    local_shape_index: number,
+  ) => void;
+  onBodyShapeExited?: (
+    body_rid: RID,
+    body: NodeMethods,
+    body_shape_index: number,
+    local_shape_index: number,
+  ) => void;
 }
 
 /**
