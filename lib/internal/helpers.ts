@@ -1,5 +1,5 @@
 import type { PartProp, ScriptPart, ScriptSections } from "./renderer.ts";
-import { parse } from "acorn";
+import { createSourceFile, ScriptTarget } from "typescript";
 import { ts2gd } from "./ts2gd.ts";
 import { buildSync } from "esbuild";
 import { join } from "node:path";
@@ -275,7 +275,7 @@ export function transpile(filePath: string): string {
     filePath,
     original.replace(
       /import([\s\S]+?)from\s+['"`]@gdx\/godact\/methods['"`].*/,
-      "const $1 = null;",
+      "",
     ),
   );
 
@@ -288,9 +288,10 @@ export function transpile(filePath: string): string {
     filePath,
     original,
   );
-  const ast = parse(
+  const ast = createSourceFile(
+    "android.ts",
     text.replace("(() => {", "").replace(/}\)\(\);\s*$/, ""),
-    { ecmaVersion: "latest", sourceType: "module" },
+    ScriptTarget.Latest,
   );
 
   return ts2gd(ast).replace(/"extends (.+)"/, "extends $1").replaceAll(

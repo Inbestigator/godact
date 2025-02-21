@@ -1,6 +1,7 @@
-import type { AnyNode, IfStatement } from "acorn";
+import ts from "typescript";
+const SyntaxKind = ts.SyntaxKind;
 
-export function ts2gd(node: AnyNode, indent = 0): string {
+export function ts2gd(node: ts.Node, indent = 0): string {
   const indentation = " ".repeat(indent);
   let gdscript = "";
 
@@ -8,213 +9,332 @@ export function ts2gd(node: AnyNode, indent = 0): string {
     return "";
   }
 
-  function ifStatement(node: IfStatement) {
-    gdscript += ts2gd(node.consequent, indent + 4);
+  function ifStatement(statement: ts.IfStatement) {
+    gdscript += ts2gd(statement.thenStatement, indent + 4);
 
-    if (node.alternate) {
-      if (node.alternate.type === "IfStatement") {
-        gdscript += `${indentation}elif ${ts2gd(node.alternate.test)}:\n`;
-        ifStatement(node.alternate);
+    if (statement.elseStatement) {
+      if (statement.elseStatement.kind === SyntaxKind.IfStatement) {
+        const stm = statement.elseStatement as ts.IfStatement;
+        gdscript += `${indentation}elif ${ts2gd(stm.expression)}:\n`;
+        ifStatement(stm);
       } else {
         gdscript += `${indentation}else:\n`;
-        gdscript += ts2gd(node.alternate, indent + 4);
+        gdscript += ts2gd(statement.elseStatement, indent + 4);
       }
     }
   }
 
-  switch (node.type) {
-    case "Program":
-      node.body.forEach((childNode) => {
-        gdscript += ts2gd(childNode, indent) + "\n";
-      });
-      break;
-
-    case "IfStatement": {
-      gdscript += `${indentation}if ${ts2gd(node.test)}:\n`;
-      ifStatement(node);
+  switch (node.kind) {
+    case SyntaxKind.StringLiteral: {
+      const lit = node as ts.StringLiteral;
+      gdscript += `"${lit.text}"`;
       break;
     }
-    case "BlockStatement":
-      node.body.forEach((childNode) => {
+
+    case SyntaxKind.ObjectBindingPattern: {
+      const pattern = node as ts.ObjectBindingPattern;
+      gdscript += `{${pattern.elements.map(ts2gd).join(", ")}}`;
+      break;
+    }
+
+    case SyntaxKind.BindingElement: {
+      const element = node as ts.BindingElement;
+      gdscript += ts2gd(element.name);
+      if (element.initializer) {
+        gdscript += ` = ${ts2gd(element.initializer)}`;
+      }
+      break;
+    }
+
+    case SyntaxKind.NullKeyword: {
+      gdscript += "null";
+      break;
+    }
+
+    case SyntaxKind.TrueKeyword: {
+      gdscript += "true";
+      break;
+    }
+
+    case SyntaxKind.FalseKeyword: {
+      gdscript += "false";
+      break;
+    }
+
+    case SyntaxKind.IfStatement: {
+      const stm = node as ts.IfStatement;
+      gdscript += `${indentation}if ${ts2gd(stm.expression)}:\n`;
+      ifStatement(stm);
+      break;
+    }
+
+    case SyntaxKind.Block: {
+      const stm = node as ts.Block;
+      stm.forEachChild((childNode) => {
+        gdscript += ts2gd(childNode, indent);
+      });
+      break;
+    }
+
+    case SyntaxKind.ExpressionStatement: {
+      const stm = node as ts.ExpressionStatement;
+      gdscript += indentation + ts2gd(stm.expression) + "\n";
+      break;
+    }
+
+    case SyntaxKind.FirstStatement:
+    case SyntaxKind.LastStatement:
+    case SyntaxKind.VariableStatement: {
+      const stm = node as ts.VariableStatement;
+      stm.declarationList.declarations.forEach((dec) => {
+        gdscript += `${indentation}${ts2gd(dec)}\n`;
+      });
+      break;
+    }
+
+    case SyntaxKind.FirstLiteralToken:
+    case SyntaxKind.LastLiteralToken:
+    case SyntaxKind.NumericLiteral: {
+      const lit = node as ts.NumericLiteral;
+      gdscript += lit.text;
+      break;
+    }
+
+    case SyntaxKind.ArrayLiteralExpression: {
+      const exp = node as ts.ArrayLiteralExpression;
+      gdscript += `[${exp.elements.map(ts2gd).join(", ")}]`;
+      break;
+    }
+
+    case SyntaxKind.CallExpression: {
+      const exp = node as ts.CallExpression;
+      gdscript += `${ts2gd(exp.expression)}(${
+        exp.arguments.map(ts2gd).join(", ")
+      })`;
+      break;
+    }
+
+    case SyntaxKind.Identifier: {
+      const idn = node as ts.Identifier;
+      gdscript += idn.escapedText;
+      break;
+    }
+
+    case SyntaxKind.Parameter: {
+      const param = node as ts.ParameterDeclaration;
+      gdscript += ts2gd(param.name);
+      if (param.initializer) {
+        gdscript += ` = ${ts2gd(param.initializer)}`;
+      }
+      break;
+    }
+
+    case SyntaxKind.VariableDeclaration: {
+      const dec = node as ts.VariableDeclaration;
+      if (!dec.name) {
+        break;
+      }
+      gdscript += `${indentation}var ${ts2gd(dec.name)}`;
+      if (dec.initializer) {
+        gdscript += ` = ${ts2gd(dec.initializer)}`;
+      }
+      break;
+    }
+
+    case SyntaxKind.FunctionDeclaration: {
+      const dec = node as ts.FunctionDeclaration;
+      if (!dec.name) {
+        break;
+      }
+      gdscript += `${indentation}func ${ts2gd(dec.name)}(${
+        dec.parameters
+          .map(ts2gd)
+          .join(", ")
+      }):\n`;
+      dec.body && (gdscript += ts2gd(dec.body, indent + 4));
+      break;
+    }
+
+    case SyntaxKind.FunctionExpression: {
+      const exp = node as ts.FunctionExpression;
+      if (!exp.name) {
+        break;
+      }
+      gdscript += `${indentation}func ${ts2gd(exp.name)}(${
+        exp.parameters
+          .map(ts2gd)
+          .join(", ")
+      }):\n`;
+      gdscript += ts2gd(exp.body, indent + 4);
+      break;
+    }
+
+    case SyntaxKind.PropertyAccessExpression: {
+      const exp = node as ts.PropertyAccessExpression;
+      gdscript += `${ts2gd(exp.expression)}.${ts2gd(exp.name)}`;
+      break;
+    }
+
+    case SyntaxKind.WhileStatement: {
+      const stm = node as ts.WhileStatement;
+      gdscript += `${indentation}while ${ts2gd(stm.expression)}:\n`;
+      gdscript += ts2gd(stm.statement, indent + 4);
+      break;
+    }
+
+    case SyntaxKind.ReturnStatement: {
+      const stm = node as ts.ReturnStatement;
+      gdscript += `${indentation}return`;
+      stm.expression &&
+        (gdscript += `${indentation}return ${ts2gd(stm.expression)}`);
+
+      gdscript += "\n";
+      break;
+    }
+
+    case SyntaxKind.ForInStatement: {
+      const stm = node as ts.ForInStatement;
+      gdscript += `${indentation}for ${
+        ts2gd(stm.initializer).replaceAll(/var |\n/g, "")
+      } in ${ts2gd(stm.expression)}:\n`;
+      gdscript += ts2gd(stm.statement, indent + 4);
+      break;
+    }
+
+    case SyntaxKind.VariableDeclarationList: {
+      const list = node as ts.VariableDeclarationList;
+      list.forEachChild((dec) => {
+        gdscript += `${indentation}${ts2gd(dec)}\n`;
+      });
+      break;
+    }
+
+    case SyntaxKind.TaggedTemplateExpression: {
+      const exp = node as ts.TaggedTemplateExpression;
+      gdscript += `${ts2gd(exp.tag)}${ts2gd(exp.template)}`;
+      break;
+    }
+
+    case SyntaxKind.BinaryExpression: {
+      const exp = node as ts.BinaryExpression;
+      gdscript += `${ts2gd(exp.left)} ${Tokenize(exp.operatorToken.kind)} ${
+        ts2gd(exp.right)
+      }`;
+      break;
+    }
+
+    case SyntaxKind.ParenthesizedExpression: {
+      const exp = node as ts.ParenthesizedExpression;
+      gdscript += `(${ts2gd(exp.expression)})`;
+      break;
+    }
+
+    case SyntaxKind.PrefixUnaryExpression: {
+      const exp = node as ts.PrefixUnaryExpression;
+      gdscript += `${Tokenize(exp.operator)}${ts2gd(exp.operand)}`;
+      break;
+    }
+
+    case SyntaxKind.PostfixUnaryExpression: {
+      const exp = node as ts.PostfixUnaryExpression;
+      gdscript += `${ts2gd(exp.operand)}${Tokenize(exp.operator)}`;
+      break;
+    }
+
+    case SyntaxKind.ConditionalExpression: {
+      const exp = node as ts.ConditionalExpression;
+      gdscript += `${ts2gd(exp.whenTrue)} if ${ts2gd(exp.condition)} else ${
+        ts2gd(exp.whenFalse)
+      }`;
+      break;
+    }
+
+    case SyntaxKind.AwaitExpression: {
+      const exp = node as ts.AwaitExpression;
+      gdscript += `await ${ts2gd(exp.expression)}`;
+      break;
+    }
+
+    case SyntaxKind.SourceFile:
+      node.forEachChild((childNode) => {
         gdscript += ts2gd(childNode, indent);
       });
       break;
 
-    case "ExpressionStatement":
-      gdscript += indentation + ts2gd(node.expression) + "\n";
-      break;
-
-    case "CallExpression":
-      gdscript += `${ts2gd(node.callee)}(${
-        node.arguments
-          .map(ts2gd)
-          .join(", ")
-      })`;
-      break;
-
-    case "MemberExpression":
-      if ("name" in node.property) {
-        gdscript += `${ts2gd(node.object)}.${node.property.name}`;
-      }
-      break;
-
-    case "BinaryExpression":
-      gdscript += `${ts2gd(node.left)} ${node.operator} ${ts2gd(node.right)}`;
-      break;
-
-    case "Literal":
-      gdscript += JSON.stringify(node.value);
-      break;
-
-    case "Identifier":
-      gdscript += node.name;
-      break;
-
-    case "VariableDeclaration":
-      if (
-        node.declarations[0] &&
-        "name" in node.declarations[0].id
-      ) {
-        if (node.declarations[0].init) {
-          gdscript += `${indentation}var ${node.declarations[0].id.name} = ${
-            ts2gd(node.declarations[0].init)
-          }\n`;
-        } else {
-          gdscript += `${indentation}var ${node.declarations[0].id.name}`;
-        }
-      }
-      break;
-
-    case "FunctionDeclaration":
-      gdscript += `${indentation}func ${node?.id?.name ?? ""}(${
-        node.params.map(ts2gd).join(", ")
-      }):\n`;
-      gdscript += ts2gd(node.body, indent + 4);
-      break;
-
-    case "FunctionExpression":
-      gdscript += `${indentation}func ${node?.id?.name ?? ""}(${
-        node.params.map(ts2gd).join(", ")
-      }):\n`;
-      gdscript += ts2gd(node.body, indent + 4);
-      break;
-
-    case "ArrowFunctionExpression":
-      gdscript += `${indentation}func ${node?.id?.name ?? ""}(${
-        node.params.map(ts2gd).join(", ")
-      }):\n`;
-      gdscript += ts2gd(node.body, indent + 4);
-      break;
-
-    case "TemplateLiteral":
-      gdscript += "`" + node.quasis.map((q) => q.value.raw).join("${}") + "`";
-      break;
-
-    case "TemplateElement":
-      gdscript += node.value.raw;
-      break;
-
-    case "WhileStatement":
-      gdscript += `${indentation}while ${ts2gd(node.test)}:\n`;
-      gdscript += ts2gd(node.body, indent + 4);
-      break;
-
-    case "ReturnStatement":
-      gdscript += `${indentation}return ${ts2gd(node.argument as AnyNode)}\n`;
-      break;
-
-    case "ArrayExpression":
-      gdscript += `[${
-        node.elements.map((e) => ts2gd(e as AnyNode)).join(", ")
-      }]`;
-      break;
-
-    case "ArrayPattern":
-      gdscript += `[${
-        node.elements.map((e) => ts2gd(e as AnyNode)).join(", ")
-      }]`;
-      break;
-
-    case "ObjectExpression":
-      gdscript += `{${
-        node.properties
-          .map((e) =>
-            "key" in e &&
-            `"${ts2gd(e.key as AnyNode)}": ${ts2gd(e.value as AnyNode)}`
-          )
-          .join(", ")
-      }}`;
-      break;
-
-    case "SequenceExpression":
-      gdscript += `[${
-        node.expressions.map((e) => ts2gd(e as AnyNode)).join(", ")
-      }]`;
-      break;
-
-    case "ForInStatement":
-      gdscript += `${indentation}for ${
-        node.left.type === "VariableDeclaration"
-          ? ts2gd(node.left.declarations[0].id)
-          : ts2gd(node.left)
-      } in ${
-        ts2gd(
-          node.right,
-        )
-      }:\n`;
-      gdscript += ts2gd(node.body, indent + 4);
-      break;
-
-    case "AssignmentPattern":
-      gdscript += `${ts2gd(node.left)} = ${ts2gd(node.right)}`;
-      break;
-
-    case "TaggedTemplateExpression":
-      gdscript += `${ts2gd(node.tag)}(${ts2gd(node.quasi)})`;
-      break;
-
-    case "ForOfStatement":
-      gdscript += `${indentation}for ${ts2gd(node.left)} in ${
-        ts2gd(node.right)
-      }:\n`;
-      gdscript += ts2gd(node.body, indent + 4);
-      break;
-
-    case "AssignmentExpression":
-      gdscript += `${ts2gd(node.left)}${node.operator}${ts2gd(node.right)}`;
-      break;
-
-    case "UpdateExpression":
-      gdscript += `${ts2gd(node.argument)}${node.operator}`;
-      break;
-
-    case "LogicalExpression":
-      gdscript += `${ts2gd(node.left)} ${
-        node.operator === "&&"
-          ? "and"
-          : node.operator === "||"
-          ? "or"
-          : node.operator
-      } ${ts2gd(node.right)}`;
-      break;
-
-    case "UnaryExpression":
-      gdscript += `${node.operator}${ts2gd(node.argument)}`;
-      break;
-
-    case "ConditionalExpression":
-      gdscript += `${ts2gd(node.consequent)} if ${ts2gd(node.test)} else ${
-        ts2gd(node.alternate)
-      }`;
-      break;
-
-    case "AwaitExpression":
-      gdscript += `await ${ts2gd(node.argument)}`;
+    case SyntaxKind.EndOfFileToken:
       break;
 
     default:
-      gdscript += `# Unhandled node type: ${node.type}`;
+      gdscript += `# Unhandled node type: ${SyntaxKind[node.kind]}`;
   }
 
   return gdscript;
+}
+
+function Tokenize(kind: number) {
+  switch (kind) {
+    case SyntaxKind.PlusPlusToken:
+      return "++";
+    case SyntaxKind.MinusMinusToken:
+      return "--";
+    case SyntaxKind.AmpersandAmpersandToken:
+      return "and";
+    case SyntaxKind.BarBarToken:
+      return "or";
+    case SyntaxKind.AtToken:
+      return "@";
+    case SyntaxKind.PlusToken:
+      return "+";
+    case SyntaxKind.MinusToken:
+      return "-";
+    case SyntaxKind.AsteriskToken:
+      return "*";
+    case SyntaxKind.SlashToken:
+      return "/";
+    case SyntaxKind.PercentToken:
+      return "%";
+    case SyntaxKind.AmpersandToken:
+      return "&";
+    case SyntaxKind.BarToken:
+      return "|";
+    case SyntaxKind.CaretToken:
+      return "^";
+    case SyntaxKind.ExclamationToken:
+      return "!";
+    case SyntaxKind.TildeToken:
+      return "~";
+    case SyntaxKind.QuestionToken:
+      return "?";
+    case SyntaxKind.ColonToken:
+      return ":";
+    case SyntaxKind.EqualsToken:
+      return "=";
+    case SyntaxKind.LessThanToken:
+      return "<";
+    case SyntaxKind.GreaterThanToken:
+      return ">";
+    case SyntaxKind.LessThanEqualsToken:
+      return "<=";
+    case SyntaxKind.GreaterThanEqualsToken:
+      return ">=";
+    case SyntaxKind.EqualsEqualsToken:
+      return "==";
+    case SyntaxKind.ExclamationEqualsToken:
+      return "!=";
+    case SyntaxKind.AsteriskEqualsToken:
+      return "*=";
+    case SyntaxKind.SlashEqualsToken:
+      return "/=";
+    case SyntaxKind.PercentEqualsToken:
+      return "%=";
+    case SyntaxKind.DotToken:
+      return ".";
+    case SyntaxKind.CommaToken:
+      return ",";
+    case SyntaxKind.FirstCompoundAssignment:
+    case SyntaxKind.PlusEqualsToken:
+      return "+=";
+    default:
+      return `# Unhandled symbol: ${SyntaxKind[kind]}`;
+  }
 }
