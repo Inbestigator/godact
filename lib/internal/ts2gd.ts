@@ -186,7 +186,7 @@ export function ts2gd(node: ts.Node, indent = 0): string {
       const stm = node as ts.ReturnStatement;
       gdscript += `${indentation}return`;
       stm.expression &&
-        (gdscript += `${indentation}return ${ts2gd(stm.expression)}`);
+        (gdscript += ` ${ts2gd(stm.expression)}`);
 
       gdscript += "\n";
       break;
