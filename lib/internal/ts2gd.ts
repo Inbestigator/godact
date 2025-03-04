@@ -273,16 +273,11 @@ export function ts2gd(node: ts.Node, indent = 0): string {
 
 function Tokenize(kind: number) {
   switch (kind) {
+    // Arithmetic Operators
     case SyntaxKind.PlusPlusToken:
       return "++";
     case SyntaxKind.MinusMinusToken:
       return "--";
-    case SyntaxKind.AmpersandAmpersandToken:
-      return "and";
-    case SyntaxKind.BarBarToken:
-      return "or";
-    case SyntaxKind.AtToken:
-      return "@";
     case SyntaxKind.PlusToken:
       return "+";
     case SyntaxKind.MinusToken:
@@ -293,22 +288,12 @@ function Tokenize(kind: number) {
       return "/";
     case SyntaxKind.PercentToken:
       return "%";
-    case SyntaxKind.AmpersandToken:
-      return "&";
-    case SyntaxKind.BarToken:
-      return "|";
-    case SyntaxKind.CaretToken:
-      return "^";
-    case SyntaxKind.ExclamationToken:
-      return "!";
-    case SyntaxKind.TildeToken:
-      return "~";
-    case SyntaxKind.QuestionToken:
-      return "?";
-    case SyntaxKind.ColonToken:
-      return ":";
-    case SyntaxKind.EqualsToken:
-      return "=";
+    case SyntaxKind.AsteriskAsteriskToken:
+      return "**";
+    case SyntaxKind.AsteriskAsteriskEqualsToken:
+      return "**=";
+
+    // Comparison Operators
     case SyntaxKind.LessThanToken:
       return "<";
     case SyntaxKind.GreaterThanToken:
@@ -321,19 +306,116 @@ function Tokenize(kind: number) {
       return "==";
     case SyntaxKind.ExclamationEqualsToken:
       return "!=";
+    case SyntaxKind.EqualsEqualsEqualsToken:
+      return "===";
+    case SyntaxKind.ExclamationEqualsEqualsToken:
+      return "!==";
+
+    // Logical Operators
+    case SyntaxKind.AmpersandAmpersandToken:
+      return "and";
+    case SyntaxKind.BarBarToken:
+      return "or";
+    case SyntaxKind.AmpersandToken:
+      return "&";
+    case SyntaxKind.BarToken:
+      return "|";
+    case SyntaxKind.CaretToken:
+      return "^";
+    case SyntaxKind.ExclamationToken:
+      return "!";
+    case SyntaxKind.AmpersandAmpersandEqualsToken:
+      return "&&=";
+    case SyntaxKind.BarBarEqualsToken:
+      return "||=";
+    case SyntaxKind.TildeToken:
+      return "~";
+
+    // Assignment Operators
+    case SyntaxKind.EqualsToken:
+      return "=";
+    case SyntaxKind.PlusEqualsToken:
+      return "+=";
+    case SyntaxKind.MinusEqualsToken:
+      return "-=";
     case SyntaxKind.AsteriskEqualsToken:
       return "*=";
     case SyntaxKind.SlashEqualsToken:
       return "/=";
     case SyntaxKind.PercentEqualsToken:
       return "%=";
+    case SyntaxKind.AmpersandEqualsToken:
+      return "&=";
+    case SyntaxKind.BarEqualsToken:
+      return "|=";
+    case SyntaxKind.CaretEqualsToken:
+      return "^=";
+    case SyntaxKind.LessThanLessThanEqualsToken:
+      return "<<=";
+    case SyntaxKind.GreaterThanGreaterThanEqualsToken:
+      return ">>=";
+    case SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken:
+      return ">>>=";
+    case SyntaxKind.QuestionQuestionEqualsToken:
+      return "??=";
+
+    // Shift Operators
+    case SyntaxKind.LessThanLessThanToken:
+      return "<<";
+    case SyntaxKind.GreaterThanGreaterThanToken:
+      return ">>";
+    case SyntaxKind.GreaterThanGreaterThanGreaterThanToken:
+      return ">>>";
+
+    // Ternary and Optional Chaining
+    case SyntaxKind.QuestionToken:
+      return "?";
+    case SyntaxKind.ColonToken:
+      return ":";
+    case SyntaxKind.QuestionQuestionToken:
+      return "??";
+    case SyntaxKind.QuestionDotToken:
+      return "?.";
+    case SyntaxKind.EqualsGreaterThanToken:
+      return "=>";
+
+    // Punctuation Tokens
+    case SyntaxKind.AtToken:
+      return "@";
+    case SyntaxKind.HashToken:
+      return "#";
+    case SyntaxKind.BacktickToken:
+      return "`";
     case SyntaxKind.DotToken:
       return ".";
     case SyntaxKind.CommaToken:
       return ",";
-    case SyntaxKind.FirstCompoundAssignment:
-    case SyntaxKind.PlusEqualsToken:
-      return "+=";
+    case SyntaxKind.SemicolonToken:
+      return ";";
+    case SyntaxKind.DotDotDotToken:
+      return "...";
+    case SyntaxKind.LessThanSlashToken:
+      return "</";
+
+    // Parentheses and Braces
+    case SyntaxKind.OpenBraceToken:
+      return "{";
+    case SyntaxKind.CloseBraceToken:
+      return "}";
+    case SyntaxKind.OpenParenToken:
+      return "(";
+    case SyntaxKind.CloseParenToken:
+      return ")";
+    case SyntaxKind.OpenBracketToken:
+      return "[";
+    case SyntaxKind.CloseBracketToken:
+      return "]";
+
+    // End of File Token
+    case SyntaxKind.EndOfFileToken:
+      return "EOF";
+
+    // Default case for unhandled symbols
     default:
       return `# Unhandled symbol: ${SyntaxKind[kind]}`;
   }
