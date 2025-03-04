@@ -20,6 +20,54 @@ export default {
     monitoring: "boolean",
     priority: "number",
   },
+  events: [
+    { name: "_area_entered", props: { area: "NodeMethods" } },
+    {
+      name: "_area_exited",
+      props: { area: "NodeMethods" },
+    },
+    {
+      name: "_area_shape_entered",
+      props: {
+        area_rid: "RID",
+        area: "NodeMethods",
+        area_shape_index: "number",
+        local_shape_index: "number",
+      },
+    },
+    {
+      name: "_area_shape_exited",
+      props: {
+        area_rid: "RID",
+        area: "NodeMethods",
+        area_shape_index: "number",
+        local_shape_index: "number",
+      },
+    },
+    { name: "_body_entered", props: { body: "NodeMethods" } },
+    {
+      name: "_body_exited",
+      props: { body: "NodeMethods" },
+    },
+    {
+      name: "_body_shape_entered",
+      props: {
+        body_rid: "RID",
+        body: "NodeMethods",
+        body_shape_index: "number",
+        local_shape_index: "number",
+      },
+    },
+    {
+      name: "_body_shape_exited",
+      props: {
+        body_rid: "RID",
+        body: "NodeMethods",
+        body_shape_index: "number",
+        local_shape_index: "number",
+      },
+    },
+  ],
   category: "PhysicsBody2D",
   docs: [
     "A region of 2D space that detects other CollisionObject2Ds entering or exiting it.",

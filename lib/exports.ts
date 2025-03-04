@@ -60,3 +60,5 @@ export * from "./core/types/transform.ts";
 export * from "./core/types/node-path.ts";
 export * from "./core/types/bitfield.ts";
 export * from "./core/types/input-events.ts";
+export * from "./core/types/rid.ts";
+export type { NodeMethods } from "./gdscript-methods.ts";

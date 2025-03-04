@@ -48,35 +48,38 @@ createGodactScene(<Player />, "./player.tscn");
 // player.ts
 "extends CharacterBody2D";
 
-import { GlobalMethods } from "@gdx/godact/methods";
+import { GDMethods } from "@gdx/godact/methods";
 
 const SPEED = 300.0;
 const JUMP_VELOCITY = -400.0;
 
 export function _physics_process(delta: number) {
-  if (!GlobalMethods.is_on_floor()) {
-    GlobalMethods.velocity += GlobalMethods.get_gravity() * delta;
-  }
-
-  if (
-    GlobalMethods.Input.is_action_just_pressed("ui_accept") &&
-    GlobalMethods.is_on_floor()
-  ) {
-    GlobalMethods.velocity.y = JUMP_VELOCITY;
-  }
-
-  const direction = GlobalMethods.Input.get_axis("ui_left", "ui_right");
-  if (direction) {
-    GlobalMethods.velocity.x = direction * SPEED;
-  } else {
-    GlobalMethods.velocity.x = GlobalMethods.move_toward(
-      GlobalMethods.velocity.x,
-      0,
-      SPEED * delta * (GlobalMethods.is_on_floor() ? 2 : 1),
+  if (!GDMethods.is_on_floor()) {
+    GDMethods.velocity = GDMethods.Vector2(
+      GDMethods.get_gravity().x * delta,
+      GDMethods.get_gravity().y * delta,
     );
   }
 
-  GlobalMethods.move_and_slide();
+  if (
+    GDMethods.Input.is_action_just_pressed("ui_accept") &&
+    GDMethods.is_on_floor()
+  ) {
+    GDMethods.velocity.y = JUMP_VELOCITY;
+  }
+
+  const direction = GDMethods.Input.get_axis("ui_left", "ui_right");
+  if (direction) {
+    GDMethods.velocity.x = direction * SPEED;
+  } else {
+    GDMethods.velocity.x = GDMethods.move_toward(
+      GDMethods.velocity.x,
+      0,
+      SPEED * delta * (GDMethods.is_on_floor() ? 2 : 1),
+    );
+  }
+
+  GDMethods.move_and_slide();
 }
 ```
 
@@ -86,23 +89,18 @@ export function _physics_process(delta: number) {
 
 ```ts
 extends CharacterBody2D
-
-var Godot = null
-
 var SPEED = 300
-
 var JUMP_VELOCITY = -400
-
 func _physics_process(delta):
     if !is_on_floor():
-        velocity+=get_gravity() * delta
+        velocity = Vector2(get_gravity().x * delta, get_gravity().y * delta)
     if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-        velocity.y=JUMP_VELOCITY
+        velocity.y = JUMP_VELOCITY
     var direction = Input.get_axis("ui_left", "ui_right")
     if direction:
-        velocity.x=direction * SPEED
+        velocity.x = direction * SPEED
     else:
-        velocity.x=move_toward(velocity.x, 0, SPEED * delta * 2 if is_on_floor() else 1)
+        velocity.x = move_toward(velocity.x, 0, SPEED * delta * (2 if is_on_floor() else 1))
     move_and_slide()
 ```
 
