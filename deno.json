@@ -5,13 +5,13 @@
     "parseDefs": "deno run --allow-read --allow-write parseNodeDefs.ts"
   },
   "imports": {
-    "@std/assert": "jsr:@std/assert@^1.0.11",
-    "types/react": "npm:@types/react@^18.3.18",
-    "esbuild": "npm:esbuild@^0.24.2",
+    "@std/assert": "jsr:@std/assert@^1.0.12",
+    "types/react": "npm:@types/react@^18.3.20",
+    "esbuild": "npm:esbuild@^0.25.2",
     "flatted": "npm:flatted@^3.3.2",
     "react": "npm:react@^18.3.1",
     "react-reconciler": "npm:react-reconciler@^0.29.2",
-    "typescript": "npm:typescript@^5.7.3"
+    "typescript": "npm:typescript@^5.8.3"
   },
   "exports": {
     ".": "./lib/exports.ts",
