@@ -32,7 +32,7 @@ export function addCommonProps(
     ([k, v]) => k.startsWith("on") && typeof v === "function",
   ).map(([k, v]) => [k, v.toString()]);
   const fileId = `${name}-${createId(events)}`;
-  const gdOutDir = "./." + createId(script.out);
+  const gdOutDir = "./gdx-" + createId(script.out);
   mkdirSync(gdOutDir, { recursive: true });
 
   const signalsToConnect: string[] = [];

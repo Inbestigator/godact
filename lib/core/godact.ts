@@ -1,7 +1,7 @@
 import type { ReactNode } from "types/react";
 import { reconciler } from "../internal/reconciler.ts";
 import { createRenderer } from "../internal/renderer.ts";
-import fs from "node:fs";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { createId } from "../internal/helpers.ts";
 import { join } from "node:path";
 
@@ -19,8 +19,8 @@ import { join } from "node:path";
 export function createGodactScene(component: ReactNode, out: string) {
   const container = createRenderer(out);
   try {
-    fs.rmSync(
-      join(out.split("/").slice(0, -1).join("/"), "." + createId(out)),
+    rmSync(
+      join(out.split("/").slice(0, -1).join("/"), "gdx-" + createId(out)),
       {
         recursive: true,
       },
@@ -42,9 +42,9 @@ export function createGodactScene(component: ReactNode, out: string) {
   if (root !== null) {
     reconciler.updateContainer(component, root, null);
 
-    fs.mkdirSync(out.split("/").slice(0, -1).join("/"), { recursive: true });
+    mkdirSync(out.split("/").slice(0, -1).join("/"), { recursive: true });
 
-    fs.writeFileSync(
+    writeFileSync(
       out,
       container.compileScript(),
     );
